@@ -1,0 +1,840 @@
+Instalacion
+===========
+
+    Windows
+    -------
+        1. https://www.postgresql.org/
+        2. Descargar el penultimo instalador mas reciente para tener compatibilidad
+        3. Usar el psql para crear una nueva base de datos.
+            - Conectarse con el usuario por defecto
+            - Crear la base de datos:
+                postgres=# CREATE DATABASE transporte_publico;
+            - Entrar a la base de datos recien creada
+                postgres=# \c transporte_publico
+        4. Validar desde pgadmin los cambios realizados
+            - En bases de datos verificar que esta la base de datos creada.
+            - Eliminarla con click derecho
+
+    Ubuntu terminal
+    ---------------
+        1. Instalar
+            $ sudo apt update
+            $ sudo apt install postgresql postgresql-contrib
+        2. Utilizar roles y bases de datos de PostgreSQL
+            $ sudo -i -u postgres
+            $ psql
+            postgres=# \q
+
+            2.2 Asignar constraseña al usuario postgres (UNIX)
+                $ sudo passwd postgres
+            2.3 Asignar constraseña al usuario postgres (postgresql)
+                $ sudo -i -u postgres
+                $ psql
+                postgres=# ALTER USER user_name WITH PASSWORD 'new_password';
+
+        3. Crear un nuevo rol
+            $ sudo -u postgres createuser --interactive
+            Completar las instrucciones para crear usuario
+            (Ayuda: $ man createuser)
+        4. Crear una nueva base de datos
+            $ sudo -u postgres createdb sammy
+                # sammy corresponde al nombre de usuario creado en el paso 3
+                # postgres asume que un usuario se conectara a una DB con su nombre
+        5. Abrir una línea de comandos de Postgres con el nuevo rol
+            $ sudo adduser sammy
+            $ sudo -i -u sammy
+            $ psql
+            $ psql -d postgres 
+                # para conectarse a una base de datos diferente
+            sammy=# \conninfo
+                # Verificar informacion de conexion
+
+
+
+        UNINSTALL
+        =========
+            1. sudo apt-get remove postgresql
+            2. delete files on
+                /var/lib/postgresql
+
+
+
+Interacción con Postgres desde la Consola
+=========================================
+
+    - Lista de comandos
+        postgres=# \?
+    - Lista de bases de datos
+        postgres=# \l
+    - Por defecto postgres se conecta a la base de datos llamada como el usuario
+      Para cambiar a otra base de datos
+        postgres=# \c <nombre DB>
+        NOTA: la linea de comandos cambiara a la nueva base: <nombre DB>=#
+    - Ver las tablas de una base de datos
+        postgres=# \dt
+    - Describir una tabla
+        postgres=# \d <nombre_tabla>
+    - Ver todos los comandos de SQL
+        postgres=# \h
+    - Ayuda para ejecutar un comando SQL
+        postgres=# \h <nombre_de_la_funcion>
+    - Verificar version de postgres
+        postgres=# SELECT version();
+    - Volver a ejecutar la funcion anterior
+        postgres=# \g
+    - Prender el contador para saber cuanto demora la ejecucion de una funcion
+        postgres=# \timing
+    - Limpiar la pantalla
+        \! clear    ||   \! cls
+
+
+Archivos de Configuracion
+=========================
+    Los archivos de configuracion son:
+        - postgresql.conf -> Configuracion general
+        - pg_hba.conf -> Usuarios, permisos y accesos
+        - pg_ident.conf -> mapear usuarios y grupos
+    Para ver la ruta se debe ejecutar el siguiente comando:
+        postgres=# SHOW config_file;
+
+    Los valores comentados significan que esta con el valor por defecto.
+    En estos archivos se controla que ip escuchar, puertos, tamanos, etc
+
+
+
+    TAREA: Darle acceso a un servidor remoto ingresar a la base de datos.
+
+
+Comandos más utilizados en PostgreSQL
+=====================================
+
+    Comandos de navegación y consulta de información
+    ------------------------------------------------
+        \c Saltar entre bases de datos
+
+        \l Listar base de datos disponibles
+
+        \dt Listar las tablas de la base de datos
+
+        \d <nombre_tabla> Describir una tabla
+
+        \dn Listar los esquemas de la base de datos actual
+
+        \df Listar las funciones disponibles de la base de datos actual
+
+        \dv Listar las vistas de la base de datos actual
+
+        \du Listar los usuarios y sus roles de la base de datos actual
+
+    Comandos de inspección y ejecución
+    ----------------------------------
+        \g Volver a ejecutar el comando ejecutando justo antes
+
+        \s Ver el historial de comandos ejecutados
+
+        \s <nombre_archivo> Si se quiere guardar la lista de comandos ejecutados en un archivo de texto plano
+
+        \i <nombre_archivo> Ejecutar los comandos desde un archivo
+
+        \e Permite abrir un editor de texto plano, escribir comandos y ejecutar en lote. \e abre el editor de texto, 
+        escribir allí todos los comandos, luego guardar los cambios y cerrar, al cerrar se ejecutarán todos los 
+        comandos guardados.
+
+        \ef Equivalente al comando anterior pero permite editar también funciones en PostgreSQL
+
+    Comandos para debug y optimización
+    ----------------------------------
+        \timing Activar / Desactivar el contador de tiempo por consulta
+    
+    Comandos para cerrar la consola
+    -------------------------------
+        \q Cerrar la consola
+
+
+
+Ejecutando consultas en la base de datos usando la consola
+==========================================================
+
+    1. Crea la base de datos
+        CREATE DATABASE transporte;
+    2. Cambiar a la nueva base de datos
+        \c transporte
+    3. Crear la tabla tren
+        La columna id será un número autoincremental (cada vez que se inserta un registro se aumenta en uno), 
+        modelo se refiere a una referencia al tren, capacidad sería la cantidad de pasajeros que puede 
+        transportar y al final agregamos la llave primaria que será id:
+
+        CREATE TABLE tren ( 
+            id serial NOT NULL, 
+            modelo character varying, 
+            capacidad integer, 
+            CONSTRAINT tren_pkey PRIMARY KEY (id) 
+        );
+    4. Ver definicion de la tabla
+        \d tren
+    5. Ver definicion de la secuencia asociada al id
+        \d tren_id_seq
+    6. Insertar la primera entrada
+        INSERT INTO tren( modelo, capacidad ) VALUES (‘Volvo 1’, 100);
+    7. Consultamos ahora los datos en la tabla
+        SELECT * FROM tren;
+    8. Actualizar los datos de la entrada con id 1
+        UPDATE tren SET modelo = 'Honda 0726' Where id = 1;
+    9. Borrar la entrada con id 1
+        DELETE FROM tren WHERE id = 1;
+
+
+Tipos de datos
+==============
+https://www.postgresql.org/docs/13/datatype.html
+
+    Principales:
+        - Numéricos (Numeros enteros, Numeros Decimales, Seriales)
+        - Monetarios (cantidad de moneda)
+        - Texto (almacenar cadenas y texto, existen tres VARCHAR, CHAR, TEXT)
+        - Binario (1 Y 0)
+        - Fecha/Hora (Para almacenar Fechas y/o Horas, DATE TYPE, TIME TYPE, TIMESTAMP, INTERVAL)
+        - Boolean (Verdadero o Falso)
+
+    Especiales propios de postgres
+        - Geométricos: Permiten calcular distancias y áreas usando dos valores X y Y.
+        - Direcciones de Red: Cálculos de máscara de red
+        - Texto tipo bit: Cálculos en otros sistemas, ejm(hexadecimal, binario)
+        - XML, JSON: Postgres no permite guardar en estos formatos
+        - Arreglos: Vectores y Matrices
+
+
+Particiones
+===========
+Serparacion fisica de datos definidos por rangos.
+Por ejemplo separar datos por mes en un ano.
+Una tabla particionada no lleva llaves primarias PK
+
+Ejemplo bitacora de viajes
+1. Crear tabla de bitacora_viajes
+2. En general indicar que es una tabla particionada.
+3. Crear campos de id, id_viaje, fecha
+4. Crear particion en la pestana correspondiente  
+    a. Indicar el parametro. i.e Range
+    b. Indicar la key de partition. i.e column fecha
+5. Para insertar datos se debe crear una particion que cumpla con el criterio de insercion
+    a. Crear la particion
+        CREATE TABLE bitacora_viaje201001 PARTITION OF bitacora_viajes
+        FOR VALUES FROM ('2010-01-01') TO ('2010-01-31');
+    b. Insertar datos que quepan en la particion
+        INSERT INTO public.bitacora_viajes(
+            id_viaje, fecha)
+            VALUES (1, '2010-01-10');
+    c. Consultar tabla para ver los datos
+        SELECT * FROM bitacora_viajes
+
+
+Roles
+=====
+
+Crear usuarios con roles limitados para evitar errores
+    1. Consultar las caracteristicas de los roles
+        postgres=# \h CREATE ROLE
+    2. Crear rol de consulta con caracteristicas por defecto. No deja hacer nada
+        postgres=# CREATE ROLE usuario_consulta ;
+    3. Listar usuarios
+        \dg
+    4. Modificar el usuario para acceder a base de datos
+        postgres=# ALTER ROLE usuario_consulta WITH LOGIN;
+        postgres=# ALTER ROLE usuario_consulta WITH PASSWORD '2431';
+    5. Borrar usuario
+        postgres=# DROP ROLE usuario_consulta;
+    6. Darle permiso al usuario_consulta para sonsultar
+        pdamin > database > schema > tables > (right click) Grant wizard
+        seleccionar las tablas a las que se va a dar acceso
+        seleccionar el usuario y los privilegios
+        finalizar
+
+        SQL:
+            GRANT INSERT, SELECT, UPDATE ON TABLE public.estaciones TO usuario_consulta;
+        
+
+Llaves Foraneas
+===============
+Es la relacion de una tabla con otra, por ejemplo en la tabla trayecto, se guardara
+el id de estacion y tren. por lo cual se debe crear la llave foranea.
+
+Pgadmin
+    Ir a la tabla > (right click) propiedades > constraints > foreign key tab
+    adicionar las foreign keys
+    nombre standard: <tabla>_<tabla foranea>_fkey => trayecto_estacion_fkey
+    click en editar y pestana columns para anadir las columnas especificar la columna local con
+    que tabla y columna de tabla foranea se relaciona.
+    Pestana actions para definir que accion ocurre si la tabla foreign se actualiza o se borra, 
+    que va a pasar con la columna de la llave foranea. CASCADE es para que si se actualiza en la tabla foranea
+    se actualice en esta tabla.
+
+    psql
+    ALTER TABLE trayectos ADD CONSTRAINT trayecto_tren_fkey FOREIGN KEY (id_tren)
+        REFERENCES public.trenes (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+
+
+
+
+
+
+Agregar Informacion a la base de datos
+======================================
+
+from pgadmin
+    1. (right click) table > scripts > Insert
+        This will create the insert script.
+        Se puede remover el id ya que se genera automaticamente.
+
+        INSERT INTO public.estaciones(
+            nombre, direccion)
+            VALUES ('Estacion Centro', 'St 1#12');
+
+    2. Ver los datos (right click) table > view data
+
+    3. Borrar datos
+        DELETE FROM public.trenes
+	        WHERE id=1;
+
+        Se borraran todas las entradas que dependan de estas para se congruentes.
+
+
+
+    4. Generacion aleatoria de datos:
+        1. mockaroo.com
+
+
+
+
+
+Consultas avanzadas
+===================
+
+JOIN
+----
+
+    1. Pasajeros que han tomado al menos un viaje
+        SELECT * FROM pasajeros
+        JOIN viajes ON (viajes.id_pasajero = pasajeros.id)
+
+    2. Pasajeros sin viajes
+        SELECT * FROM pasajeros
+        LEFT JOIN viajes ON (viajes.id_pasajero = pasajeros.id)
+        WHERE viajes.id IS NULL
+
+
+
+FUNCIONES ESPECIALES
+====================
+
+
+    On confilct do
+    --------------
+
+        1. no hacer nada
+            INSERT INTO public.estaciones(
+                id, nombre, direccion)
+                VALUES (1, 'NOMBRE', 'ESTACION')
+                ON CONFLICT DO NOTHING;
+
+        2. otra funcion
+            INSERT INTO public.estaciones(
+                id, nombre, direccion)
+                VALUES (1, 'NOMBRE', 'ESTACION')
+                ON CONFLICT(id) DO UPDATE SET nombre='NOMBRE', direccion='ESTACION';
+
+
+    Returning
+    ---------
+    retorna un valor
+
+        INSERT INTO public.estaciones(
+            nombre, direccion)
+            VALUES ('NUEVA ESTACION', 'ESTACION DIRECCION')
+        RETURNING id
+
+
+    LIKE/ILIKE
+    ----------
+        Buscar patrones como expresiones regulares
+        % uno o cualquier valor
+        _ un valor
+        LIKE tiene encuenta mayusculas
+
+        Devolver todos los valores que empiezan por a
+            SELECT nombre
+                FROM public.pasajeros
+                WHERE nombre ILIKE 'a%';
+
+
+    IS / IS NOT
+    -----------
+        Comparacion con valores no estandar
+        Seleccionar los trenes cuyo modelo no es vacio
+            SELECT *
+                FROM public.trenes
+                WHERE modelo IS NOT NULL;
+                
+
+    COALESCE 
+    --------
+    compara dos valores y retorna el que no es nulo
+    Si nombre es null, se retorna el valor por defecto No aplica
+        SELECT id, COALESCE (nombre, 'No aplica') nombre, direccion_residencia, fecha_nacimiento
+            FROM public.pasajeros WHERE id=1;
+
+    NULLIF
+    ------
+    Retorna null si son iguales
+        SELECT NULLIF(0,0) => NULL
+
+    GREATEST
+    --------
+    Compara un arreglo y retorna el mayor
+        SELECT GREATEST (1,2,3,4,5,6,7) => 7
+
+    LEAST
+    -----
+    Compara un arreglo de valores y retorna el menor
+        SELECT LEAST (1,2,3,4,5,6,7) => 1
+
+    BLOQUES ANONIMOS
+    ----------------
+    Ingresa condicionales dentro de una consulta de BD
+
+    Decir si es nino o mayor:
+        SELECT id, nombre, direccion_residencia, fecha_nacimiento,
+        CASE
+        WHEN fecha_nacimiento > '2015-01-01' THEN
+        'NINO'
+        ELSE
+        'MAYOR'
+        END as estado,
+        CASE ...
+            FROM public.pasajeros;
+
+
+VISTAS
+======
+    Es como un alias para hacer una consulta, se usa para las repetitivas
+    no tener que escribir el codigo siempre que se va a hacer la consulta
+
+    Volatil: hace la consulta cada que se ejecuta.
+    Materializada: Queda guardada en memoria.
+    Una vista materializada es util por ejemplo para consultar viajes del
+    dia de ayer, ya que esta informacion no cambia. 
+
+
+    pgadmin > database > views > (right click) create
+    se da nombre a la vista y se hace el codigo que se quiere.
+
+    luego simplemente se utiliza:
+        SELECT * FROM rango_view
+
+
+
+    Crear vista materializada
+    pgadmin > database > Materialized views > (right click) create
+    se da nombre
+    en definition se pone la consuta
+    en storage se define si se consultan los datos al momento de crear o no.
+
+    Para llenar de datos:
+        REFRESH MATERIALIZED VIEW despues_noche_mview;
+
+    se usa:
+        SELECT * FROM despues_noche_mview;
+
+
+
+
+
+
+PL/SQL
+======
+
+    Programacion dentro de la base de datos
+
+    [ <<label>> ]
+    [ DECLARE 
+        declarations ]
+    BEGIN
+        statements
+    END [ label ];
+
+
+    Guardar los resultados de una consulta, muestra el nombre
+    y cuenta las veces.
+
+        DO $$
+        DECLARE
+            rec record;
+            contador integer:= 0;
+        BEGIN
+            FOR rec IN SELECT * FROM pasajeros LOOP
+                RAISE NOTICE 'Un pasajero se llama %', rec.nombre;
+                contador := contador + 1;
+            END LOOP;
+            RAISE NOTICE 'Conteo %', contador;
+        END
+        $$
+
+
+    Crear una funcion para ser reutilizable
+
+
+        CREATE FUNCTION funcionPl()
+            RETURNS void
+        AS $$
+        DECLARE
+            rec record;
+            contador integer:= 0;
+        BEGIN
+            FOR rec IN SELECT * FROM pasajeros LOOP
+                RAISE NOTICE 'Un pasajero se llama %', rec.nombre;
+                contador := contador + 1;
+            END LOOP;
+            RAISE NOTICE 'Conteo %', contador;
+        END
+        $$
+        LANGUAGE PLPGSQL;
+
+
+    se utiliza:
+        SELECT funcionPl();
+
+    borrar funcion:
+        DROP FUNCTION funcionpl();
+
+
+    Crear una funcion que retorna:
+
+        CREATE FUNCTION funcionPl()
+            RETURNS integer
+        AS $$
+        DECLARE
+            rec record;
+            contador integer:= 0;
+        BEGIN
+            FOR rec IN SELECT * FROM pasajeros LOOP
+                RAISE NOTICE 'Un pasajero se llama %', rec.nombre;
+                contador := contador + 1;
+            END LOOP;
+            RAISE NOTICE 'Conteo %', contador;
+            RETURN contador;
+        END
+        $$
+        LANGUAGE PLPGSQL;
+
+
+
+
+Triggers
+========
+
+    Hacer que se ejecute una funcion despues de una accion INSERT, UPDATE, DELETE
+
+    La funcion debe retornar un trigger
+
+        CREATE OR REPLACE FUNCTION public.funcionpl()
+            RETURNS trigger
+            LANGUAGE 'plpgsql'
+            COST 100
+            VOLATILE NOT LEAKPROOF
+        AS $BODY$
+            DECLARE
+                rec record;
+                contador integer:= 0;
+            BEGIN
+                FOR rec IN SELECT * FROM pasajeros LOOP
+                    RAISE NOTICE 'Un pasajero se llama %', rec.nombre;
+                    contador := contador + 1;
+                END LOOP;
+                INSERT INTO conteo_pasajeros (total, tiempo)
+                VALUES (contador, now());
+                RETURN NEW;
+            END
+            
+        $BODY$;
+
+        ALTER FUNCTION public.funcionpl()
+            OWNER TO postgres;
+        
+
+    Crear el trigger. Este puede ser ejecutado BEFORE, AFTER o INSTEAD OF (en lugar del comando que iba a ejecutar sql)
+
+        CREATE trigger mitrigger
+        AFTER INSERT 
+        ON pasajeros
+        FOR EACH ROW
+        EXECUTE PROCEDURE funcionpl();
+
+
+    Ahora cada que se inserte un valor a la tabla pasajeros se va a activar el trigger
+
+    ¿Los TRIGGERS pueden ser usados para ignorar inserts?
+        Yes, use a BEFORE INSERT trigger, and return null.
+
+            create table stuff (
+            stuff_id int primary key,
+            thing text
+            );
+
+            create or replace function stuff_inserting() returns trigger language plpgsql as $$
+            begin
+
+            return null;
+
+            end $$;
+
+            insert into stuff values (1, 'asdf');
+
+            select * from stuff; /* returns 1 row */
+
+            create trigger inserting before insert on stuff for each row execute procedure stuff_inserting();
+
+            insert into stuff values (2, 'fdsa');
+
+            select * from stuff; /* still returns only 1 row */
+
+
+
+Coneccion a una base de datos remota
+====================================
+
+    Instalar extension dblink
+        CREATE EXTENSION dblink;    
+
+    parametros, conection string y consulta
+        SELECT * FROM
+        dblink(
+            'dbname=remota 
+            port=5432 
+            host=127.0.0.1 
+            user=usuario_consulta 
+            password=2431',
+            'SELECT id, fecha FROM vip'
+        ) AS datos_remotos (id integer, fecha date);
+
+
+    Hacer joins
+        SELECT * FROM pasajeros
+        JOIN
+        dblink(
+            'dbname=remota 
+            port=5432 
+            host=127.0.0.1 
+            user=usuario_consulta 
+            password=2431',
+            'SELECT id, fecha FROM vip')
+            AS datos_remotos (id integer, fecha date)
+        USING (id);
+
+
+        ON (pasajeros.id = datos_remotos.id); 
+        es lo mismo que USIND(id)
+
+
+
+Transacciones
+=============
+
+-quitar la opcion de autocommit en ejecutar query.
+
+Insertar tren y estacion y si alguna falla la otra debe devolverse.
+Esto se logra encerrando en bloque BEGIN y COMMIT.
+    BEGIN;
+
+    INSERT INTO public.estaciones(
+        nombre, direccion)
+        VALUES ('Estacion nueva', 'direccion del');
+        
+    INSERT INTO public.trenes(
+        modelo, capacidad)
+        VALUES ('Tren nuevo', '120');
+        
+    COMMIT;
+    --ROLLBACK;
+
+
+Extensiones de postgres
+=======================
+    https://www.postgresql.org/docs/13/contrib.html
+
+
+
+Backups y Restauracion
+======================
+    Backup
+    ------
+        1. pgadmin > database > (right click) backup
+        2. Llenar formulario
+            escoger nombre
+            escoger formato
+        3. El boton de ayuda dice para que sirve cada opcion
+
+        Esto crea el archivo de reestauracion
+
+
+    Restore
+    -------
+        Se ejecuta sobre una base de datos nueva.
+        - Cuando es un archivo de tipo plano se deben pegar las instrucciones de SQL normal
+        - Con los otros formatos se puede usar el click derecho > restore
+
+
+
+Mantenimiento
+=============
+    right click > maintenance
+    se hace a nivel de base de datos o tablas
+
+    FULL => quedara limpia del todo
+    FREEZE => durante el proceso congela la tabla mientras
+    ANALYZE => ejecuta un analisis sin hacer nada
+
+    Todas estas acciones las realiza automaticamente postgres periodicamente.
+
+
+
+Replicas
+========
+    Tener un servidor de modificaciones y otro para lecturas
+    asi evitar problemas de bloqueos
+
+    - Se deben tener dos servidores de postgres.
+
+    Configuracion de Maestro:
+        - Conectarse por pgadmin creando una nueva conexion
+        - Ir a los archivos de configuracion:
+            - postgresql.conf
+                1. Seccion WRITE AHEAD LOG
+                    wal_level = hot_standby
+                2. Seccion REPLICATION
+                    max_wal_senders = 2
+                3. 
+                    archive_mode = on
+                4.
+                    archive_command = 'cp %p /tmp/%f'
+
+            - Anadir a la base de datos esclava, a la lista de servicios permitidos
+            pg_hba.conf
+                1. Al final del archivo agregar (cambiar a la IP del servidor de la base de datos esclava)
+                    host    replication     all     <192.168.2.54/32>      trust
+
+        - Reiniciar el servicio de postgres
+
+    Configuracion de Esclavo:
+        - Realizar la copia de master a la esclava
+            - En la terminal del servidor
+                1. Detener el servicio de postgres
+                    $ sudo service postgresql stop
+                2. Borrar los datos que existen actualmente en la replica
+                    $ sudo rm -rf /var/lib/pgsql/data/*
+                3. Traer la informacion de la base de datos maestra
+                NOTA: webadmin es el usuario de la base de datos.
+                Cambiar el host de la base de datos maestra
+                    pg basebackup -U webadmin -R -D /var/lib/pgsql/data/ --host=192.168.5.2 --port=5432
+
+        - Ir a los archivos de configuracion:
+            - postgresql.conf
+                1.
+                    hot_standby = on
+
+        - Reiniciar el servicio de postgres
+            $ sudo service postgresql start
+
+        - Conectarse por pgadmin creando una nuevas conexiones para cada servidor.
+        NOTA: para conectarse a la base de datos esclava ya el usuario y contrasena son iguales a master
+            Hacer cambios en master y verlos reflejados en replica
+            Como prueba se puede subir un backup.
+
+
+Buenas practicas para evitar bloqueos
+=====================================
+    Ver pdf cambiar-nombres-de-tablas-y-particiones
+    El objetivo es leer los datos de una tabla de datos crudos y una vez leída una fila se le da formato, 
+    se guarda en un registro de solo lectura y luego se borra esa misma fila de la tabla.
+    El problema la tabla de datos crudos se le siguen insertando millones de datos por minuto lo cual 
+    hace que borrar una fila pueda demorar minutos en ejecutarse y lograr vaciar la tabla sería imposible.
+    Entonces para poder realizar este proceso se realiza una transacción que renombre dos tablas que tienen 
+    la misma estructura, tabla_1 y tabla_offload , se busca que intercambien el nombre para que de esta forma 
+    postgres siempre tenga una tabla a la cual escribir y la tabla de la cual se lee y se borran datos no se 
+    le estan realizando inserciones.
+
+    De esta forma se logra vaciar la tabla de datos crudos y no hay perdida de datos
+
+    Ademas como menciona el pdf es importante considerar que:
+    La solución final y escalable es usar particiones, toma más tiempo en implementar, pero es definitiva.
+
+
+
+
+
+
+
+
+
+
+
+
+=========
+
+Installing from source
+
+sudo apt-get update
+sudo apt-get -y upgrade
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql-pgdg.list > /dev/null
+
+==============
+
+
+
+
+
+sudo apt-get --purge remove postgresql
+sudo apt-get purge postgresql*
+sudo apt-get --purge remove postgresql postgresql-doc postgresql-common
+
+
+
+
+
+dpkg -l | grep postgres
+sudo apt-get --purge remove {POSTGRESS-PACKAGE NAME}
+
+
+
+sudo rm -rf /var/lib/postgresql/
+sudo rm -rf /var/log/postgresql/
+sudo rm -rf /etc/postgresql/
+
+
+
+sudo deluser postgres
+
+
+
+
+
+
+
+
+
+
+Install other version
+
+
+sudo apt-get update
+sudo apt-get -y upgrade
+
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+
+echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql-pgdg.list > /dev/null
+
+
+sudo apt-get install postgresql-11

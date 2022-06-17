@@ -1,0 +1,19 @@
+Crear un ambiente virtual para que tenga solo los paquetes requeridos por la aplicacion.
+
+
+Instrucciones:
+
+1. $ sudo pip install virtualenv
+2. $ virtualenv venv --python=python3.8      #"venv" corresponde a la carpeta del ambiente virtual.
+3. Para usar el ambiente virtual 
+	$ venv\bin\python
+4. Para instalar librerias en el ambiente virtual
+	$ venv\bin\pip install ...
+5. Para activar el ambiente virtual:
+	a) Mac/Linux: $ source venv/bin/activate
+	b) Windows: ./venv/Scripts/activate.ps1    # NOTA: Si sale un error ejecutar el comando >> Set-ExecutionPolicy Unrestricted -Force
+6. Para desactivar el ambiente virtual
+	>> deactivate
+
+
+>> pip freeze    # Retorna una lista de las librerias instaladas y su version

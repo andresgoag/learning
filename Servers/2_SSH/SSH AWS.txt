@@ -1,0 +1,15 @@
+Si se hizo en AWS: 
+
+Conectarse al servidor por SSH
+----------------------------------
+
+1. Descargar Putty
+2. Convertir el archivo .pem a .ppk para poder abrirlo con putty
+3. Abrir PuTTY Key Generator
+4. Menu -> Conversions -> Import Key -> Escoger la Key descargada en el paso 1
+5. Dejar las opciones default y guardar como llave privada
+6. Abrir PuttY
+7. En menu de la izquierda de PuTTY ir a SSH -> Auth y seleccionar la Key en formato .ppk
+8. En el menu de la izquiera ir a Session y Poner IP de la instancia / Puerto 22 / Conexion SSH (Opcional, Guardar Sesion para acceder facilmente)
+9. Abrir sesion e iniciar con el nombre de ubuntu.
+10. Para ir a la raiz del servidor: sudo su -> cd ../../ -> ls (Para verificar estructura de archivos)

@@ -1,0 +1,69 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+}
+
+
+
+/* Alineacion horizontal */
+.container {
+    border: .3rem solid black;
+    display: flex; /* Permite que sus hijos sean flexibles */
+    /* flex-direction: row-reverse; /* default row, column, row-reverse, column-reverse */
+    flex-wrap: wrap; /* Permite que el contenedor se adapte al espacio que requiere sin generar scroll horizontal, default wrap, wrap-reverse*/
+    /*justify-content: center;  flex-start, flex-end, space-around, space-evenly */
+}
+
+
+/* Alineacion vertical */
+.vertical {
+    border: .3rem solid black;
+    height: 50vh;
+    display: flex;
+    align-items: center; /* Alineacion vertical center, flex-end, flex-start, stretch (Estira los contenedores al 100% del contenedor padre), baseline(le da la altura minima que permite el contenedor) */
+}
+
+
+
+
+.box {
+    width: 10rem;
+    height: 10rem;
+    flex-basis: 10rem; /* La combinacion de flex-basis, flex-grow y flex-wrap, permite que los contenedores cuando se acabe el espacio, se apilen en columnas*/
+    flex-grow: 1; /* Crece el contenedor para ocupar el espacio que sobra del contenedor padre*/
+}
+
+.box1 {
+    background-color: blue;
+    order: 1;  /* Permite reordenar los elementos dentro de un container flex. los elemento a los que no se les de valor, se pondran al inicio*/
+}
+
+.box2 {
+    background-color: blueviolet;
+    flex-shrink: 0; /* Especifica el factor de contracción item. Los items se encogerán para llenar el contenedor de acuerdo a su flex-shrink, cuando el tamaño por defecto de los flex items sea mayor al de su contenedor, con 0 no se permite que reduzca su tamaño */
+}
+
+.box3 {
+    background-color: burlywood;
+}
+
+.box4 {
+    background-color: cadetblue;
+}
+
+.box5 {
+    background-color: coral;
+}
+
+.box6 {
+    background-color: salmon;
+}

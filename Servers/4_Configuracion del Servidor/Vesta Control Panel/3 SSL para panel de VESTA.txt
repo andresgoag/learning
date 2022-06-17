@@ -1,0 +1,9 @@
+1. Loggearse en la terminal del servidor como super usuario. sudo su
+2. NOTA: la ruta para la pagina del panel de control de VESTA es en /usr/local/vesta
+3. ir a /usr/local/vesta/ssl
+4. rm certificate.crt
+5. rm certificate.key
+6. volver a la raiz del servidor y ejecutar los siguientes comandos
+7. ln -s /home/admin/conf/web/ssl.pythonweb.tk.crt /usr/local/vesta/ssl/certificate.crt #admin es el nombre de usuario de vesta y pythonweb.tk el dominio
+8. ln -s /home/admin/conf/web/ssl.pythonweb.tk.key /usr/local/vesta/ssl/certificate.key
+9. service vesta restart

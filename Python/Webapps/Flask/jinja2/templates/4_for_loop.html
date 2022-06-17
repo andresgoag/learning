@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planets in Our Solar System</title>
+</head>
+<body>
+
+    <ul>
+        {% for planet in planets %}
+          <li>{{ planet }}</li>
+        {% endfor %}
+    </ul>
+
+    <ul>
+        {% for key, value in plantas.items() %}
+        <li>{{ key }} {{value}}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+PostgreSQL es una base de datos orientada a estar en un servidor, para usarla se debe tener instalado el PostgreSQL
+
+Instalar PostgreSQL:
+https://www.postgresql.org/download/
+Descargar el instalador, durante la instalacion se crearan las credenciales para el super usuario.
+
+usuario: postgres
+password: RouteUS-101
+port: 5432 (default)
+Pgadmin Password: RouteUS-101
+
+
+
+Instalar libreria de python:
+pip installpsycopg2

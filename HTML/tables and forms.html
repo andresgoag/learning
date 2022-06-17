@@ -1,0 +1,125 @@
+<!-- References Udemy Python Django Boot Camp
+HTML input types: https://www.w3schools.com/html/html_form_input_types.asp
+https://developer.mozilla.org/es/docs/Web/HTML/Elemento/input -->
+
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Tables and Forms</title>
+  </head>
+  <body>
+
+
+  <!-- Tables -->
+  <h1>Tables</h1>
+    <table border="1">
+
+      <thead>
+        <th>Number</th>
+        <th>Color</th>
+        <th>Country</th>
+      </thead>
+
+      <tr>
+        <td>250</td>
+        <td>Red</td>
+        <td>USA</td>
+      </tr>
+
+      <tr>
+        <td>100</td>
+        <td>Blue</td>
+        <td>Colombia</td>
+      </tr>
+
+    </table>
+
+
+
+  <!-- Forms -->
+  <h1>Forms</h1>
+
+    <form>
+      <h1>Log In</h1>
+      <h2>Please input your Email and Password</h2>
+      <input type="email" name="useremail" value="Email Here">
+      <input type="password" name="password" value="">
+      <input type="submit" name="" value="Submit">
+    </form>
+
+    <form>
+      <h1>Choose Color!</h1>
+      <h2>Click on Button!</h2>
+      <input type="color" name="" value="">
+    </form>
+
+    <form>
+      <h1>Enter some Text</h1>
+      <input type="text" name="" value="Text goes here">
+    </form>
+
+
+    <form action="http://www.google.com" method="get">
+      <p>Enter Text</p>
+      <input type="text" name="userinput" value=""> <!--Name sirve para asociar el valor que ingrese el usuario a ese name -->
+      <input type="submit" name="" value="Submit">
+    </form>
+
+
+
+
+<!--Labels-->
+
+
+  <!--Individual Label-->
+  <form>
+    <label for="">
+      Enter Text:
+      <input type="text" name="" value="">
+    </label>
+  </form>
+
+
+  <!--For label-->
+  <form>
+    <label for="userinput">Enter Input:</label>
+    <input id="userinput" type="text" name="" value="Hello!">
+  </form>
+
+
+  <form>
+    <input type="text" name="" placeholder="Enter text here" required> <!-- Placeholder sirve para poner el texto clarito dentro del input y se borra cuando empieza a escribir  // required sirve para obligar a que se llene antes de enviar el form-->
+    <input type="submit" name="" value="Submit">
+  </form>
+
+
+
+
+
+  <h1>Hotel Feedback Form</h1>
+  <form method="get">
+    <h2>Are you from inside US? or outside US?</h2>
+    <label for="inus">Inside:</label>
+    <input id="inus" type="radio" name="loc" value="inside">
+    <label for="outside">Outside:</label>
+    <input id="outside" type="radio" name="loc" value="outside">
+
+    <h2>How was your service</h2>
+    <select name="stars">
+      <option value="Great">3</option>
+      <option value="Okay">2</option>
+      <option value="Bad">1</option>
+    </select>
+
+    <h2>Any other feedback</h2>
+    <textarea name="feedback text" rows="8" cols="80"></textarea>
+
+    <input type="submit" name="" value="Submit">
+  </form>
+
+
+  </body>
+</html>

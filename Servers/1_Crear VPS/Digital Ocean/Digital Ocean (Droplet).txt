@@ -1,0 +1,35 @@
+
+###########################################################################
+#######            Crear VPS en Digital Ocean (Droplet)             #######
+###########################################################################
+
+
+
+1. Crear cuenta en Digital Ocean
+
+
+
+
+
+
+2. Crear droplet
+
+			Descripcion																		Ejemplo
+			-----------------------------------------------------------
+	a) 	Escoger imagen del sistema operativo					Ubuntu
+	b)	Choose VPS size																5 $/mo
+	c)	Select DataCenter															New York
+	d)	Additional Options														All unchecked
+	e)	Authentication 																Create Root Password: RouteUS-101a
+	f)	Escoger Hostname															rest-api-course
+
+
+
+
+
+
+3. Ir al terminal del servidor
+
+	a) opciones (...) Access Console
+	b) user: root
+	c) pass: RouteUS-101a

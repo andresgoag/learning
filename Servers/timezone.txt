@@ -1,0 +1,9 @@
+Check actual time
+    $ timedatectl
+
+Check list of timezones
+    $ timedatectl list-timezones
+
+Change the timezone
+    $ sudo timedatectl set-timezone your_time_zone
+

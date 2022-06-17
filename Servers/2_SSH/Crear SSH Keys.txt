@@ -1,0 +1,48 @@
+SSH Keys:
+
+
+Hay dos tipos de SSH keys, Public y Private
+
+El que tenga una "Public Key" puede -> "Decrypt"
+El que tenga una "Private Key" puede -> "Encrypt"
+
+
+
+
+
+1. Generar SSH Keys a traves de la terminal:
+
+  a) ssh-keygen                                                                 # Ejecutar el comando para iniciar la creacion
+  b) Dejar el nombre dafault del archivo                                        # id_rsa
+  c) Crear Password                                                             # RouteUS-101
+  d) Se crearan 2 archivos en la carpeta C:/Users/andre/.ssh
+     llamados id_rsa y id_rsa.pub
+
+         - id_rsa.pub: Es la "Public Key" y puede ser compartida
+         - id_rsa: Es la "Private Key" y no debe ser compartida
+
+
+
+
+
+
+2. Para usar putty, se debe convertir la "Private Key" al formato de putty ".ppk"
+
+	a) Abrir el PuTTYgen
+  b) En el menu superior: Conversions -> Import Key
+  c) Seleccionar el archivo id_rsa
+  d) Ingresar contrasena creada en el paso 1-c)
+  e) Click "Save private key" y guardar en una ubicacion segura
+
+
+
+
+
+
+3. Autenticar Putty para usar estas claves
+
+  a) Abrir PuTTY
+  b) En la barra lateral izquierda Connection -> SSH -> Auth
+  c) En el campo Private Key File, cargar el archivo creado en el paso 2.
+  d) En la barra lateral volver a session y llenar los datos de IP y puerto
+  e) Iniciar conexion.

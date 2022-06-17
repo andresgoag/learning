@@ -1,0 +1,82 @@
+Install
+=======
+$ sudo pip install pipenv
+
+
+Project
+=======
+
+1. Create project folder
+    $ mkdir project
+
+2. Crear ambiente virtual
+    $ pipenv --python 3.8
+
+3. Instalar paquetes
+    $ pipenv install flask
+    
+    NOTA: si no se espicifico version queda con un * en pipfile
+    Cada que se corra el comando pipenv install se actualizaran
+    las dependencias que no especifiquen version
+    pipfile.lock is not meant to be modified manually
+
+    3.1 Install from requirements.txt
+        $ pipenv install -r requirements.txt
+
+    3.2 Create requirements.txt
+        $ pipenv lock -r > requirements.txt
+
+    3.3 Install a dev dependency
+        $ pipenv install pytest --dev
+
+    3.4 Uninstall packages
+        $ pipenv uninstall flask
+
+4. Activate virtualenv
+    $ pipenv shell
+
+    Alternative way (will run with the venv):
+    $ pipenv run python
+    $ pipenv run python script.py
+
+5. Check python executable
+    $ pipenv --venv
+
+5. Deactivate virtualenv
+    $ exit
+
+6. Remove virtualenv
+    $ pipenv --rm
+
+7. Change python version
+    7.1 Change the python version in pipfile
+    7.2 Remove virtualenv
+        $ pipenv --rm
+    7.3 Install
+        $ pipenv install
+    NOTE: The python version must be installed in the computer.
+
+8. Check vulnerabilities
+    $ pipenv check
+
+    If a vulnerability is found, you can manually update the version of the package
+    in the pipfile and then  run $ pipenv install
+
+9. Show dependencies tree
+    $ pipenv graph
+
+10. Create the pipfile.lock to production
+    10.1 Update the pipfile lock to the lastest changes if made.
+        $ pipenv lock
+    10.2 Move the pipfile.lock to the production enviroment
+    10.3 Install the dependencies from pipfile.lock
+        $ pipenv install --ignore-pipfile
+    
+
+Environment Variables
+=====================
+
+1. Create a .env file
+2. add enviroment variables:
+    SECRETE_KEY="Supersecrete"
+3. when $ pipenv run python

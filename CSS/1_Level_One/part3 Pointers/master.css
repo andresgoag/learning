@@ -1,0 +1,35 @@
+/* https://www.w3schools.com/cssref/css_selectors.asp */
+
+.firstDiv{
+  color:blue;
+}
+
+
+.secondDiv{
+  color: red;
+}
+
+
+#singledout{
+  color: green;
+  text-decoration: line-through;
+}
+
+
+h3 + ul{
+  border: 4px dotted purple;
+}
+
+
+li a{
+  color: red;
+}
+
+li a[href="http://www.npr.org"]{
+  color: blue;
+  border: 5px solid orange;
+}
+
+/* *{
+  color: black;
+} -> Selects all page elements, does not override Ids */

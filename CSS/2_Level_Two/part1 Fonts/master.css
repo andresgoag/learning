@@ -1,0 +1,42 @@
+/*
+Fonts on Windows:
+https://en.wikipedia.org/wiki/List_of_typefaces_included_with_Microsoft_Windows
+
+Fonts on Macs:
+https://en.wikipedia.org/wiki/List_of_typefaces_included_with_macOSfon
+
+General Font Information:
+http://www.cssfontstack.com/
+
+Google Fonts:
+https://fonts.google.com/
+
+Fonts Library
+https://fontlibrary.org/
+*/
+
+
+
+h1 {
+  font-family: "Arial";
+  text-align: center;
+  font-style: italic;
+  font-weight: bold;
+}
+
+p{
+   font-family: 'Ranchers', cursive; /*Esta es una fuente que se esta cargando desde google fonts API, se relaciona el link en el head del HTML */
+}
+
+/* 1em = 16px em es una relacion al tamano de la fuente en el body, por defecto es 16px */
+
+body{
+  font-size: 20px;
+}
+
+#two{
+  font-family: 'GreatVibesRegular'; /*Esta fuente se esta cargando desde fontlibrary.org igual que la de google relacionando el link en el head del HTML*/
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2.0em;
+}

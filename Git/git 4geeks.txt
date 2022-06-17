@@ -1,0 +1,101 @@
+1. inicializar git repository:
+git init
+
+2. Check remote branch
+git remote -v
+
+
+3. remove remote origin
+git remote remove origin
+
+
+4. add remote origin
+git remote add origin <repository url>
+
+
+5. push to an upstream branch
+git push -u origin <branch name>
+
+
+6. set the upstream branch
+git push --set-upstream origin <branch name>
+
+
+
+3. Pull request
+    1. en github click create new pull request
+    2. seleccionar que branch del original repository
+
+
+
+
+
+
+
+
+
+===============================================================
+
+
+git init
+git status
+git add <file name>
+git commit -m "simple message of what have changed since last commit"
+git add .
+git reset -> removes files from staging, the opposite from git add
+git log -> shows history of commit and details
+git remote add origin <repository url>
+git push -u origin <branch> -> origin refers to the repository url
+git pull origin <branch> -> git pull, followed by the name of the remote repository(origin) and the name of the local branch where that will get updated
+git checkout <name of file>
+git checkout <name of branch>
+git merge <branch name>
+git branch -d <my_version>
+
+
+
+
+
+
+
+
+
+
+git remote remove origin
+git remote add origin <repository url>
+git add .
+git commit -m "message"
+git push -u origin master -> repository, branch
+
+
+
+
+
+
+
+
+pull from another repository
+============================
+
+git add .
+git commit -m "message"
+git pull <remote repository url> <branch>
+
+pueden ocurrir conflictos ya que se pudo haber borrado, se deben borrar los cambios manualmentes que se quieren mantener.
+
+
+
+
+
+Pull request
+=============
+
+on github create pull request, select repositories and branches.
+
+
+
+
+
+Borrar ramas
+$ git push -d <remote_name> <branchname>
+$ git branch -d <branchname>

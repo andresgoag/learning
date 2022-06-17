@@ -1,0 +1,160 @@
+
+###############################################################################
+#######            Deploy Python Apps on Ubuntu Web Server              #######
+###############################################################################
+
+
+
+
+
+
+1. Crear carpeta que alojara los archivos de la aplicacion de python, esta debe estar en el "default root folder" del "web server".
+
+        a) cd /var/www/html
+        b) sudo mkdir my_application                                                                # La carpeta se llama my_application
+        c) sudo chown andres:andres /var/www/html/my_application                                    # dar permisos de la carpeta al usuario:grupo "andres:andres" en caso de haber sido creada como usuario root
+        d) cd /var/www/html/my_application/                                                         # Ir a la carpeta que aloja la aplicacion
+        e) Ingresar los archivos de la aplicacion a la carpeta my_application
+            e1) git clone https://github.com/andi561/test-repository.git .                          # Clonar el repositorio de github de la aplicacion.
+        f) mkdir log                                                                                # Crear la carpeta para registrar los log.
+
+
+
+
+
+
+
+2. Instalar los componentes desde los repositorios de Ubuntu
+
+        a) sudo apt-get update && sudo apt-get upgrade
+        b) sudo apt-get install build-essential libssl-dev libffi-dev libpq-dev libpcre3 libpcre3-dev python3-pip python3-dev python3-setuptools  
+        c) sudo apt install python3-venv
+        c) actualizar pip: sudo pip3 install --upgrade pip
+        d) sudo apt-get install python3.XX    # Version requerida
+
+
+
+
+
+3. Crear un Ambiente Virtual de Python
+        a) sudo apt install python3-virtualenv                                                      # Instalar virtualenv
+        b) cd /var/www/html/my_application                                                          # Ir a la carpeta que aloja la aplicacion
+        c) virtualenv venv --python=python3.7                                                       # Crear el ambiente virtual en la carpeta venv
+        d) source venv/bin/activate                                                                 # Activar el ambiente virtual
+        e) pip install uwsgi                                                                        # Instalar uWSGI
+        f) pip install -r requirements.txt                                                          # Instalar librerias requeridas si se tiene un requirements.txt en la carpeta my_application. De lo contrario instalar usando pip install <nombre del paquete>
+        g) python app.py                                                                            # Ejecutar la aplicacion para probarla
+        h) http://your_server_ip:5000 (En el navegador web)                                         # Visitar la aplicacion en el navegador (Nota: se debe especificar a flask que corra la aplicacion en app.run(host='0.0.0.0') )
+
+
+
+
+
+
+4. Configurar uWSGI
+
+        a) nano wsgi.py                                                                             # Crear punto de entrada de WSGI: Es un archivo de python que importara el objeto app de flask de la aplicacion para posteriormente ejecutarla, debe estar al mismo nivel que el archivo principal
+
+                from app import app
+
+                from db import db    # En caso de usar SQLAlchemy importar el objeto db en caso de ser necesarios.
+		        db.init_app(app)     # Si se esta usando SQLAlchemy agregar la linea para inicializar la base de datos aqui.
+
+                if __name__ == "__main__":
+                    app.run()
+
+
+
+        b) uwsgi --socket 0.0.0.0:5000 --protocol=http -w wsgi:app                                  # Probar WSGI (NOTA: wsgi:app <nombre del archivo creado en el punto a>:<objeto invocable de la aplicacion>)
+        c) http://your_server_ip:5000 (En el navegador web)                                         # Visitar la aplicacion en el navegador
+        d) deactivate                                                                               # Desactivar el ambiente virtual
+        e) nano /var/www/html/my_application/uwsgi.ini                                              # Crear archivo de configuracion de uWSGI dentro de my_application
+
+                [uwsgi]
+                base = /var/www/html/my_application
+                module = wsgi:app
+                master = true
+                uid = andres                                                                         # Nombre de usuario dueño de la carpeta de la aplicacion, definido en el paso 1c.
+                gid = andres                                                                         # Grupo del usuario dueño de la carpeta.
+                home = %(base)/venv                                                                  # ubicacion del ambiente virtual
+                pythonpath = %(base)
+                socket = %(base)/socket.sock
+                chmod-socket = 777
+                processes = 8
+                threads = 8
+                harakiri = 15
+                logto = %(base)/log/%n.log                                                           # Creara un archivo dentro de la carpeta log llamado UWSGI.log
+                vacuum = true
+                die-on-term = true
+
+
+        f) sudo nano /etc/systemd/system/my_application.service                                     # Crear un Ubuntu service llamado my_application
+
+
+                [Unit]
+                Description=uWSGI para my_application
+                After=network.target
+
+                [Service]
+                User=andres                                                                         # Usuario propietario del proceso
+                Group=www-data                                                                      # Grupo de nginx, se especifica para evitar problemas de lectura del socket.sock
+                WorkingDirectory=/var/www/html/my_application                                       # Ruta del directiorio de la aplicacion my_application
+                ExecStart=/var/www/html/my_application/venv/bin/uwsgi --emperor uwsgi.ini           # Ruta del amiente virtual para ejecutar el archivo uwsgi.ini creado en el paso 4-e)
+                Restart=always                                                                      # Reinicia la aplicacion si se cae, asi no esta muerta un periodo largo de tiempo
+                KillSignal=SIGQUIT                                                                  # Para que la salida de la aplicacion sea suave y no se pierdan datos
+                Type=notify                                                                         # Service notification parameter
+                NotifyAccess=all                                                                    # Service notification parameter
+
+                [Install]
+                WantedBy=multi-user.target
+
+                # NOTA: si se desea agregar variables de ambiente para ejecutar base de datos de puede escribir: Environment=DATABASE_URL=postgres://andres:RouteUS-101@localhost:5432/andres    # postgres://<user>:<password>@<server>:<port>/<database>
+                # Las variables de ambiente deben ser declaradas antes que el ExecStart
+
+
+        $ sudo systemctl daemon-reload
+        g) sudo systemctl start my_application                                                      # Iniciar el servicio my_application
+        
+        h) sudo systemctl enable my_application                                                     # Activarlo para que se cargue en el inicio
+        i) sudo systemctl status my_application                                                     # Comprobar el estado del servicio
+
+
+NOTA: si sale error code=exited, status=217/USER, es por que el usuario no existe
+
+
+
+
+5. Configurar Nginx para que transmita las solicitudes web al socket de nuestra aplicacion usando el protocolo uwsgi.
+
+        a) sudo nano /etc/nginx/sites-available/my_application                                      # Crear archivo de configuración de bloque de servidor llamado my_application
+
+                server {
+                    listen 80;
+                    real_ip_header X-Forwarded-For;                                                 # Comando para que nginx le diga a flask la IP de equipo que realizo el request
+                    set_real_ip_from 127.0.0.1;
+                    server_name localhost;                                                          # En caso de tener un dominio apuntando a la IP, se debe escribir los dominios a los cuales escuchara este servidor. ej: skoods.co
+
+                    location / {                                                                    # Se define a donde se redirige el usuario cuando entre a la ruta '/' del servidor
+                        include uwsgi_params;                                                       # Especifica que vamos a correr la aplicacion de flask desde uwsgi
+                        uwsgi_pass unix:/var/www/html/my_application/socket.sock;                   # Especificar la ruta donde se creara el archivo socket en el que nginx se comunicara con uwsgi, debe ser la ruta especificada en el archivo creado en el paso 4e)
+                        uwsgi_modifier1 30;                                                         # Le dice a los "threads" "When to die if they become blocked"
+                    }
+
+                    error_page 404 /404.html;                                                       # Especifica que si flask devuelve el codigo 404, se redirija a la ruta /404.html
+                    location = /404.html {                                                          # Definir que hacer si se recibe esta URL
+                        root /usr/share/nginx/html;                                                 # Dirigir al folder de las plantillas html de nginx para mostrar el archivo 404.html
+                    }
+
+                    error_page 500 502 503 504 /50x.html;                                           # Definir que hacer con varios codigos de status de HTTP
+                    location = /50x.html {
+                        root /usr/share/nginx/html;
+                    }
+
+                }
+
+
+        b) sudo ln -s /etc/nginx/sites-available/my_application /etc/nginx/sites-enabled/           # Vincular el archivo al directorio sites-enabled​​​ para habilitar la configuración del bloque de servidor de Nginx
+        c) sudo rm /etc/nginx/sites-enabled/default                                                 # Remover el default nginx configuration ya que generaria conflictos al estar pendiente del localhost, cada nginx configuration debe escuchar a diferentes "server_name"
+        c) sudo nginx -t                                                                            # Probar la sintaxis
+        d) sudo systemctl reload nginx                                                              # Recargar el servicio nginx
+        e) sudo systemctl restart nginx                                                             # Reiniciar el servicio nginx

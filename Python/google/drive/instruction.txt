@@ -1,0 +1,15 @@
+create a project
+enable drive api
+
+
+
+
+
+menu - apis - credentials
+
+configurar pantalla de oauth
+
+configurar id client oauth
+
+configurar settings.yaml
+

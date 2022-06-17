@@ -1,0 +1,212 @@
+How to implement authentication in your API
+The most simple way to implement autentication in your database and API:
+
+1. Create a User table/model that represents every user inside your application.
+2. That User table must contain email and password for every user.
+3. Create one api endpoint called POST /token that generates a token only if it receives an email and password that maches in the database.
+4. The POST /token endpoint will return the token to the front-end if everything is ok.
+5. Then, on every other endpoint in your database you will have to validate if the token exists in the request header and if it does you will have to validate it.
+
+
+
+
+Every token is a session
+The moment you generate the token you can decide if you want it to expire
+When a client successfully authenticates it will receive that unique token and it will be able to attached to the request headers of every request it makes from that moment on, that token will be the "User session".
+It is recomended to save that token in the cookies or localStorage of your front-end application.
+
+    let myToken = "aDSA45F$%!sd&sdfSDFSDFytrefERF";
+    localStorage.setItem("token", myToken);
+
+
+    //You can retrieve the token any moment, anywhere in your application by using:
+    let myToken = localStorage.getItem("token);
+
+
+How to attach the token to the request header:
+let myToken = localStorage.getItem("token");
+
+    fetch('https://myApi.com/path/to/endpoint', {
+        method: "POST", //or any other method,
+        headers: {
+        "Authorization": myToken, // ⬅⬅⬅ authorization header
+        },
+        body: JSON.stringify(body)
+    })
+        .then(resp => resp.json())
+        .then(data => console.log("Success!!", data))
+        .catch(error => console.log(error));
+
+
+
+
+To implement JWT in flask:
+    https://flask-jwt-extended.readthedocs.io/en/stable/
+
+
+How API Authentication works
+You can divide a standard authentication process in 5 main steps:
+
+1. The user writes its username and password on your website.
+2. The username and password gets sent to the backend API.
+3. The API looks for any record on the User table that matches with both parameters at the same time (username and password).
+4. If a user is found, it generates a token for that user and responds status_code=200 back to the front end.
+5. The front-end will use that token from now on to make any future request.
+
+
+
+
+Steps:
+
+1. Instalar JWT extended
+    $ pip install flask-jwt-extended
+
+2. Incluir y configurar en la app de flask 
+
+    from flask_jwt_extended import JWTManager
+
+    app = Flask(__name__)
+    app.config["JWT_SECRET_KEY"] = "super-secret"
+    jwt = JWTManager(app)
+
+3. Crear el endpoint que genera los token
+    Informacion que recibe:
+        POST /token
+        Content-type: application/json
+        Body:
+        {
+            "username": "alesanchezr",
+            "password": "12341234"
+        }
+
+    Endpoint:
+        from flask_jwt_extended import create_access_token
+
+        @app.route("/token", methods=["POST"])
+        def create_token():
+            username = request.json.get("username", None)
+            password = request.json.get("password", None)
+            # Query your database for username and password
+            user = User.query.filter_by(username=username, password=password).first()
+            if user is None:
+                # the user was not found on the database
+                return jsonify({"msg": "Bad username or password"}), 401
+            # create a new token with the user id inside
+            access_token = create_access_token(identity=user.id)
+            return jsonify({ "token": access_token, "user_id": user.id })
+
+
+
+
+3) Use the @jwt_required() decorator on private routes
+
+    from flask_jwt_extended import jwt_required, get_jwt_identity
+
+    # Protect a route with jwt_required, which will kick out requests
+    # without a valid JWT present.
+    
+    @app.route("/protected", methods=["GET"])
+    @jwt_required()
+    def protected():
+        # Access the identity of the current user with get_jwt_identity
+        current_user_id = get_jwt_identity()
+        user = User.filter.get(current_user_id)
+        
+        return jsonify({"id": user.id, "username": user.username }), 200
+
+
+
+
+
+
+Implementing JWT in your project Front-End
+
+Create new token:
+
+    const login = async (username, password) => {
+        const resp = await fetch(`https://your_api.com/token`, { 
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: "joe", password: "1234" }) 
+        })
+
+        if(!resp.ok) throw Error("There was a problem in the login request")
+
+        if(resp.status === 401){
+            throw("Invalid credentials")
+        }
+        else if(resp.status === 400){
+            throw ("Invalid email or password format")
+        }
+        const data = await resp.json()
+        // save your token in the localStorage
+        //also you should set your user into the store using the setStore function
+        localStorage.setItem("jwt-token", data.token);
+
+        return data
+    }
+
+
+Fetch any private information
+
+    // assuming "/protected" is a private endpoint
+    const getMyTasks = await (username, password) => {
+        // retrieve token form localStorage
+        const token = localStorage.getItem('jwt-token');
+
+        const resp = await fetch(`https://your_api.com/protected`, {
+            method: 'GET',
+            headers: { 
+            "Content-Type": "application/json"
+            'Authorization': 'Bearer '+token // ⬅⬅⬅ authorization token
+            } 
+        })
+        if(!resp.ok) throw Error("There was a problem in the login request")
+
+        else if(resp.status === 403){
+            throw Error("Missing or invalid token");
+        }
+        else{
+            throw Error('Uknon error');
+        }
+
+        const data = await resp.json();
+        console.log("This is the data you requested", data);
+        return data
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+In react:
+=========
+
+Create a login form
+fetch the access_token
+save the access_token in the localStorage
+
+
+
+The protected views should be conditional render by the token and asking to the backend if its a valid token
+
+logout: 
+remove the token from session storage and setting to null
+
+

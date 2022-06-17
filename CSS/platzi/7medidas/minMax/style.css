@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* html {
+    font-size: 62.5%;
+} */
+
+main {
+    width: 100vw; /* porcentaje del viewport width */
+    height: 100vh; /* porcentaje del viewport height */
+    background: coral;
+}
+
+
+section {
+    width: 80%;
+    min-width: 320px; /* Para usar min-width debe existir un width base, preferiblemente en % */
+    max-width: 500px;
+
+    /* height: 500px; */
+    min-height: 500px; /* No requiere de una base */
+    margin: 0 auto; /* Centrar el contenido horizontalmente. arriba y abajo 0 margen y a los lados automatico */
+    background: red;
+}

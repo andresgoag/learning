@@ -1,0 +1,5 @@
+https://code.jquery.com/
+
+
+
+copiar y pegar el script del CDN en el <head> del HTML

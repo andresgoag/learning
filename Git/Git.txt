@@ -1,0 +1,229 @@
+Download & Install Git from https://git-scm.com/downloads
+
+
+
+
+
+Git
+___________________________________________________________________________________________
+is a set of layer, each layer has a function, and you use Git to move files between layers,
+the layers provide error control, redundancy and more.
+
+
+Layers:
+
+  1. The Filesystem: is the files in your system, the layer you have before using Git.
+  2. In this folder you initialise Git, and tell Git to add files to next commit, this is call: Staging Area
+  3. Commit files to local repository, this creates a snapshot of the current state of the file, if you add
+     more code to the file, then you will have to commit it again. This will create a new version of the file, keeping
+     the old one, so you can go back in commits if you make a mistake or want to remove something.
+  4. Host the commits remotely, send them to a Git service, like GitHub
+
+  NOTE: GitHub is a server who allows you to host remotely your files, Git is the program that allows you to
+  move files between the layers (Commit and push)
+
+
+
+
+_____________________________________________________________________________________________
+
+GitHub:
+
+Permite crear repositorios en la nube para alojar archivos.
+
+1. Crear cuenta e iniciar sesion
+2. Create Repository   # Para ejemplo se creo el "test-repository"
+3. Agregar una descripcion
+4. Public (Gratis pero visible para todos), para Private hay que pagar
+5. Click create repository
+6. En la seccion code dentro del repositorio saldran comandos basicos de git
+
+
+
+
+
+_____________________________________________________________________________________________
+
+The Git Workflow:
+
+Vamos a utilizar como ejemplo una "simple web page en flask"
+
+Abrir git bash
+
+   Descripcion                                          Comando
+   ------------------------------------------------------------------------
+1. Crear la carpeta del proyecto (Llamada code)         mkdir code
+
+2. Entrar a la carpeta del proyecto                     cd code
+
+3. Inicializar un repositorio,                          git init
+   Esto permite que Git sepa que archivos son
+   nuevos y cuales fueron modificados
+
+4. Verificar el status, esto muestra:                   git status
+   - En que "branch" estamos trabajando
+   - "Commit" en que estamos trabajando
+   - archivos en staging area
+
+5. Copiar los archivos de la aplicacion a esta          "Se copio a la carpeta el archivo app.py"
+   nueva carpeta. Cuando se copien los archivos,
+   si se ejecuta 'git status' mostrara que estos
+   archivos estan "Untracked"
+
+6. Adicionar el archivo app.py al staging Area          git add app.py
+   'git status' muestra que cambios hay para ser
+   "committed", muestra el archivo app.py es nuevo
+
+    git add -A  stages all changes
+    git add .   stages new files and modifications, without deletions
+    git add -u  stages modifications and deletions, without new files
+
+
+6b. Si se quisiera remover un archivo del stagging      git rm --cached app.py
+    area
+
+7. Identificarse para saber quien hizo el commits       git config --global user.email "andresgomezagudelo@hotmail.com"
+                                                        git config --global user.name "Andres Gomez"
+
+8. Commit changes al local repository, se puede         git commit -m "Created a simple Flask application"
+   agregar un mensaje para en el futuro mirar los
+   commit y saber que se hizo en cada uno.
+
+9. Configurar el origen remoto del "local repository"   git remote add origin https://github.com/andi561/test-repository.git
+    en la nube (GitHub)
+
+10. Enlazar branch master local a la remota en Github   git push --set-upstream origin master
+    Branch 'master' set up to track remote branch
+    'master' from 'origin'.
+    Esto hace que el repositorio principal sea el de
+    Github.
+
+11. Cuando ya se tiene los pasos anteriores ya se       git push    #Enviar cambios del repositorio local al repositorio github, para forzar agregar "-f"
+    puede usar los comandos push y pull                 git pull    #Descargar cambios del repositorio github al repositorio local
+
+
+12. Cambiar el remote origin                            git remote set-url origin git@github.com:andresgoag/estampamosTintoreria.git
+13. Verificar el origen actual                          git remote -v 
+
+
+
+
+
+
+
+_____________________________________________________________________________________________
+
+Autenticar con SSH Keys:
+
+Es para incrementar la seguridad del repositorio en github, asi solo se puede modificar desde el
+computador personal.
+Es Opcional, ya que se puede seguir trabajando con HTTP e ingresando usuario y contrasena.
+
+
+Compartir public key con Github:
+La public key debe ser generada antes
+
+      a) cat C:/Users/andre/.ssh/id_rsa.pub y copiar el texto que muestra
+      b) Ir a GitHub
+      b) Settings
+      c) SSH and GPG Keys
+      d) new SSH key
+      e) Darle un titulo y pegar el texto copiado en el paso a)
+      f) Add SSH key
+
+Esto permitira modificar el repositorio en github sin requerir una contrasena, cuando se hace desde este computador
+      Se debe cambiar el origen del repositorio a la ruta ssh:
+
+       a) En el repositorio de github, en code, use SSH
+       b) Copiar el origen
+       c) en el bash, abierto en la carpeta del codigo: git remote remove origin
+       d) git remote add origin <texto copiado en g2)>
+
+
+
+
+
+
+
+_____________________________________________________________________________________________
+
+README file:
+
+Es un simple plain text, que se mostrara en el repositorio cuando sea abierto.
+
+Para crearlo:
+
+1) En bash abierto en la carpeta del codigo:
+    a) vim README.md
+    b) se abrira el editor de texto, presionar "i" para entrar en modo escritura y poder editar
+    c) "esc" para salir del modo insertar
+    d) :wq      para guardar y cerrar
+    e) commit and push changes al Github repository
+    f) ir al repositorio de github y verificar que se muestre el readme.md
+
+
+_____________________________________________________________________________________________
+
+Para ignorar archivos cuando se vaya a subir a git:
+
+1) Crear un archivo llamado .gitignore , en este archivo se escribe los patrones de los archivos
+   que deben ser ignarodos cuando se haga el commit. por ejemplo
+	a) __pycache__/      # Esta linea prohibe que se suban los archivos de cache compilados
+	b) *.pyc             # Esta linea prohibe los archivos compilados de python
+2) Este archivo debe ser anadido manualmente al staging area: git add .gitignore
+
+
+
+_____________________________________________________________________________________________
+
+
+Remover git tracking:
+
+1) Abrir el Git Bash en la carpeta donde se encoentra el hidden .git
+2) rm -rf .git
+
+
+_____________________________________________________________________________________________
+
+Si hay problemas para clonar un repositorio en linux, se puede intentar estos comandos
+
+git init .
+git remote add origin <repository-url>
+git pull origin master
+
+
+
+
+quitar cambios no stagged
+git restore .
+
+
+
+
+
+
+Unshallow repository
+
+create remote named old
+git remote add old <path-to-old-remote>
+
+git fetch --unshallow old
+
+
+
+
+
+
+
+
+
+
+
+
+Adding global .gitignore file on Mac
+In order to start using it, go through these steps:
+
+Open Terminal.
+Run touch ~/.gitignore_global - this will create global .gitignore file in your home directory.
+Add some values that you would like to always ignore. For example, you could use this file.
+Run git config --global core.excludesfile ~/.gitignore_global. According to this page at git-scm.com this command will make all the patterns from ~/.gitignore_global ignored in all situations.

@@ -1,0 +1,25 @@
+/*Esto es un comentario*/
+
+/* selected tag{
+  property: value;
+} */
+
+
+h1{
+  color: blue;
+}
+
+
+li{
+  color: rgb(28, 201, 54);
+}
+
+
+p{
+  color: #293ed9;
+}
+
+
+h4{
+  color: rgba(28, 201, 54, 0.5);
+}

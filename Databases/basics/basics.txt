@@ -1,0 +1,52 @@
+Fundamentos de Bases de Datos
+=============================
+
+Entidades y Atributos
+=====================
+Primer paso: Identificar las entidades
+Segundo paso: Pensar en los atributos
+
+
+Relaciones
+==========
+Las relaciones nos permiten ligar o unir nuestras diferentes entidades y se representan con rombos. 
+Por convención se definen a través de verbos.
+
+Las relaciones tienen una propiedad llamada cardinalidad y tiene que ver con números. 
+Cuántos de un lado pertenecen a cuántos del otro lado:
+
+Cardinalidad: 1 a 1 || Persona - Datos personales
+Cardinalidad: 0 a 1 || Sesion - Usuario
+Cardinalidad: 1 a N || Persona - Automoviles
+Cardinalidad: 0 a N || Paciente - Habitacion de hospital
+Cardinalidad: N a N || Alumnos - Clases
+
+
+Tipos de dato
+=============
+Texto: CHAR(n), VARCHAR(n), TEXT
+Números: INTEGER, BIGINT, SMALLINT, DECIMAL(n,s), NUMERIC(n,s)
+Fecha/hora: DATE, TIME, DATETIME, TIMESTAMP
+Lógicos: BOOLEAN
+
+
+Constraints
+===========
+NOT NULL: Se asegura que la columna no tenga valores nulos
+UNIQUE: Se asegura que cada valor en la columna no se repita
+PRIMARY KEY: Es una combinación de NOT NULL y UNIQUE
+FOREIGN KEY: Identifica de manera única una tupla en otra tabla
+CHECK: Se asegura que el valor en la columna cumpla una condición dada
+DEFAULT: Coloca un valor por defecto cuando no hay un valor especificado
+INDEX: Se crea por columna para permitir búsquedas más rápidas
+
+
+Normalization
+=============
+La normalización como su nombre lo indica nos ayuda a dejar todo de una forma normal. 
+Esto obedece a las 12 reglas de Codd y nos permiten separar componentes en la base de datos:
+
+Primera forma normal (1FN): Atributos atómicos (Sin campos repetidos)
+Segunda forma normal (2FN): Cumple 1FN y cada campo de la tabla debe depender de una clave única.
+Tercera forma normal (3FN): Cumple 1FN y 2FN y los campos que NO son clave, NO deben tener dependencias.
+Cuarta forma normal (4FN): Cumple 1FN, 2FN, 3FN y los campos multivaluados se identifican por una clave única.

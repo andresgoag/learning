@@ -1,0 +1,53 @@
+Pyenv Instalation
+=================
+
+1. sudo apt-get update
+
+2. Install dependencies:
+sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+
+3. Instalar pyenv:
+    curl https://pyenv.run | bash
+
+4. Agregar pyenv al PATH:
+    sudo nano ~/.bashrc
+    sudo nano ~/.zshrc # Si se tiene ZSH
+
+    agregar al final (Verificar las instrucciones para la terminal donde se este ejecutando):
+
+        #Pyenv configuration
+        export PATH="/home/andres/.pyenv/bin:$PATH"
+        eval "$(pyenv init -)"
+        eval "$(pyenv virtualenv-init -)"
+
+
+5. Restart terminal:
+    exec "$SHELL"
+
+6. Para instalar una version de python:
+    pyenv install -v 3.7.2
+
+7. Para desintalar:
+    pyenv uninstall 2.7.15
+
+8. Listado de versiones
+    pyenv versions
+
+9. Para utilizar un python en especifico
+    pyenv global 3.7.2
+    ahora la palabra python activara.
+
+10. Para verificar la instalacion de python 
+    python -m test # despues de activado
+
+11. Para volver a la instalacion del sistema
+    pyenv global system
+
+12. Listado de comandos: (--help)
+    pyenv commands
+
+13. Creating Virtual Environments, despues de activar la version requerida
+    python -m venv <ubicacion de la carpeta>
+    

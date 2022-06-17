@@ -1,0 +1,40 @@
+*****************************************
+Working with APIs General Information
+*****************************************
+
+________________________________________________
+Data Formats
+
+  JSON: JavaScript Object Notation
+    example:
+
+    {
+      name:"sunflower",
+      color: "yellow"
+    }
+
+________________________________________________
+AJAX: Asynchronus JavaScript and XML.
+Es obtener o enviar datos nuevos sin recargar la pagina web
+
+XMLHttpRequest:
+El navegador cuenta con una herramienta llamada XMLHttpRequest,
+establece conexion con la url especificada y deja enviar o recibir informacion.
+Propiedades: https://developer.mozilla.org/es/docs/Web/API/XMLHttpRequest
+
+
+
+
+
+
+
+________________________________________________
+Queries:
+La manera en que se piden datos a una API, este request puede enviar informacion a un API
+
+ej: http://127.0.0.1:5000/store?name=tienda&items=10
+
+Los query pueden enviar informacion de esta manera:
+  URL+key1=value1&key2=value2&...
+
+________________________________________________

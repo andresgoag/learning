@@ -1,0 +1,19 @@
+1. crear el archivo que contendra el blueprint y sus endpoints
+    ej: auth.py
+
+
+2. Importar el blueprint de flask
+    from flask import Blueprint
+
+3. Crear el objeto blueprint
+    auth = Blueprint('auth', __name__, url_prefix='/auth')
+        # nombre del blueprint, __name__, prefijo para acceder a los endpoints (opcional)
+
+4. crear los endpoints del blueprint
+
+    @auth.route('/login', methods=["GET", "POST"])
+    def login():
+        pass
+
+5. despues de creado el blueprint, registrarlo en la app principal
+    app.register_blueprint(auth)

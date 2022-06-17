@@ -1,0 +1,119 @@
+.azul{
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+
+  /* centrar un texto al interior del div */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+.verde{
+  width: 100px;
+  height: 100px;
+  background-color: green;
+}
+
+
+.rojo{
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  position: relative;
+  top: 50px;
+}
+/* Cuando un elemento es posicionado como relativo (El div rojo) y es desplazado
+(top: 50px) este desplazamiento es relativo a su pocicion inicial. */
+
+
+.naranjachild{
+  width: 50px;
+  height: 50px;
+  background: orange;
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+
+/* Cuando un elemento es posicionado como absoluto (El div naranjachild) su desplazamineto
+sera con respecto al origen (esquina superior izquierda) -> Ver primer cuadro naranja
+
+si el elemento con (position: absolute;) esta dentro de un elemento con
+(position: relative;) su desplazamiento sera con respecto al origen del
+elemento padre, y las medidas en porcentaje seran relativas al elemento
+padre. -> Ver segundo cuadro naranja */
+
+
+
+.verde .naranjachild{
+  border: 2px solid black;
+}
+
+
+.gray{
+  background-color: gray;
+  width: 100px;
+  height: 100px;
+}
+
+/* Cuando un elemento con (position: relative;)(div rojo) es desplazado, se mantendra su ocupacion inicial
+Para aclarar: Ver div gris, solo se ve la mitad del elemento ya que el origen del div gris esta
+despues de acabar la posicion original antes del desplazamiento relativo del div rojo */
+
+
+
+
+
+
+/* Centrar un div dentro de otro */
+
+/* Metodo 1 */
+.rosado {
+  width: 100px;
+  height: 100px;
+  background-color: pink;
+  position: relative;
+}
+
+
+.rosado_child {
+  width: 40px;
+  height: 30px;
+  background-color: red;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+
+
+
+
+/* Metodo 2 */
+
+.brown {
+  width: 100px;
+  height: 100px;
+  background-color: brown;
+  /* position: relative;
+  top: 50px; */
+}
+
+
+
+
+.brown_child{
+  width: 30px;
+  height: 30px;
+  background-color: blue;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

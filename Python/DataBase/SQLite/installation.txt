@@ -1,0 +1,7 @@
+SQLite es un base de datos "ligera" y "portable" es decir se almacena localmente en un archivo
+
+
+Libreria de Python:
+sqlite3
+
+NOTA: no requiere de instalacion ya que es built in python library

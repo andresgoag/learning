@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- Esta linea simpre debe de ir, es para el correcto comportamiento de responsive -->
+        <link rel="stylesheet" href="../css/bootstrap.min.css"> <!-- Archivo css de bootstrap -->
+        <title>Carousel</title>
+
+        <!-- Estilos css para que una imagen se adapte a un espacio fijo sin que se deforme
+        <style>
+
+            img{
+                object-fit: cover;
+                width: 100%;
+                height: 500px;
+            }
+
+        </style>
+        -->
+
+
+
+        <!-- Estilos css para cambiar el color de las flechas del carousel, cambiar el YYY en el  fill='%23YYY'
+        <style>
+
+            .carousel-control-prev-icon {
+                background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23222' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+            }
+
+            .carousel-control-next-icon {
+                background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23222' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+            }
+
+        </style>
+    -->
+
+
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mt-3">
+
+                    <div class="carousel slide" id="cualquier_id" data-ride="carousel">
+
+                        <ol class="carousel-indicators">
+                            <!-- poner en data-target el id del carousel y en data-slide-to el indicador del item de carousel inner, se numeran desde el 0 -->
+                            <li data-target="#cualquier_id" data-slide-to="0" class="active"></li>
+                            <li data-target="#cualquier_id" data-slide-to="1"></li>
+                            <li data-target="#cualquier_id" data-slide-to="2"></li>
+                        </ol>
+
+                        <div class="carousel-inner">
+
+                            <div class="carousel-item active">
+                                <img src="http://lorempixel.com/1120/400/" alt="">
+                            </div>
+
+                            <div class="carousel-item">
+                                <img src="http://lorempixel.com/1120/401/" alt="">
+                            </div>
+
+                            <div class="carousel-item">
+                                <img src="http://lorempixel.com/1120/402/" alt="">
+                            </div>
+
+                        </div>
+
+                        <!-- para hacer los controles de la imagen a los lados -->
+                        <!-- ir hacia atras -->
+                        <a href="#cualquier_id" class="carousel-control-prev" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <!-- Mostrar este texto en las tablet de lectura -->
+                            <span class="sr-only">Anterior</span>
+                        </a>
+
+                        <a href="#cualquier_id" class="carousel-control-next" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Siguiente</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+
+            <div class="row mt-3">
+                <div class="col-12 mt-3">
+
+                    <div class="carousel slide" id="segundo_carousel" data-ride="carousel">
+
+                        <ol class="carousel-indicators">
+                            <!-- poner en data-target el id del carousel y en data-slide-to el indicador del item de carousel inner, se numeran desde el 0 -->
+                            <li data-target="#segundo_carousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#segundo_carousel" data-slide-to="1"></li>
+                            <li data-target="#segundo_carousel" data-slide-to="2"></li>
+                        </ol>
+
+                        <div class="carousel-inner">
+
+                            <div class="carousel-item active">
+                                <!-- Agregar texto al carousel, agregar un div class="carousel-caption d-block" antes de la imagen-->
+                                <div class="carousel-caption d-block">
+                                    <h4>Titulo de la imagen 1</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim </p>
+                                </div>
+                                <img src="http://lorempixel.com/1120/400/" alt="">
+                            </div>
+
+                            <div class="carousel-item">
+                                <div class="carousel-caption d-block">
+                                    <h4>Titulo de la imagen 2</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim </p>
+                                </div>
+                                <img src="http://lorempixel.com/1120/401/" alt="">
+                            </div>
+
+                            <div class="carousel-item">
+                                <div class="carousel-caption d-block">
+                                    <h4>Titulo de la imagen 3</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim </p>
+                                </div>
+                                <img src="http://lorempixel.com/1120/402/" alt="">
+                            </div>
+
+                        </div>
+
+                        <!-- para hacer los controles de la imagen a los lados -->
+                        <!-- ir hacia atras -->
+                        <a href="#segundo_carousel" class="carousel-control-prev" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <!-- Mostrar este texto en las tablet de lectura -->
+                            <span class="sr-only">Anterior</span>
+                        </a>
+
+                        <a href="#segundo_carousel" class="carousel-control-next" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Siguiente</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <script src="../js/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="../js/bootstrap.min.js"></script>
+
+    </body>
+</html>

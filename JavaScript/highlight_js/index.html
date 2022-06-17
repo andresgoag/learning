@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highlight.js example</title>
+
+    <!-- <link rel="stylesheet" href="./highlight/styles/default.min.css"> -->
+    <link rel="stylesheet" href="./highlight/styles/atom-one-dark.min.css">
+
+</head>
+<body>
+
+    <pre>
+        <code class="language-html">
+
+&ltsection&gt &lt!-- Etiqueta contenedora --&gt
+    &ltarticle&gt &lt!-- Etiqueta contenedora --&gt
+
+        &lth1&gtSoy un titulo&lt/h1&gt &lt!-- Etiqueta de contenido --&gt
+        &ltp&gtSoy un texto&lt/p&gt &lt!-- Etiqueta de contenido --&gt
+        &lta href="#"&gtSoy un link&lt/a&gt &lt!-- Etiqueta de contenido --&gt
+
+    &lt/article&gt
+&lt/section&gt
+
+        </code>
+    </pre>
+    
+    
+    <pre>
+        <code class="language-python">
+# Referencias: Build 10 Real World Applications(Udemy)
+
+from flask import Flask, render_template
+
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template("home.html") #el html debe estar guardado en una carpeta llamada templates
+
+
+@app.route('/about/')
+def about():
+    return render_template("about.html")
+
+
+
+if __name__ == "__main__":
+    app.run(debug = True, host='0.0.0.0')
+        </code>
+    </pre>
+    
+    
+    <pre>
+        <code class="language-javascript">
+var articulosBaratos = articulos.every(function(articulo){
+    return articulo.costo <= 700;
+});
+
+console.log(articulosBaratos); 
+        </code>
+    </pre>
+
+
+
+    <script src="./highlight/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    
+</body>
+</html>

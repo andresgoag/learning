@@ -1,0 +1,6 @@
+PAN ID: 2431
+Zigbee Stack Profile: 0
+
+Coordinador (S2): 0013A20040A8429A
+Router1 (S2C): 0013A20041046C30
+Router 2 (PRO S2): 0013A20040BB0447

@@ -1,0 +1,3 @@
+Agregar al archivo authorized_keys el ssh public key
+
+nano /.ssh/authorized_keys

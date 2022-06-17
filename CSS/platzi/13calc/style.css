@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+.contenedor {
+    font-size: 2rem;
+    display: flex;
+}
+
+.box1 {
+    background-color: khaki;
+    width: calc((100%-30px)/2);
+    height: 20vh;
+    margin-left: 10px;
+    margin-right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box2 {
+    background-color:lightcoral;
+    width: calc((100%-30px)/2);
+    height: 20vh;
+    margin-left: 5px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

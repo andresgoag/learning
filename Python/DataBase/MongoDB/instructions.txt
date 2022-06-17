@@ -1,0 +1,315 @@
+MongoDB
+=======
+
+Base de datos no relacional, se puede alojar en la web (MongoDB atlas. Plan inicial gratuito, pago por escalar) o se puede instalar en el propio servidor
+
+-Nos permite guardar datos en documentos tipo JSON
+
+-es una base de datos distribuidas. Cluster
+
+-Se puede escalar de forma horizontal. (en lugar de un super servidor, otro servidor pequeno)
+
+-Es schema less, cada documento puede tener su propia estructura, al contrario de SQL
+
+
+
+Base de datos: Un contenedor para collecciones
+Colleccion: Una agrupacion de documentos
+Documento: Un registro dentro de una coleccion, es la unidad mas basica. Son estilo "JSON". maximo de 16 MB
+
+
+
+
+
+MongoDB Atlas (Mongo como servicio)
+=============
+Cloud-hosted MongoDB service
+
+    1. Crear cuenta en mongo db atlas
+    3. Seleccionar el plan (Free)
+    4. Configurar y crear shared cluster
+    5. Permitir acceso a la IP desde "Network access"
+    6. Crear usuario para la base de datos en "Database access"
+    
+
+Conectarse al cluster
+
+    1. Click en connect
+    2. Using MongoDB compass
+    3. Configurar los requerimientos
+    4. Guardar el connect string
+    5. Descargar e instalar mongodb
+    6. Conectarse a la base de datos
+    7. No tocar las bases de datos default
+    8. Crear una nueva base de datos
+        a. create Database
+        b. Database name
+        c. Collection name
+
+
+
+
+
+
+
+Python
+======
+
+pip install pymongo[srv]            # el [srv] es para instalar paquetes para comunicarse con mondoDB Atlas.
+
+see microblog application for mongo db example on python
+
+
+
+
+
+MongoDB locally
+===============
+
+
+
+
+1. Instalar mongodb server
+
+    Windows:
+        a. el community server es el open source.
+        b. dejar las opciones default del instalador.
+        c. Instalar compass por separado.
+
+
+
+
+Mongo db Shell
+==================
+
+    1. para ejecutar comandos en el mongo shell, se debe abrir la terminal en la carpeta donde se instalo (Windows cmd) 
+        C:\Program Files\MongoDB\Server\4.4\bin
+    
+    Para conectarse al servidor local:
+        a. ejecutar mongodb.exe, ejecutara la shell conectada al servidor local
+
+    Para conectarse a mongoDB atlas:
+        a. Ir a mongo db atlas, seleccionar el cluster al que nos vamos a conectar
+        b. copiar el query string
+        c. ejecutar el comando en la terminal abierta en la carpeta de mongoDB
+
+
+    Comandos:
+        a. show dbs  -> muestra las bases de datos actuales
+        b. ctrl + L -> limpia la consola
+        c. use usuarios -> crea una base de datos llamada usuarios
+        d. db -> muestra la base de datos actual
+
+
+        Operaciones CRUD:
+            
+            - insertOne()
+                ej: db.inventory.insertOne({}) 
+                Insertara un documento nuevo con el contenido {} a la colleccion inventory
+                Cada documento debe tener un _id unico, es buena practica que mongoDB lo ponga solo.
+
+            - insertMany()
+                ej: db.inventory.insertMany([{}, {}, {}])
+                Insertar un arreglo de varios documentos.
+            
+            - help()
+                ej: db.inventory.help()
+                Devuelve los comandos que se le pueden aplicar a la base de datos
+
+            - find()
+                ej: db.inventory.find({item: "canvas"})
+                Devuelve todos los documentos que cumplan con la condicion dada
+                NOTA: a los metodos find, se les puede pasa un {} como argumento para indicar que campos quiero traer.
+                    ej: {item: 1} # solo traera item y el _id
+
+            - count()
+                ej: db.inventory.find({item: "canvas"}).count()
+                Devuelve el numero de documentos encontrados
+
+            - findOne()
+                ej: db.inventory.findOne()
+                Devolvera un elemento de la coleccion inventory de acuerdo al orden natural
+
+                tambien puede recibir filtros:
+                ej: db.inventory.findOne( { _id: ObjectId("5c678d898f8a22")} )
+                Devolvera el objeto que encuentre con este filtro, segun el orden natural
+
+            - updateOne()
+                ej: db.inventario.updateOne({ _id: ObjectId('5c678d898f8a22')}, {$set: {qty: 130}})
+                Encuentra un documento que cumpla con el filtro y actualiza el valor de la propiedad qty a 130.
+            
+            -update()
+                ej: ej: db.inventario.update({ _id: ObjectId('5c678d898f8a22')}, {$set: {qty: 130}})
+                Actualizara todos los documentos que complan con el filtro
+
+            - deleteOne()
+                ej: db.inventory.deleteOne({status: "A"})
+                Borra el primer elemento que cumpla el filtro
+
+            -deleteMany()
+                ej: db.inventory.deleteMany({status: "A"})
+                Borra todos los documentos que cumplan el filtro
+
+
+
+
+
+
+Tipos de datos
+==============
+
+strings: texto
+boolean: true/false
+ObjectId: unicos
+Dates: fecha
+Numeros:
+    double: punto decimal 64 bit
+    integer 32bit
+    integer 64 bit 
+    decimal: 128 bits
+documentos embebidos
+arreglos
+
+
+
+
+
+
+
+
+
+
+Relaciones
+==========
+
+Relaciones uno a uno: con documentos embebidos
+
+{
+    nombre: 'Andres',
+    apellido: 'Gomez',
+    direccion: {
+        calle: 'Calle 40 54A-75',
+        ciudad: 'Rionegro'
+    }
+}
+
+
+Relaciones uno a muchos: Se usan referencias
+
+{
+    name: 'libro 1'
+    publisher_id: 'editorial_1' 
+}
+
+{
+    name: 'libro 2'
+    publisher_id: 'editorial_1' 
+}
+
+{
+    _id: 'editorial_1'
+}
+
+
+
+
+
+ejemplo:
+
+Carreras
+--------
+
+{
+    "_id": "5c78cf8987ddf8773",
+    "nombre": "Carrera de AWS",
+    "descripcion": "En esta carrera aprenderas AWS",
+    "cursos": [
+        {
+            "_id": "",
+            "nombre": "Nombre del curso"
+        },
+        {
+            "_id": "",
+            "nombre": "Nombre del curso"
+        }
+    ]
+}
+
+
+
+cursos
+------
+
+{
+    "_id": "",
+    "nombre": "",
+    "descripcion": "",
+    "clases": [
+        {
+            "_id": "",
+            "orden": 1,
+            "video": "url1"
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+Operadores:
+===========
+
+$eq           |    =
+-------------------------------------------------------------------------------------------------
+$gt           |    >
+-------------------------------------------------------------------------------------------------
+$gte          |    >=
+-------------------------------------------------------------------------------------------------
+$lt           |    <
+-------------------------------------------------------------------------------------------------
+$lte          |    <=
+-------------------------------------------------------------------------------------------------
+$ne           |    !=
+-------------------------------------------------------------------------------------------------
+$in           |    valores dentro de un rango
+-------------------------------------------------------------------------------------------------
+$nin          |    valores que no estan dentro de un rango
+-------------------------------------------------------------------------------------------------
+$and          |    Une queries con un AND logico
+-------------------------------------------------------------------------------------------------
+$not          |    Invierte el efecto de un query
+-------------------------------------------------------------------------------------------------
+$nor          |    Une queries con un NOR logico
+-------------------------------------------------------------------------------------------------
+$or           |    Une queries con un OR logico
+-------------------------------------------------------------------------------------------------
+$exist        |    Docuemntos que cuentan con un campo especifico
+-------------------------------------------------------------------------------------------------
+$type         |    Docuemntos que cuentan con un campo de un tipo especifico
+-------------------------------------------------------------------------------------------------
+$all          |    Arreglos que contengan todos los elementos del query
+-------------------------------------------------------------------------------------------------
+$elemMatch    |    Documentos que cumplen la condicion del $elemMatch en uno de sus elementos
+-------------------------------------------------------------------------------------------------
+$size         |    Documentos que contienen un campo tipo arreglo de un tamaño especifico.
+-------------------------------------------------------------------------------------------------
+
+
+The $addToSet operator adds a value to an array unless the value is already present, in which case $addToSet does nothing to that array.
+
+
+https://docs.mongodb.com/manual/reference/operator/
+
+
+
+
+mongodb atlas produccion:
+
+
+1. escoger cloud provider de mongo db atlas, en el mismo cloud provider donde vive la aplicacion y en la misma region para evitar cargos entre regiones
+
+2. hacer peering con el vps donde vive la aplicacion, se hace desde mongo db atlas

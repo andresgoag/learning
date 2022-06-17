@@ -1,0 +1,26 @@
+
+Flask Rest Ful:
+Es un framework derivado de flask especializado en hacer rest apis
+
+pip install Flask-RESTful
+
+
+
+
+
+
+Flask JWT (JSON Web Token)
+Una libreria para "Encoding data", sirve para realizar autenticaciones
+Un lado codifica la informacion (encode) y el otro lado tiene el token para decodificar (decode) la informacion
+
+pip install Flask-JWT
+
+
+
+
+
+
+Flask SQL ALchemy
+Para mapear objetos a filas de bases de datos.
+
+pip install Flask-SQLAlchemy

@@ -1,0 +1,13 @@
+
+1. diseño gráfico
+2. Arquitectura inicial: HTML semantico (index.html)
+3. crear la carpeta de assests del proyecto. img y icons
+4. definir las fuentes
+5. definir estilos base, colores y variables
+6. maquetar el sitio movil (Siempre especificar como tamaño minimo 320px que es el celular mas pequeño)
+
+
+
+
+Analisis con lighthouse
+Herramienta embebida en dev tools, sirve para generar reportes del sitio web.

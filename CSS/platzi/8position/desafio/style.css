@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.titulo {
+    width: 200px;
+    padding: 10px;
+    background-color: salmon;
+    margin: 0 auto;
+    position: relative;
+    top: 21px;
+}
+
+.contenido {
+    margin: 0 auto;
+    width: 500px;
+    background-color: skyblue;
+    padding: 50px;
+}

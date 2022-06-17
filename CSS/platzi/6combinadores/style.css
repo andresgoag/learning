@@ -1,0 +1,52 @@
+/* Combinadores
+
+https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Combinators
+
+1. Hermano adyacente o cercano: + 
+2. Hermano general: ~ 
+3. Hijo: >
+4. Descendiente: " "
+
+*/
+
+div {
+    border: 1px solid black;
+    margin-bottom: 30px;
+}
+
+
+/* Aplicale la regla a los p que esten precedido a h2 */
+.adyacente h2 + p {
+    color: red;
+}
+
+/* Hermanos generales son las etiquetas al mismo nivel dentro de un padre */
+.general h2 ~ p {
+    color: purple;
+}
+
+/* Un parrafo hijo directo de un div */
+.hijo div > p {
+    color: royalblue;
+}
+
+/* Todas las etiquetas p, dentro de un div */
+.descendiente div p {
+    color: salmon;
+}
+
+/* A los p y a los a */
+.comma a, .comma p {
+    color: sienna;
+}
+
+/* Attribute value selection */
+a[href='http://4geeksacademy.com/'] {
+    color: blue;
+}
+
+/* string Attribute value */
+/* aplica a todos los divs que su id tenga section */
+div[id*='section'] {
+    color: red;
+}

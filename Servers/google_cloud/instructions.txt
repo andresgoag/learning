@@ -1,0 +1,51 @@
+Install SDK google cloud
+
+Para Windows dirígete a https://cloud.google.com/sdk/docs/quickstart-windows
+Para MacOS dirígete a link https://cloud.google.com/sdk/docs/quickstart-macos
+Para Linux dirígete a https://cloud.google.com/sdk/docs/quickstart-linux
+
+
+Verificar instalacion
+which gcloud
+
+Ahora inicializamos gcloud y hacemos login con:
+gcloud init
+gcloud auth login
+
+gcloud config set project platzi-flas...
+
+
+gcloud config list
+
+
+
+
+
+
+
+
+Firestore
+=========
+
+1. Create new proyect on the GCP console
+2. Seleccionar base de datos, Firestore -> Data
+3. seleccionar native mode
+4. Cuando se cree, crear la estructura de la base de datos inicial
+5. logearse a GCP: gcloud auth login
+6. logearse a application default: gcloud auth application-default login
+
+
+
+
+App engine
+==========
+
+1.Crear archivo app.yaml —> runtime: python37
+2.Crear nuevo proyecto en gcloud para producción
+3.Cambiar el proyecto actual de gcloud
+4.Ejecutar el comando: gcloud app deploy app.yaml
+5.Activar firestore en gcloud
+    firestore > modo nativo
+6.Ejecutar el comando: gcloud app browse
+7. Ingresar a la ruta generada por gcloud y probar la app.
+8. Para subir u=otra version de la app: gcloud app deploy app.yaml --versionXX

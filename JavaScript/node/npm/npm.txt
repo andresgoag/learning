@@ -1,0 +1,132 @@
+NPM
+Instalación: 
+•	Windows: descargar node current version. Asegurarse seleccionar node, npm, path. Probar en consola con: node -v y npm -v. actualizar: sudo npm install -g npm@lastest
+
+
+Iniciar un proyecto: 
+•	Crear carpeta: mkdir jsnpm
+•	Moverse a la carpeta
+•	Inicializar git: git init 
+•	Inicializar proyecto: npm init -> llenar datos 
+•	Establecer el punto de entrada: src/index.js 
+•	Test comand en blanco, después se llenan
+•	Git repo: en blanco, después se llena
+•	Esto crea el archivo package.json
+•	Inicio rápido con configuración mínima: npm init -yes
+•	Otro inicio rápido: npm set init.author.email “andres@hotmail.com” para guardar valores por defecto 
+
+Instalar dependencias:
+•	crear carpeta src, ahí vive el proyecto
+•	Moverse a la carpeta y crear el archivo de entrada. Index.js 
+•	Las dependencias se instalan desde la carpeta raíz del proyecto. Cd..
+•	Ejemplo: instalar moment.js
+•	- npm install moment
+•	        —save: indica con este flag que es de producción. Es el por defecto, no es necesario ponerlo.
+•	        —save-dev: indica que es solo de desarrollo.
+•	Se crea la carpeta node_modules donde se guardan los paquetes y package-lock.js
+•	Crear archivo .gitignore. node_modules/ para nunca enviar esto a repositorios.
+•	Cada que se instala una dependencia, se modifica el archivo package.json donde se añade el valor en producción o dev según corresponda.
+•	Alternativas: npm i moment -D || npm i moment -S
+•	Instalar paquetes de forma global en node para poderlo usar sin requerirlo en el proyecto. npm install -g nodemon 
+•	npm list -g —depth 0 -> lists de paquetes instalados de forma global
+•	Instalar paquetes opcionales: npm install es lint -O
+
+
+Instalar dependencias con force:
+•	Que la dependencia no va a ser instalada en el proyecto pero si queremos ver el output que retorna.
+•	npm install react —dry-run
+•	Simula la instalación para ver qué trae. Para tomar la decisión si se instala o no.
+
+•	npm install webpack -f
+•	Forza la instalación de la última versión de la dependencia, se puede modificar manualmente el archivo package.json si se requiere cambiar el estado de la dependecia.
+
+•	el comando npm install, instala todas las dependencias en el archivo package.json
+
+•	npm install json-server@0.15.0 instala una versión específica. 
+
+
+Actualizar paquetes en npm
+•	npm list -> lists los paquetes
+•	npm outdate -> lists los paquetes desactualizados
+•	npm update -> actualizar paquetes
+•	npm instal json-server@lastest
+
+
+Eliminar paquetes
+•	npm uninstall json-server 
+•	npm uninstall webpack—no-save, se mantiene en package.json pero se elimina de node_modules. 
+
+
+
+Versionado 
+
+“^7.8.0”
+“~7.8.0”
+Buscar para que es el package-lock.json
+
+
+
+Scripts: comandos para ejecutar desde la consola.
+“scripts”: {
+    “deploy”: “npm run format && npm run build”
+}
+
+
+npm run deploy
+
+npm start: comando por defecto le hace un “node” al archivo definido de entrada.
+
+
+
+Borrar la caché
+•	npm cache clean —force
+•	npm caché verify
+
+
+Borrar correctamente la carpeta node_modules
+•	sudo npm install -g rimraf 
+•	rimraf node_modules
+
+
+Seguridad
+•	al ejecutar npm install, en la consola pueden salir errores de seguridad, relacionados con actualizaciones.
+•	npm audit busca las vulnerabilidades en nuestro proyecto. 
+•	npm audit —json: genera el archivo con las descripciones.
+•	npm update eslint—depth 2: nivel de profundidad con dependencias.
+•	npm audit fix: resolver errores. 
+•	Garantiza que estamos al día con las dependencias. 
+
+
+
+Crear paquete npm
+
+•	Inicializar el proyecto y crear los archivos
+•	El código debe tener el export de la función que queremos dar en la dependencia: module.exports = { randomMsg }
+•	Crear una carpeta bin al nivel de src para la configuración.
+•	Dentro un archivo global.js 
+
+•	#!/usr/bin/env node
+•	Let random = require(“../src/index.js”)
+•	Random.randomMsg()
+
+•	en package.json crear el siguiente apartado
+•	“bin”:{
+•	    “random-msg: ”./bin/global.js”
+•	} ,
+•	“preferGlobal”: true
+
+
+
+Publicar
+•	sudo npm link
+•	Sudo npm install -g “ruta de la carpeta del paquete”
+•	Ya queda de forma local
+•	Crear cuenta en npm
+•	npm adduser -> pude password, user y email
+•	npm publish 
+•	Por buenas prácticas debe tener readme.md
+•	Debe tener un repositorio ligado con add origin
+•	Después de actualizar el package.json
+•	npm version major/minor/patch
+•	npm publish 
+

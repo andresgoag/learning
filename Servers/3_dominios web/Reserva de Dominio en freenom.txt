@@ -1,0 +1,11 @@
+1. ir a freenom.com
+2. Buscar el dominio deseado
+3. Seleccionar el dominio disponible deseado
+4. Ir a checkout y log in o crear cuenta con correo electronico (Se recomienda usar gmail)
+5. Ir a freenom.com, area de clientes -> Mis Dominios -> Manage domain
+6. Manage Freenom DNS
+7. {name: "dejar en blanco", Type:"A", TTL:3600, Target:"Copiar la IP del servidor de AWS"}
+8. Anadir www {name: "www", Type:"CNAME", TTL:3600, TargeT:"escribir el dominio adquirido ej: pythonweb.tk"}
+9. Puede tardar hasta una hora en que la direccion web se propague por todos los servidores DNS del mundo.
+10. Comprobar que esta listo entrando a https://www.whatsmydns.net
+11. Comprobar entrando al dominio adquirido. ej: pythonweb.tk

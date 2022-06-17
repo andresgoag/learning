@@ -1,0 +1,1 @@
+// Empezar los nombres de las funciones de componentes de React con mayuscula, es un estadndar

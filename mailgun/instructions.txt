@@ -1,0 +1,14 @@
+1. crear una cuenta en mailgun.com
+
+
+
+Usar el gratis
+==============
+
+Sandbox domains:
+
+    1. Añadir los authorized recipients en:
+        sending > domains > select sandbox > add authorized recipients
+
+
+

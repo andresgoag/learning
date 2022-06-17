@@ -1,0 +1,11 @@
+html {
+    font-size: 62.5%; /* Setea la medida de fuente en 10px */
+}
+
+p {
+    font-size: 1.6rem; /* Siempre referencia al tamano de la fuente de HTML */
+}
+
+main div {
+    font-size: 1.6rem;
+}

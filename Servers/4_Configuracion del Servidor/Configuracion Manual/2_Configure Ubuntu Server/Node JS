@@ -1,0 +1,38 @@
+Instalar NodeJS en Ubuntu Server
+==============================================
+
+1. Ingresar como root user
+2. sudo apt update
+3. apt install nodejs
+4. node --version # verificar version de node js
+5. apt install npm
+6. npm -v # Verificar version de npm
+
+
+Actualizar NodeJS
+==============================================
+
+1. sudo apt update
+2. wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+3. source ~/.profile
+4. nvm install v14.15.0 # version de node
+5. node -v
+
+
+
+
+Iniciar un proyecto de node
+==============================================
+
+1. Ingresar a la carpeta que contiene los archivos de js (cd)
+2. npm init
+3. Llenar los datos para configurar el package.json
+4. crear los archivos del proyecto
+5. Instalar librerias
+    a. ir dentro de la carpeta del proyecto
+    b. npm install mysql #instala la libreria de mysql
+    c. npm install mqtt  #instala la libreria de mqtt 
+
+
+
+

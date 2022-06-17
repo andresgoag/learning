@@ -1,0 +1,11 @@
+Test de API with POSTMAN
+
+
+
+Se recomienda que antes de realizar una REST API, se realize un "Test - First" esto quiere decir que se disenen primero los end points ("URLs")
+que necesitara tener la API, asi el diseno del software sera mas eficiente porque ya se sabe lo que se requiere.
+
+
+
+
+Al momento de hacer una rest API, se recomienda tener a la mano los HTTP status codes, para saber que va a devolver cada end point de la API. ej: 400 bad request

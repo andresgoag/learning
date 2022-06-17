@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- Esta linea simpre debe de ir, es para el correcto comportamiento de responsive -->
+        <link rel="stylesheet" href="../css/bootstrap.min.css"> <!-- Archivo css de bootstrap -->
+        <title>Dropdown</title>
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="row mt-3">
+                <div class="col-6">
+                    <div class="btn-group mr-2 mb-2">
+                        <button class="btn btn-primary dropdown-toggle" id="cualquier_id" data-toggle="dropdown">
+                            Categorias
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="cualquier_id">
+                            <h6 class="dropdown-header">Categoria</h6>
+                            <a href="#" class="dropdown-item">HTML</a>
+                            <a href="#" class="dropdown-item">CSS</a>
+                            <div class="dropdown-divider">
+
+                            </div>
+                            <a href="#" class="dropdown-item">JS</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Dropdown separado -->
+            <div class="row mt-3">
+                <div class="col-6">
+                    <div class="btn-group mr-2 mb-2">
+
+                        <button class="btn btn-primary">Categorias</button>
+                        <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="otro_id" data-toggle="dropdown">
+                            <span class="sr-only">Menu</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="otro_id">
+                            <h6 class="dropdown-header">Categoria</h6>
+                            <a href="#" class="dropdown-item">HTML</a>
+                            <a href="#" class="dropdown-item">CSS</a>
+                            <div class="dropdown-divider">
+
+                            </div>
+                            <a href="#" class="dropdown-item">JS</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Cambiar el tamano del boton -->
+            <div class="row mt-3">
+                <div class="col-6">
+                    <div class="btn-group mr-2 mb-2">
+                        <button class="btn btn-primary btn-lg dropdown-toggle" id="id_2" data-toggle="dropdown">
+                            Categorias
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="id_2">
+                            <h6 class="dropdown-header">Categoria</h6>
+                            <a href="#" class="dropdown-item">HTML</a>
+                            <a href="#" class="dropdown-item">CSS</a>
+                            <div class="dropdown-divider">
+
+                            </div>
+                            <a href="#" class="dropdown-item">JS</a>
+                        </div>
+                    </div>
+
+
+                    <div class="btn-group mr-2 mb-2">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" id="id_3" data-toggle="dropdown">
+                            Categorias
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="id_3">
+                            <h6 class="dropdown-header">Categoria</h6>
+                            <a href="#" class="dropdown-item">HTML</a>
+                            <a href="#" class="dropdown-item">CSS</a>
+                            <div class="dropdown-divider">
+
+                            </div>
+                            <a href="#" class="dropdown-item">JS</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+        <script src="../js/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="../js/bootstrap.min.js"></script>
+
+    </body>
+</html>

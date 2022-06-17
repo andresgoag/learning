@@ -1,0 +1,8 @@
+
+NOTA: Verificar que el dominio este en la mayoria de los servidores DNS antes de realizar el certificado SSL
+
+1. Ingresar al panel de control de VESTA, por el puerto :8083
+2. Ir a WEB -> en el dominio en el que necesitamos el SSL -> EDIT
+3. En la nueva pestana activar la casilla SSL
+4. Activar Lets Encrypt Support
+5. Click Save

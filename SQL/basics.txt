@@ -1,0 +1,26 @@
+SELECT username FROM user WHERE email='info@breatheco.de'
+
+Cuando se modifica una tabla solo se modifican los nombres de las columnas (keys) no los valores
+
+
+
+
+SELECT query
+SELECT column, another_column, …
+FROM mytable
+WHERE condition(s)
+ORDER BY column ASC/DESC
+LIMIT num_limit OFFSET num_offset;
+
+
+
+
+
+
+SELECT column, another_table_column, …
+FROM mytable
+INNER JOIN another_table 
+    ON mytable.id = another_table.id
+WHERE condition(s)
+ORDER BY column, … ASC/DESC
+LIMIT num_limit OFFSET num_offset;

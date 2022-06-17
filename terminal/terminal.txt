@@ -1,0 +1,28 @@
+Comando = nombre de programa +  flags + argumentos
+
+Flags: alteran lo que va a hacer el programa
+Argumentos: Informacion adicional para la ejecucion del programa
+
+
+ej: comando -flag1 -flag2 arg1 arg2
+
+
+
+
+
+Mostrar el manual de un comando, por ejemplo para echo:
+$ man echo
+
+
+
+
+tecla tab
+auto completar
+
+flecha arriba
+comandos escritos anteriores
+
+
+history
+muestra los comando que se han escrito
+si se escribe el signo de admiracion ! y el numero de linea se ejecuta esa instruccion

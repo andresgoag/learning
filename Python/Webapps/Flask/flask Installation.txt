@@ -1,0 +1,4 @@
+pip install flask
+
+
+las webapp siempre se deben correr con un ambiente virtual

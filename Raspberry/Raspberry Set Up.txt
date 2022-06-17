@@ -1,0 +1,115 @@
+1. Descargar la imagen del raspbian mas reciente
+2. Formatear la SD
+3. montar la imagen en la SD
+4. Crear un archivo SSH (sin file extension) y ubicarlo en la carpeta boot, para habilitar el SSH
+5. Crear un archivo wpa_supplicant.conf con la siguiente informacion:
+
+
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=<Insert 2 letter ISO 3166-1 country code here>
+
+network={
+ ssid="<Name of your wireless LAN>"
+ psk="<Password for your wireless LAN>"
+ priority=1
+}
+
+
+y ubicarlo en la carpeta boot.
+
+
+
+6. Extraer la SD del PC y conectar al raspberry pi. Automaticamente se conectara a la red.
+7. Buscar la IP con Advance IP Scanner.
+8. Iniciar comunicacion SSH con Putty.
+9. Utilizar WinSCP para transferir archivos al raspberry pi
+10. Para acceder al escritorio se puede utilizar VNC, se debe activar en <sudo raspi-config>
+
+
+
+#Comando para apagar
+====================
+
+sudo shutdown -h now
+
+
+
+
+
+#Cambiar layout del teclado
+===========================
+
+sudo nano /etc/default/keyboard
+
+XKBLAYOUT="us"
+
+sudo reboot
+
+
+
+
+#Cambiar contraseña default
+===========================
+
+passwd para cmbiar la contrasena
+
+
+
+#Conectarse a red wifi
+======================
+
+$ sudo raspi-config
+-localization -> set wlan
+-interface options -> ssh enable
+
+
+$ sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+network={
+    ssid="testing"
+    psk="testingPassword"
+}
+
+
+
+#Verificar IP actual
+====================
+
+$ hostname -I
+
+
+
+#Instalar pip
+=============
+
+$ sudo apt-get install python3-pip
+$ sudo pip3 install --upgrade setuptools
+
+
+
+
+
+
+#Instalar piface digital
+========================
+
+$ sudo apt-get update
+$ sudo apt-get upgrade
+$ sudo pip3 install pifacecommon
+
+$ sudo raspi-config
+interface options spi enable
+
+$ sudo pip3 install pifacedigitalio
+
+-test:
+from time import sleep
+import pifacedigitalio
+
+DELAY = 1.0  # seconds
+
+pifacedigital = pifacedigitalio.PiFaceDigital()
+while True:
+    pifacedigital.leds[7].toggle()
+    sleep(DELAY)

@@ -1,0 +1,389 @@
+emqx.io
+
+broker de mensajeria MQTT, para instalar en el VPS propio.
+
+
+
+Instalacion EMQ:
+===========================================
+
+    1. Ingresar a https://www.emqx.io/products/broker, el EMQ X Broker es el Open source MQTT broker server (FREE).
+    2. Seleccionar la version y el sistema operativo donde se instalara.
+    3. Ingresar al terminal del VPS como superusuario e ir a la raiz
+        > sudo su
+        > cd
+    4. Copiar y ejecutar los comandos que entrega la plataforma en el VPS para instalar.
+        a. wget https://www.emqx.io/downloads/broker/v4.2.0/emqx-ubuntu18.04-4.2.0-x86_64.zip
+        b. unzip emqx-ubuntu18.04-4.2.0-x86_64.zip
+
+    
+    
+
+Configuracion de puertos para EMQ:
+==================================
+
+    Se debe abrir los puertos que se vayan a utilizar en todos los firewall activos
+
+    EMQ X Broker provides 5 Listeners by default, and they will occupy the following ports:
+
+        Port	|    Description     |    Listener
+        -----------------------------------------------------------------
+        1883	|    TCP             |    listener.tcp.external = 0.0.0.0:1883
+        11883	|    TCP internal    |    listener.tcp.internal = 127.0.0.1:11883
+        8883	|    SSL             |    listener.ssl.external = 8883
+        8083	|    WS              |    listener.ws.external = 8083
+        8084	|    WSS             |    listener.wss.external = 8084
+
+
+    The naming rule of the Listener configuration item is: 
+
+        listener.<Protocol>.<Listener Name>.xxx
+
+        where:
+        - <Protocol> currently supports tcp, ssl,ws, wss.
+        - <Listener Name> It is recommended to use all lowercase words.
+        - xxx is a specific configuration item.
+
+
+    The TCP ports used can be configured in etc/emqx.config:
+
+        ## TCP Listener: 1883, 127.0.0.1:1883, ::1:1883
+        listener.tcp.external = 0.0.0.0:1883
+            
+        ## SSL Listener: 8883, 127.0.0.1:8883, ::1:8883
+        listener.ssl.external = 8883
+
+
+
+
+
+
+
+    MANAGEMENT
+    ===========================
+    HTTP API
+    EMQ X Broker provides HTTP APIs for integration with external systems, such as querying client information, publishing messages, and creating rules.
+
+    EMQ X Broker's HTTP API service listens on port 8081 by default. You can modify the listening port through the configuration file of etc/plugins/emqx_management.conf,
+    or enable HTTPS listening. All API calls start with api/v4 after EMQ X Broker 4.0.0
+
+    emqx/etc/plugins/emqx_management.conf
+        management.listener.http = 8081
+
+
+
+
+
+
+
+    DASHBOARD
+    ======================
+
+    When EMQ X Broker runs successfully on your local computer and EMQ X Dashboard is enabled by default,
+    you can visit http://localhost:18083 to view your Dashboard. The default user name is admin and the password is public.
+
+    default port 18083
+
+
+    Se debe cambiar el usuario y contraseña
+
+    /emqx/etc/plugins/emqx_dashboard.conf
+
+        dashboard.default_user.login = nuevo usuario
+        dashboard.default_user.password = nueva contraseña
+
+        dashboard.listener.http = 18083
+
+
+
+
+
+    En resumen, se deben abrir en firewall los siguientes puertos:
+
+    Port	|    Description
+    ------------------------
+    1883	|    EMQ TCP
+    8883	|    EMQ SSL
+    8083	|    EMQ WS
+    8084	|    EMQ WSS
+    8081    |    EMQ API
+    18083   |    EMQ Dashboard
+
+
+
+f. Cuando se vaya a desplegar la aplicacion a produccion, se debe deshabilitar la opcion de allow_anonymous, para evitar que si no se pasa nombre de usuario deje entrar.
+
+            Archivo emqx/etc/emqx.conf
+
+            ## Allow anonymous authentication by default if no auth plugins loaded.
+            ## Notice: Disable the option in production deployment!
+            ##
+            ## Value: true | false
+            allow_anonymous = true
+
+            ## Allow or deny if no ACL rules matched.
+            ##
+            ## Value: allow | deny
+            acl_nomatch = allow
+
+            
+
+
+Username Authentication (emqx_auth_username)
+============================================
+
+    1. sudo nano /emqx/etc/plugins/emqx_auth_username.conf
+        Crear los usuarios y contraseñas que tendra la aplicacion
+
+
+Internal ACL
+============
+
+Sirve para creara reglas de a que topicos se puede suscribir los usuarios
+
+1. Las reglas se crean en el archivo:
+    sudo nano /emqx/etc/acl.conf
+
+
+%% Allow "dashboard" user to subscribe to "$SYS/#" topics
+{allow, {user, "dashboard"}, subscribe, ["$SYS/#"]}.
+
+%% Allow users with IP address "127.0.0.1" to publish/subscribe to topics "$SYS/#", "#"
+{allow, {ipaddr, "127.0.0.1"}, pubsub, ["$SYS/#", "#"]}.
+
+%% Deny "All Users" subscribe to "$SYS/#" "#" Topics
+{deny, all, subscribe, ["$SYS/#", {eq, "#"}]}.
+
+%% Allow any other publish/subscribe operation
+{allow, all}.
+
+
+
+
+
+
+ NOTA: si la aplicacion no va a tener un numero predecible de reglas de debe hacer uso de una base de datos, ver las indicaciones de los plugins en la parte inferior
+======
+
+
+
+
+Iniciar servicio de EMQ:
+===========================================
+
+    $ sudo /emqx/bin/emqx start
+
+
+
+
+
+
+
+Enviar primer mensaje MQTT:
+==============================================
+
+    1. Entrar al dashboard de EMQX > pythonweb.tk:18083 (IP del VPS en el puerto 18083)
+    2. Cambiar en el menu tools > websocket > seccion connect, el puerto de escucha al 8093 y dar click en conectar.
+    3. En la seccion subscribe, suscribirse al topic "testtopic/#", click en subscribe.
+    4. En la seccion messages, se puede enviar mensajes de prueba. Verificar en la parte inferior que los mensajes se envien y se reciban.
+
+
+
+Instalar certificados SSL al WSS:
+==============================================
+    1. Ingresar al terminal del VPS como superusuario e ir a la raiz
+        > sudo su
+        > cd
+    2. Detener la ejecucion del broker > cd emqx
+        > ./bin/emqx stop
+    3. ir a la siguiente ruta en emqx:
+        > cd etc/certs/
+    4. Renombrar los siguientes archivos:
+        > mv cert.pem cert_old.pem
+        > mv key.pem key_old.pem
+    5. linkear en esta carpeta el certificado ssl que corresponda, para este ejemplo se utilizaran unos generados por vesta CP.
+        > ln -s /home/admin/conf/web/ssl.pythonweb.tk.crt cert.pem
+        > ln -s /home/admin/conf/web/ssl.pythonweb.tk.key key.pem
+    6. Iniciar el broker emq, en la carpeta raiz de emqx, correr el siguiente comando:
+        > ./bin/emqx start
+        > ./bin/emqx restart
+    7. Probar la nueva conexion por wss:
+        a. Entrar al dashboard de EMQX > pythonweb.tk:18083 (IP del VPS en el puerto 18083)
+        b. Cambiar en el menu tools > websocket > seccion connect, el puerto de escucha al 8094, activar la opcion de ssl y dar click en conectar.
+        c. En la seccion subscribe, suscribirse al topic "testtopic/#", click en subscribe.
+        d. En la seccion messages, se puede enviar mensajes de prueba. Verificar en la parte inferior que los mensajes se envien y se reciban.
+
+
+
+
+Conectar cliente al broker
+===============================================
+
+    1. Ir a la documentacion del EMQ broker, seccion SDK & Tools, Buscar la libreria en el lenguaje requerido. para este ejemplo javascript
+    2. Introducir el codigo para conexion con el broker en la pagina deseada.
+    3. elaborar codigo para suscribirse, y enviar mensajes. ejemplo:
+
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script> // importar libreria
+
+        // connection option
+        const options = {
+            clean: true, // retain session
+            connectTimeout: 4000, // Timeout period
+            // Authentication information
+            clientId: 'emqx',
+            // username: 'emqx_test',
+            // password: 'emqx_test',
+            Keepalive: 60,
+            clean: true
+        }
+
+        // Connect string, and specify the connection method by the protocol
+        // ws Unencrypted WebSocket connection
+        // wss Encrypted WebSocket connection
+        // mqtt Unencrypted TCP connection
+        // mqtts Encrypted TCP connection
+        // wxs WeChat applet connection
+        // alis Alipay applet connection
+        const connectUrl = 'wss://pythonweb.tk:8094/mqtt'
+        const client = mqtt.connect(connectUrl, options)
+
+        client.on('connect', () => {
+            console.log('conectado con exito')
+
+            // Suscribirse a un mensaje
+            client.subscribe('comandos', { qos: 1 }, (error) => {
+                if (!error) {
+                    console.log('Suscrito a "comandos" con exito');
+                } else {
+                    console.log('Suscripcion fallida');
+                }
+            })
+
+            //(topic, mensaje, funcion a ejecutar despues de enviar el mensaje)
+            client.publish('fabrica', 'esto es un verdadero exito', (error) => {
+                console.log(error || 'Mensaje enviado!!');
+            })
+        })
+
+        client.on('reconnect', (error) => {
+            console.log('reconnecting:', error)
+        })
+
+        client.on('error', (error) => {
+            console.log('Connection failed:', error)
+        })
+
+        client.on('message', (topic, message) => {
+            console.log('receive message：', topic, message.toString())
+        })
+
+    4. comprobar que los mensajes si se estan enviando con el dashboard en el puerto 18083, suscribiendose al topico 'fabrica' y enviando mensajes al topico "comandos"
+
+
+
+
+
+
+MY SQL Access Control List (EMQ Plugin)
+=============================================
+
+    1. Crear las siguientes tablas:
+
+        CREATE TABLE `mqtt_user` (
+          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+          `username` varchar(100) DEFAULT NULL,
+          `password` varchar(100) DEFAULT NULL,
+          `salt` varchar(35) DEFAULT NULL,
+          `is_superuser` tinyint(1) DEFAULT 0,
+          `created` datetime DEFAULT NULL,
+          PRIMARY KEY (`id`),
+          UNIQUE KEY `mqtt_username` (`username`)
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+        CREATE TABLE `mqtt_acl` (
+          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+          `allow` int(1) DEFAULT NULL COMMENT '0: deny, 1: allow',
+          `ipaddr` varchar(60) DEFAULT NULL COMMENT 'IpAddress',
+          `username` varchar(100) DEFAULT NULL COMMENT 'Username',
+          `clientid` varchar(100) DEFAULT NULL COMMENT 'ClientId',
+          `access` int(2) NOT NULL COMMENT '1: subscribe, 2: publish, 3: pubsub',
+          `topic` varchar(100) NOT NULL DEFAULT '' COMMENT 'Topic Filter',
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+        INSERT INTO `mqtt_acl` (`id`, `allow`, `ipaddr`, `username`, `clientid`, `access`, `topic`)
+        VALUES
+        	(1,1,NULL,'$all',NULL,2,'#'),
+        	(2,0,NULL,'$all',NULL,1,'$SYS/#'),
+        	(3,0,NULL,'$all',NULL,1,'eq #'),
+        	(5,1,'127.0.0.1',NULL,NULL,2,'$SYS/#'),
+        	(6,1,'127.0.0.1',NULL,NULL,2,'#'),
+        	(7,1,NULL,'dashboard',NULL,1,'$SYS/#');
+
+    2. Insertar un nuevo registro en la tabla mqtt_user, para ser el username de las aplicaciones web:
+        > (web_client, 121212, NULL, 0)
+
+    3. Configurar el plugin "emqx_auth_mysql":
+
+        a. Ingresar al terminal del VPS como superusuario e ir a la raiz
+            > sudo su
+            > cd
+        b. Detener la ejecucion del broker > cd emqx
+            > ./bin/emqx stop
+
+        c. Modificar el archivo de configuracion de "emqx_auth_mysql"
+            > nano etc/plugins/emqx_auth_mysql.conf
+
+        d. Ingresar credenciales de la base de datos:
+            auth.mysql.server = 127.0.0.1:3306
+            auth.mysql.username = admin_cursoiot    # Descomentar esta linea e ingresar el usuario
+            auth.mysql.password = 121212            # Descomentar esta linea e ingresar la contraseña
+            auth.mysql.database = admin_cursoiot
+            auth.mysql.password_hash = plain        # Ya que no se especifico metodo de encriptacion
+
+        e. Iniciar el broker emq, en la carpeta raiz de emqx, correr el siguiente comando:
+            > ./bin/emqx start
+
+        f. Cuando se vaya a desplegar la aplicacion a produccion, se debe deshabilitar la opcion de allow_anonymous, para evitar que si no se pasa nombre de usuario deje entrar.
+
+            Archivo emqx/etc/emqx.conf
+
+            ## Allow anonymous authentication by default if no auth plugins loaded.
+            ## Notice: Disable the option in production deployment!
+            ##
+            ## Value: true | false
+            allow_anonymous = true
+
+            ## Allow or deny if no ACL rules matched.
+            ##
+            ## Value: allow | deny
+            acl_nomatch = allow
+
+    4. Configurar tabla de ACL: Sirve para decir que tipo de usuarios pueden acceder a que tipos de topicos
+
+
+
+
+
+
+
+
+MongoDB Authentication Plugin (emqx_auth_mongo)
+===============================================
+
+
+    1. Detener EMQX
+        $ sudo /emqx/bin/emqx stop
+
+
+    2. Disable anonymous authentication
+        $ sudo nano /emqx/etc/emqx.conf
+            ## Value: true | false
+            allow_anonymous = false
+
+    
+    3. Para habilitar MongoDB authentication, se debe realizar la siguiente configuracion 
+        a. sudo nano /emqx/etc/plugins/emqx_auth_mongo.conf
+        b. Configurar el connection string al servidor
+            auth.mongo.server = mongodb+srv://readambuser:tEcn0log1@read@clusterapp.vzpzo.mongodb.net
+        c. 

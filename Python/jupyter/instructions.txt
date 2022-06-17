@@ -1,0 +1,16 @@
+pip install jupyter
+
+
+
+
+Comandos
+
+    ctrl + enter => Ejecutar lineas
+
+    alt + enter => Crear nueva linea
+
+    shift + enter => Ejecutar linea y crear nueva linea
+
+    esc => command mode
+
+    dd => Borrar linea seleccionada (Debe estar en command mode)

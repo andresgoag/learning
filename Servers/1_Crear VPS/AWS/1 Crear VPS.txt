@@ -1,0 +1,46 @@
+Creacion de VPS (Virtual Private Server) en AWS
+
+
+
+***PRIMER PASO: Lanzar Nueva Instancia en AWS
+
+1. Crear cuenta gratuita
+2. Seleccionar el data center mas cercano a donde se desplegara la aplicacion
+3. Pestana servicios -> EC2
+4. En el panel de EC2 -> Instancias en Ejecucion -> Launch Instance
+5. Escoger Sistema Operativo. (Se recomienda Ubuntu) -> Next
+6. Escoger la instancia del sistema (El computador) -> Next
+7. Opciones para configurar redes (Se recomienda default) -> Next
+8. Escoger la capacidad y tipo de disco -> Next
+9. Add Tags (Se recomienda default) -> Next
+10. Configurar el security group:
+	Create new security group -> Escribir nombre y descripcion -> anadir los siguientes puertos:
+	a. SSH / TCP / 22 / IP a la cual se le permite el ingreso (Custom 0.0.0.0/0) / descripcion (Puerto para ingresar como SSH)
+	b. Custom TCP / TCP / 8083 / Custom 0.0.0.0/0, ::/0 / VESTA #Este sirve para el panel de control de hosting.
+	c. Custom TCP / TCP / 80 / Custom 0.0.0.0/0, ::/0 / HTTP #Para entrar desde internet
+	d. Custom TCP / TCP / 443 / Anywhere / HTTPS #Es el puerto que se utiliza cuando se usa certificado SSL (HTTPS)
+	e. Custom TCP / TCP/ 21 / Anywhere / FTP # Para transferir archivos al hosting por FTP
+11. -> Review and Launch
+12. Click on Launch -> Se abrira un pop up para crear new key pair ( IMPORTANTE !!!!)
+13. Para crear una nueva llave:
+	a. Select create new key pair
+	b. Select name for the key
+	c. Download and save the downloaded file (Este archivo permite el acceso al servidor por SSH, no se puede compartir)
+	d. Click on Launch
+14. Verificar que la instancia nueva este corriendo en el dashboard
+
+
+
+
+
+
+***SEGUNDO PASO: Reservar IP fija
+
+1. En el servicio EC2, menu de la izquierda, seleccionar Elastic IPs
+2. Allocate new address
+3. Selecciona Amazon IPV4
+4. Asignar un nombre a la IP creada.
+5. Seleccionar la IP -> Accions -> Associate Address
+6. Seleccionar Instancia, y seleccionar la instancia resientemente creada para ser asociada, seleccionar la IP privada (la que aparezca)
+7. Click Associate
+8. Verificar en el dashboard que si este asociada la IP estatica a la instancia deseada

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Xbee Web App</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+
+  <h3> RED LED --> {{ledRed}} </h3>
+  <h3> RED LED CNTRL ==> <a href ="/ledRed/on" class = "button">TURN ON</a> <a href="/ledRed/off" class = "button">TURN OFF</a> </h3>
+
+
+
+
+  <h1 class="sensor1"></h1>
+  <h1 class="sensor2"></h1>
+
+  <script>
+
+    function requestData()
+    {
+      // Ajax call to get the Data from Flask python
+      var requests = $.get('/data'); //ejecutar la funcion de python asociada a la url ""/data"
+      var tm = requests.done(function (result) //metodo para esperar a que se complete el request get, result es la variable que se obtiene de python en formato json
+      {
+        $(".sensor1").text(""); //limpiar el texto que hay en el <h1 class=sensor1>
+        $(".sensor1").text("Lectura Analoga : " +  result.analogread); //actualizar el texto que hay en el <h1 class=sensor1>, con el "value" asociado al "key" temperatura
+        $(".sensor2").text(""); //limpiar el texto que hay en el <h1 class=sensor1>
+        $(".sensor2").text("Sensor Puerta : " +  result.digitalread); //actualizar el texto que hay en el <h1 class=sensor1>, con el "value" asociado al "key" temperatura
+
+        setTimeout(requestData, 1000); // call it again after one second
+      });
+    }
+
+    requestData() // Ajax call to get the Data from Flask
+
+  </script>
+
+</body>
+</html>

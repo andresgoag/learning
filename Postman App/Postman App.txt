@@ -1,0 +1,21 @@
+Es una aplicacion para pobrar REST API
+
+Instalacion:
+1. Descargar de: getpostman.com/apps
+2. Crear una cuenta
+3. En el dashboard crear carpetas para mantenerse ordenado
+
+
+Enviar Request:
+
+GET:
+
+POST:
+Para enviar un POST request al servidor, se debe incluir
+
+		En header: (Key:Value)
+		Content-Type:application/json 		# para indicarle al servidor que se enviara json data.
+
+		En Body: (raw)
+		{"name": "Another Store"}		# Incluir el dato a enviar
+		

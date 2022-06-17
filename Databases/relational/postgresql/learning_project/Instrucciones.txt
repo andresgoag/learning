@@ -1,0 +1,27 @@
+1. Crear la base de datos
+    CREATE DATABASE transporte
+        WITH 
+        OWNER = postgres
+        ENCODING = 'UTF8'
+        CONNECTION LIMIT = -1;
+
+
+2. Crear tablas
+    a. Pasajero
+        CREATE TABLE public.pasajero
+        (
+            id serial,
+            nombre character varying(100),
+            direccion_residencia character varying,
+            fecha_nacimiento date,
+            CONSTRAINT pasajero_pkey PRIMARY KEY (id)
+        );
+
+        ALTER TABLE IF EXISTS public.pasajero
+            OWNER to postgres;
+
+
+        Nota: En pgadmin se puede crear el script de insert con click derecho
+            INSERT INTO public.pasajero(
+                nombre, direccion_residencia, fecha_nacimiento)
+                VALUES (?, ?, ?, ?);

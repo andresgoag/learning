@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: darkcyan;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header ul {
+    list-style: none;
+    display: flex;
+}
+
+header li a {
+    text-decoration: none;
+    padding: 10px 30px;
+}
+
+header li a:hover {
+    background-color: #ffffff10;
+}
+
+
+main {
+    height: 80vh;
+    display: flex;
+}
+
+main aside {
+    padding: 10px;
+    height: 100%;
+    width: 30vw;
+    background-color: springgreen;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+main aside .noticia {
+    height: 17vh;
+    background-color: saddlebrown;
+    border-radius: 10px;
+}
+
+main article {
+    background-color: #9c0b0bdc;
+}

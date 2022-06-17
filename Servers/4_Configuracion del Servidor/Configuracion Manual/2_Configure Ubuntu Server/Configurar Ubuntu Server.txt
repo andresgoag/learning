@@ -1,0 +1,141 @@
+####################################################################
+#######            Configurar Ubuntu Web Server              #######
+####################################################################
+
+
+
+1. Crear Usuario (Se debe estar loggeado como usuario root)																				# Para no loggearse como usuario root, Este proceso no aplica a AWS, ahi ya esxite el usuario ubuntu diferente al root
+
+								a) adduser andres                                               										# Crear nuevo usuario con nombre andres, Introducir constrasena y datos personales (opcionales)
+								echo $PATH: muestra las carpetas en la que se buscara los programas
+                                visudo opens up a file that contains the configuration of administrator users in the server
+                                b) visudo                                                       										# Dar permisos al usuario
+											Encontrar la linea "# User privilege specification" y agregar:
+
+													andres	ALL=(ALL:ALL) ALL                             								# <nombre de usuario>
+
+								c) Si se accede al servidor con llave SSH publica del computador personal,
+								   se debe copiar la clave publica en el directorio correspondiente
+								   copiar en el archivo authorized keys en la carpeta .ssh del nuevo usuario
+
+									 c1) cat ~/.ssh/id_rsa.pub                                                                          # Reemplazar ~ con la ubicacion de la carpeta .ssh y copiar la cadena de texto que se muestre
+									 c2) Acceder al host remoto y loggearse como el nuevo usuario (andres)
+									 c3) mkdir -p home/andres/.ssh                                                                      # Crear la carpeta .ssh
+									 c4) echo public_key_string >> ~/.ssh/authorized_keys                                               # Reemplazar "public_key_string" por el texto copiado en el paso c1)
+									 c5) chmod -R go= ~/.ssh                                                                            # Darle los permisos requeridos a la carpeta
+
+
+								c) nano /etc/ssh/sshd_config                                                                          	# Prohibir el acceso como usuario root
+											Encontrar la linea "PermitRootLogin" y cambiar "yes" a "no"
+                                            PasswordAuthentication yes # esta linea sirve para habilitar el ingreso a ssh con contraseña
+
+
+								d) nano /etc/ssh/sshd_config                                                                          	# Permitir el acceso a el nuevo usuario
+											Ir hasta el final del archivo y agregar la linea:
+
+													AllowUsers andres 																	# <nombre de usuario>
+
+								e) sudo systemctl restart ssh 																			# Reiniciar servicio SSH
+
+
+
+
+
+
+2. Instalar PostgreSQL
+
+								a) sudo apt update                                                                                     	# Actualizar el sistema
+								b) sudo apt install postgresql postgresql-contrib                                                      	# Instalacion del servidor de postgreSQL en el puerto default 5432
+								c) sudo -i -u postgres                                                                                	# Cambiar al usuario postgres. al intalar postgreSQL, crea un usuario dueno de postgreSQL
+								d) psql																									# Conectar al postgresql, cuando un usuario se conecta a postgresql, automaticamente se conecta a una base de datos con su mismo nombre (ej: postgres)
+								e) \q                                                                                                 	# Salir de psql
+								f) exit                                                                                               	# Salir del usuario postgres (Ubuntu)
+
+
+
+
+
+
+3. Dar permisos al nuevo usuario para postgrSQL.
+
+								a) Entrar al servidor como el usuario al que se le van a otorgar los permisos (andres para el ejemplo)
+								b) sudo su																								# loggearse como usuario root
+								c) sudo -i -u postgres																					# Cambiar al usuario postgres
+								d) createuser andres -P 																				# Crear nuevo usuario <nombre de usuario> de postgresql, El nombre debe coincidir con el usuario de Ubuntu y crear contrasena
+								e) createdb andres   																					# Crear DataBase llamada <nombre de usuario>, esta sera la base de datos a la que automaticamente se conecte el usuario <nombre de usuario>
+								f) exit                 																				# Salir de usuario postgres
+ 								g) exit                 																				# Salir de usuario root
+								h) psql                 																				# Conectarse a psql como andres
+								i) \conninfo            																				# Para verificar conexion
+								j) \q                   																				# Salir de postgres
+								k) sudo nano /etc/postgresql/10/main/pg_hba.conf 														# Ir al archivo de configuracion de postgreSQL para configurar que siempre pida contrasena, Verificar version de PostgreSQL
+											Ir hasta el final del archivo, buscar la linea "local" y cambiar:
+
+													"peer" por "md5"
+
+
+
+
+
+
+4. Habilitar PostgreSQL para permitir conexion desde otras IP remotas (No se recomienda por motivos de seguridad)
+
+								a) sudo nano /etc/postgresql/10/main/postgresql.conf 													# Permitir TCP/IP socket, NOTA: cambiar en la ruta la version de postgres
+											Cambiar la linea: #listen_addresses='localhost' por:
+
+													listen_addresses='*'																# '*': Escuchar todas las IP, tambien se puede especificar la lista de IPs permitidas
+
+
+								b) sudo nano /etc/postgresql/10/main/pg_hba.conf 														# Confiar en una direccion IP
+											Agregar al final del archivo:
+
+													host    all     all     181.56.117.74/32 trust 										# Confiar en esa direccion IP, todas las bases de datos, todos los usuarios
+
+																				otra opcion:
+
+													host    all     all     0.0.0.0/0  trust  											# Confiar en todas las direcciones IP
+
+
+								c) systemctl restart postgresql  																		# Reiniciar el servicio de postgres
+
+
+
+
+
+
+5. Instalar mongoDB
+
+    1. sudo apt install mongodb
+    2. sudo systemctl status mongodb
+	3. sudo nano /etc/mongodb.conf
+		bind_ip=0.0.0.0
+	4. sudo ufw allow 27017
+
+	mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]
+	mongodb://mongodb0.example.com:27017
+
+
+
+5. Instalar nginx
+		nginx es un "Reverse Proxy" actua como un gateway entre nuestra aplicacion y usuarios externos, acepta
+		request y decide que hacer con esos request. Nginx se comunicara con uWSGI para habilitar multi-threads
+		y permite correr varias aplicaciones de flask simultaneamente en el servidor ya que redirecciona los
+		incoming request a las aplicaciones dependiendo de unos parametros.
+
+								a) sudo apt-get update          																		# Actualizar el sistema
+								b) sudo apt-get install nginx   																		# Instalar Nginx
+								c) Configurar firewall para permitir nginx
+
+										c1) sudo ufw status         																	# Para verificar el estado
+										c3) sudo ufw allow ssh      																	# Para permitir el acceso al ssh
+										c3) sudo ufw allow 'Nginx HTTP'
+										c4) sudo ufw allow 5000     																	# Para probar aplicaciones en el servidor de desarrollo de flask
+										c5) sudo ufw allow https
+                                        c2) sudo ufw enable
+										c6) sudo ufw status
+
+								d) systemctl status nginx       																		# Verificar que nginx esta corriendo
+								e) Otros comandos de systemctl:
+										e1) systemctl stop nginx    																	# Detener el servicio de nginx
+										e2) systemctl start nginx   																	# Iniciar el servicio de nginx
+										e3) systemctl restart nginx 																	# Reiniciar el servicio de nginx

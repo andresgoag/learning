@@ -1,0 +1,75 @@
+CORS Policy:
+El navegador permite hacer request del same origin, es decir en el mismo dominio en el que se encuentra la pagina web,
+cuando los dominios son diferentes (cross-domain request) el navegador los bloquea, ver el tutorial en la siguiente pagina web para aprender a hacer los cross-domain request.
+https://web.dev/cross-origin-resource-sharing/
+
+
+
+Agregar header de Access-Control-Allow-Origin para permitir hacer cross requests:
+
+--En PHP
+<?php header('Access-Control-Allow-Origin: *'); ?>
+______________________________________________________________________________________________________________________
+
+--En python (Flask) https://flask-cors.readthedocs.io/en/latest/
+
+>>>$ pip install -U flask-cors
+
+
+app.py:
+
+from flask import Flask
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route("/")
+def helloWorld():
+  return "Hello, cross-origin-world!"
+
+
+______________________________________________________________________________________________________________________
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+cors = CORS(app, resources={r"/foo": {"origins": "http://localhost:port"}})
+
+@app.route('/foo', methods=['POST'])
+@cross_origin(origin='localhost',headers=['Content- Type','Authorization'])
+def foo():
+    return request.json['inputVar']
+
+if __name__ == '__main__':
+   app.run()
+
+
+
+
+______________________________________________________________________________________________________________________
+
+
+
+--En python pendiente Django(https://pypi.org/project/django-cors-headers/)
+
+
+
+
+
+
+Fuente de esta informacion:
+
+
+https://stackoverflow.com/questions/20035101/why-does-my-javascript-code-receive-a-no-access-control-allow-origin-header-i
+
+If I understood it right you are doing an XMLHttpRequest to a different domain than your page is on. So the browser is blocking it as it usually allows a request in the same origin for security reasons.
+You need to do something different when you want to do a cross-domain request. A tutorial about how to achieve that is Using CORS.
+
+When you are using postman they are not restricted by this policy.
+
+Quoted from Cross-Origin XMLHttpRequest:
+
+Regular web pages can use the XMLHttpRequest object to send and receive data from remote servers, but they're limited by the same origin policy. Extensions aren't so limited. An extension can talk to
+remote servers outside of its origin, as long as it first requests cross-origin permissions.

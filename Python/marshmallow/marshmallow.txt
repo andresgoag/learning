@@ -1,0 +1,4 @@
+libreria para serializar y de serializar. Convierte una clase en un diccionario
+(aplicando transformaciones si es necesario) y viceversa
+
+pip install marshmallow

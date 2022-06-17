@@ -1,0 +1,115 @@
+Windows subsystem for linux
+===========================
+
+Guia de microsoft: 
+https://docs.microsoft.com/en-us/windows/wsl/install-win10
+
+Pasos:
+1. abrir powershell como administrador
+2. Enable the Windows Subsystem for Linux
+    dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+3. Enable Virtual Machine feature
+    dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+4. Activar VirtualMachinePlatform
+    a. Control Panel => Programs => Turn windows features on or off
+    b. check Virtual Machine Platform
+    c. check Windows subsystem for linux
+    d. restart pc
+5. Download the Linux kernel update package
+6. Set WSL 2 as your default version
+    wsl --set-default-version 2
+7. Install ubuntu LTS from microsoft store
+8. Abrir ubuntu 20 y configurar nombre de usuario y contraseña
+9. Para acceder a archivos de windows:
+    a. ir a root: cd /
+    b. cd mnt
+    c. aqui aparecera el disco C de windows
+10. sudo apt-get update
+11. sudo apt-get upgrade
+12. sudo apt install nodejs
+13. sudo apt install npm
+    update node:
+    =========== 
+    sudo npm cache clean -f
+    sudo npm install -g n
+    sudo n stable    \\\\   sudo n latest
+14. sudo apt install git
+15. git --version
+    git config --global init.defaultBranch main
+16. git config --global user.email "andresgomezagudelo@hotmail.com"
+17. git config --global user.name "Andres Gomez"
+18. SSH:
+    a. ssh-keygen -t rsa -b 4096 -C andresgomezagudelo@hotmail.com
+    b. cambiar los permisos a la llave para poder acceder a una instancia remota: chmod 600 appcrisa.pem
+    
+19. keep alive ssh:
+    a. sudo nano .ssh/config
+
+    Host *
+        ServerAliveInterval 180
+        ServerAliveCountMax 2
+
+20. Quitar sonidos de la terminal:
+    a. sudo nano /etc/inputrc 
+        set bell-style none
+
+
+
+21. Allow remote connection to WSL
+
+NOTA: convencion para definir comandos en la terminal:
+    $ : linux
+    > : power shell
+
+
+    a. Ver la ip actual del ethernet virtual de wsl
+        $ ip addr
+
+    b. Ver la ip actual del windows y del wsl
+        > ipconfig
+
+    c. Crear regla en el firewall que permita la conexion externa:
+        Windows defender firewall > advanced settings > inbound rules > new rule > port > TCP and specific port (ej: 5000) > allow connection > security rules > name > finish
+
+    d. Crear regla para redirigir el trafico entrante por un puerto a WSL:
+        > netsh interface portproxy add v4tov4 listenport=5000 listenaddress=0.0.0.0 connectport=5000 connectaddress=0.0.0.0
+        NOTA: reemplazar connectaddress con la ip del wsl2
+
+    e. Verificar que la regla fue creada
+        > netsh interface portproxy show v4tov4
+
+    f. Si se requiere borrar la regla:
+        > netsh interface portproxy delete v4tov4 listenport=5000 listenaddress=0.0.0.0
+
+
+
+22. Uninstall
+
+    folder location:
+    C:\Users\andre\AppData\Local\Packages\CanonicalGroup....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Accessing postgres WSL from windows pgadmin
+
+sudo service postgresql status for checking the status of your database.
+sudo service postgresql start to start running your database.
+sudo service postgresql stop to stop running your database
+
+
+
+

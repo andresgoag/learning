@@ -1,0 +1,20 @@
+entrar a la pagina de cerbot
+Especificar el servidor y el sistema operativo en que esta corriendo
+y correr las instrucciones
+
+Para ubuntu 20.04:
+
+
+sudo snap install core; sudo snap refresh core # Verificar que snap este en la ultima version
+sudo apt-get remove certbot # Remover cualquier version existente de cerbot
+sudo snap install --classic certbot # Instalar cerbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot # preparar el comando cerbot para ser usado
+
+
+
+sudo certbot --nginx # Correr este para emitir certificado y actualizar la configuracion de nginx
+sudo certbot certonly --nginx # Correr este para solo emitir el certificado, debe ser instalado manualmente
+
+
+
+Los certificados generados quedaran en la carpeta: /etc/letsencrypt/live/$domain, donde $domain corresponde al nombre del dominio al cual se le generaron.

@@ -1,0 +1,24 @@
+General:
+Standard Python Libraries: https://docs.python.org/3/library/index.html?utm_content=educational&utm_campaign=2018-05-10&utm_source=email-sendgrid&utm_term=717783&utm_medium=692188
+Think like a Computer Scientist: http://greenteapress.com/thinkpython/html/index.html?utm_content=educational&utm_campaign=2018-05-10&utm_source=email-sendgrid&utm_term=717783&utm_medium=692188
+
+
+Python Conferences: 
+- Listado de Conferencias: https://wiki.python.org/moin/PythonConferences?utm_content=educational&utm_campaign=2018-05-10&utm_source=email-sendgrid&utm_term=717783&utm_medium=692188
+
+
+Comunidades de Python:
+- https://www.reddit.com/r/Python/?utm_content=educational&utm_campaign=2018-05-10&utm_source=email-sendgrid&utm_term=717783&utm_medium=692188
+- https://www.reddit.com/r/learnpython/?utm_content=educational&utm_campaign=2018-05-10&utm_source=email-sendgrid&utm_term=717783&utm_medium=692188
+- https://stackoverflow.com/?utm_content=educational&utm_campaign=2018-05-10&utm_source=email-sendgrid&utm_term=717783&utm_medium=692188
+
+
+Python Projects Examples:
+- https://github.com/tuvtran/project-based-learning/blob/master/README.md?utm_content=educational&utm_campaign=2018-05-10&utm_source=email-sendgrid&utm_term=717783&utm_medium=692188#python
+
+
+Mapas:
+- https://www.kaggle.com/daveianhickey/how-to-folium-for-maps-heatmaps-time-data
+- http://python-visualization.github.io/folium/docs-v0.5.0/index.html
+- http://blog.davidelner.com/create-map-with-tilemill-and-leaflet/
+- https://tilemill-project.github.io/tilemill/

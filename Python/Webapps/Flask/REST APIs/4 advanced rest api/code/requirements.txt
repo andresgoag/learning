@@ -1,0 +1,9 @@
+Flask
+Flask-JWT-Extended
+Flask-RESTful
+Flask-SQLAlchemy
+marshmallow
+flask-marshmallow
+marshmallow-sqlalchemy
+requests
+python-dotenv

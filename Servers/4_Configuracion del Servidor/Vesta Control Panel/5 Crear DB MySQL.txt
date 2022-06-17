@@ -1,0 +1,31 @@
+Crear base de datos MySQL
+
+
+1. Ir a Vesta Control Panel
+2. DB
+3. click en anadir base de datos
+4. llenar los datos solicitados por VESTA
+5. Para gestionar la base de datos, ir al host/phpmyadmin ej: pythonweb.tk/phpmyadmin
+6. Ingresar con el usuario y contrasena de la base de datos
+7. Para crear tabla, darle click a la base de datos donde se creara la tabla
+8. Dar nombre a la tabla nueva y el numero de columnas, click en continuar
+9. Se recomienda que al nombre de las columnas se le ponga como prefijo el nombre de la tabla, para evitar desorden en el futuro
+10. Para las columnas de ID se recomienda activar el "AI" auto incremental para que aumente cada que se genera una nueva fila
+11. Para la columna de fecha, se puede activar en predeterminado que tenga el current time stamp
+12. Cuando se tengan todas las columnas requeridas definidas, dar click en guardar
+
+
+
+
+
+
+Herramientas para gestionar Bases de Datos
+1. HeidiSQL -> Este es un gestor de base de datos.
+	a. Crear conexion a nuestro servidor
+	b. new -> llenar el hostname/IP -> Credenciales user y password, las creadas al momento de crear la base de datos.
+	c. MySQL trabaja en el puerto 3306, se debe ir a AWS y agregar este puerto en los security groups. Hay una opcion de MySQL/Aurora en AWS
+
+2. mysql builder https://www.devart.com/Mybuilder/ -> Sirve para relacionar las tablas de las bases de datos
+	a. Iniciar con credenciales de la base de datos
+	b. para relacionar bases de datos, se arrastran a la interfaz ambas tablas y se arrastra el campo de interes desde una tabla hasta la otra.
+	c. En la pestana SQL, se crea el codigo requerido para realizar la consulta SQL para generar lo disenado en el paso b

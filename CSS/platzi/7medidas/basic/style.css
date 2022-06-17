@@ -1,0 +1,21 @@
+/* Medidas
+
+Relativas: Cambian de acuerdo a algun elemento, por ejemplo: %, em (elemento), rem (Root elemento)
+
+Absolutas: por ejemplo pixeles
+
+*/
+
+main {
+    background-color: red;
+    width: 100%; /* Relativa */
+    height: 500px; /* absoluta */
+}
+
+p.absoluta {
+    font-size: 18px;
+}
+
+p.relativo {
+    font-size: 75%; /* 50% de la medida heredada para la fuente*/
+}

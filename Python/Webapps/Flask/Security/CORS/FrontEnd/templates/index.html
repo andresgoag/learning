@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Prueba de CORS</title>
+    </head>
+    <body>
+        <h1>Prueba CORS</h1>
+        <p>Esto es una prueba para habilitar CORS solo al localhost:5000 y solo a un end point</p>
+        <p>Esta prueba se hace en conjunto con "simple_api" y puede ser encontrada en la carpeta de esta seccion</p>
+
+        <button type="button" id="boton_usuarios">Pedir datos de Usuarios</button>
+        <div class="container" style="border: 2px solid black;">
+            <p id="texto_usuarios">Esto sera reemplazado por los usuarios que devuelva la api al oprimir el boton</p>
+            <p>Este boton si funciona porque la rest api tiene permitido que el localhost acceda al endpoint de usuarios, <a href="http://localhost:4999/usuarios">/usuarios</a></p>
+        </div>
+
+        <button type="button" id="boton_casas">Pedir datos de Casas</button>
+        <div class="container" style="border: 2px solid black;">
+            <p id="texto_casas">Esto sera reemplazado por las casas que devuelva la api al oprimir el boton</p>
+            <p>Esta accion no funcionara porque la api no permite al localhost ingresar al endpoint de casas, <a href="http://localhost:4999/casas">/casas</a></p>
+        </div>
+
+        <script type="text/javascript">
+
+            var boton_usuarios = document.getElementById("boton_usuarios");
+            var texto_usuarios = document.getElementById("texto_usuarios");
+
+            boton_usuarios.addEventListener("click", function(){
+
+                var request = new XMLHttpRequest();
+
+                request.open('GET', 'http://localhost:4999/usuarios');
+
+                request.onload = function(){
+                    var datos = JSON.parse(request.responseText);
+                    texto_usuarios.textContent = datos["usuarios"]
+                }
+
+                request.send();
+            });
+
+
+
+            var boton_casas = document.getElementById("boton_casas");
+            var texto_casas = document.getElementById("texto_casas");
+
+            boton_casas.addEventListener("click", function(){
+
+                var request = new XMLHttpRequest();
+
+                request.open('GET', 'http://localhost:4999/casas');
+
+                request.onload = function(){
+                    var datos = JSON.parse(request.responseText);
+                    texto_casas.textContent = datos["barrios"]
+                }
+
+                request.send();
+            });
+
+        </script>
+
+    </body>
+</html>

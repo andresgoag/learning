@@ -1,0 +1,20 @@
+1. Ingresar a https://vestacp.com/install/
+2. Llenar los advance Install Settings
+	Recomendados:
+	a. WEB: nginx + apache
+	b. FTP: csftpd
+	c. Mail: no
+	d. DNS: named
+	e. Firewall: iptables + fail2ban
+	f. SOFTACULOUS: no
+	g. Additional Repository: remi
+	h. File System Quota: no
+	i. DB: MYSQL o PostgreSQL
+	j. Hostname: Dominio que se le va a asignar
+	k. Email: cualquiera
+	l. Password
+
+3. Generate Install Commands.
+4. Ejecutar los comandos como root en la terminal del servidor
+NOTA: para ser super usuario: >>sudo su    ////    al ultimo comando agregar -f para forzar y evitar advertencias
+5. Ir a la direccion IP de la instalcion de AWS, agregando el puerto :8083 para ejecutar VESTA

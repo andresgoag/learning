@@ -1,0 +1,67 @@
+.main-nav {
+    margin-top: 10px;
+    list-style: none;
+    padding: 0;
+    background-color: #13a4a4;
+}
+
+.main-nav__item {
+    display: inline-block;
+
+}
+
+.main-nav__item a {
+    color: white;
+    padding: 5px;
+    border-radius: 2px;
+    text-decoration: none;
+}
+
+
+/* Pseudo Clases */
+/* https://developer.mozilla.org/es/docs/Web/CSS/Pseudo-classes */
+/* etiquetas despues de :  */
+/* define el estilo de un estado especial de un elemento */
+
+.main-nav__item a:hover {
+    color: blue;
+}
+
+.main-nav__item a:active {
+    color: red;
+}
+
+/* Se activa si algun elemento que contiene esta en focus */
+.div:focus-within{
+    border: 1px solid var(--primary-color);
+    transform: scale(1.05);
+} 
+
+section p:first-child {
+    color: red;
+}
+
+section p:last-child {
+    color: brown;
+}
+
+section p:nth-child(2n) {  /* n son todos los numeros desde el 0, entre parentesis la expresion matematica*/
+    color: pink;
+}
+
+
+
+
+/* Pseudo Elementos */
+/* https://developer.mozilla.org/es/docs/Web/CSS/Pseudoelementos */
+/* etiquetas despues de :: */
+/* Define el estilo de una parte especifica de un elemento */
+
+.main-nav__item a::after {
+    content: " | ";
+}
+
+section p::first-letter {
+    color:aqua;
+    font-size: 2rem;
+}

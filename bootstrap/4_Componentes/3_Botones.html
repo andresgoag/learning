@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- Esta linea simpre debe de ir, es para el correcto comportamiento de responsive -->
+        <link rel="stylesheet" href="../css/bootstrap.min.css"> <!-- Archivo css de bootstrap -->
+        <title>Botones</title>
+    </head>
+    <body>
+
+        <div class="container">
+
+
+            <div class="row pt-3">
+                <div class="col-6">
+                    <h2>Botones</h2>
+                    <hr>
+                    <!-- class="btn btn-bootstrapcolor" -->
+                    <button type="button" class="btn btn-primary">Primario</button>
+                    <button type="button" class="btn btn-secondary">Secondary</button>
+                    <button type="button" class="btn btn-success">Success</button>
+                    <button type="button" class="btn btn-info">Info</button>
+                    <button type="button" class="btn btn-warning">Warning</button>
+                    <button type="button" class="btn btn-danger">Danger</button>
+                    <button type="button" class="btn btn-dark">Dark</button>
+                    <button type="button" class="btn btn-light">Light</button>
+                    <button type="button" class="btn btn-link">Link</button>
+
+                </div>
+            </div>
+
+
+            <div class="row pt-3">
+                <div class="col-6">
+                    <hr>
+                    <!-- Las clases de boton tambien aplican para las siguientes etiquetas: -->
+                    <a href="#" class="btn btn-primary">Enlaces</a>
+                    <button class="btn btn-primary">Boton</button>
+                    <input type="button" value="Boton" class="btn btn-primary">
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </div>
+            </div>
+
+
+            <div class="row pt-3">
+                <div class="col-6">
+                    <h2>Outline Buttons</h2>
+                    <hr>
+                    <!-- Agregar -outline- antes del color de bootstrap -->
+                    <button type="button" class="btn btn-outline-primary">Primario</button>
+                    <button type="button" class="btn btn-outline-secondary">Secondary</button>
+                    <button type="button" class="btn btn-outline-success">Success</button>
+                    <button type="button" class="btn btn-outline-info">Info</button>
+                    <button type="button" class="btn btn-outline-warning">Warning</button>
+                    <button type="button" class="btn btn-outline-danger">Danger</button>
+                    <button type="button" class="btn btn-outline-dark">Dark</button>
+                    <button type="button" class="btn btn-outline-light">Light</button>
+                    <button type="button" class="btn btn-outline-link">Link</button>
+                </div>
+            </div>
+
+
+            <div class="row pt-5">
+                <div class="col-6">
+                    <h2>Tamaños</h2>
+                    <hr>
+                    <!-- Para cambiar el tamano del boton se agrega la class="btn-tamano" lg o sm -->
+                    <button type="button" class="btn btn-primary btn-lg">Boton Grande</button>
+                    <button type="button" class="btn btn-secondary btn-sm">Boton Pequeño</button>
+                    <!-- Boton de bloque, abarca el 100% del elemento padre -->
+                    <button type="button" class="btn btn-outline-success btn-lg btn-block">Boton Bloque</button>
+                </div>
+            </div>
+
+
+            <div class="row pt-3">
+                <div class="col-6">
+                    <h2>Botones Desabled</h2>
+                    <hr>
+                    <!-- class="btn btn-bootstrapcolor" -->
+                    <button type="button" class="btn btn-primary disabled">Primario</button>
+                    <button type="button" class="btn btn-secondary disabled">Secondary</button>
+                    <button type="button" class="btn btn-success disabled">Success</button>
+                    <button type="button" class="btn btn-info disabled">Info</button>
+                    <button type="button" class="btn btn-warning disabled">Warning</button>
+                    <button type="button" class="btn btn-danger disabled">Danger</button>
+                    <button type="button" class="btn btn-link disabled">Link</button>
+                </div>
+            </div>
+
+
+            <div class="row pt-5">
+                <div class="col-6">
+                    <h2>CheckBox</h2>
+                    <hr>
+
+                    <!-- Contenedor para varios botones, hara que salgan pegados -->
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <!-- La clase active sirve para que por defecto este seleccionado -->
+                        <label class="btn btn-primary active">
+                            <input type="checkbox" name="" value="" autocomplete="off">Checkbox 1
+                        </label>
+
+                        <label class="btn btn-primary">
+                            <input type="checkbox" name="" value="" autocomplete="off">Checkbox 2
+                        </label>
+
+                        <label class="btn btn-primary">
+                            <input type="checkbox" name="" value="" autocomplete="off">Checkbox 3
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row pt-5">
+                <div class="col-6">
+                    <h2>Radio Buttons</h2>
+                    <hr>
+
+                    <!-- Contenedor para varios botones, hara que salgan pegados -->
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <!-- En los radio button, el name debe ser el mismo en cada uno para que esten ligados y solo se pueda seleccionar uno -->
+                        <label class="btn btn-primary">
+                            <input type="Radio" name="sexo" value="hombre" autocomplete="off">Hombre
+                        </label>
+
+                        <label class="btn btn-primary">
+                            <input type="Radio" name="sexo" value="mujer" autocomplete="off">Mujer
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row pt-5">
+                <div class="col-6">
+                    <h2>Grupos de Botones</h2>
+                    <hr>
+                    <!-- Agregar los botones dentro de un contenedor div con class="btn-group" -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary">1</button>
+                        <button type="button" class="btn btn-primary">2</button>
+                        <button type="button" class="btn btn-primary">3</button>
+                        <button type="button" class="btn btn-primary">4</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row pt-5 mb-5">
+                <div class="col-6">
+
+                    <!-- Se puede crear un toolbar, es decir varios grupos de botones, para esto se encierra los grupos de botones en un contenedor con class="btn-toolbar" -->
+                    <div class="btn-toolbar" role="toolbar">
+
+                        <div class="btn-group mr-4">
+                            <button type="button" class="btn btn-primary">1</button>
+                            <button type="button" class="btn btn-primary">2</button>
+                            <button type="button" class="btn btn-primary">3</button>
+                            <button type="button" class="btn btn-primary">4</button>
+                        </div>
+
+                        <div class="btn-group mr-4">
+                            <button type="button" class="btn btn-primary">1</button>
+                            <button type="button" class="btn btn-primary">2</button>
+                            <button type="button" class="btn btn-primary">3</button>
+                            <button type="button" class="btn btn-primary">4</button>
+                        </div>
+
+                        <div class="btn-group mr-4">
+                            <button type="button" class="btn btn-primary">1</button>
+                            <button type="button" class="btn btn-primary">2</button>
+                            <button type="button" class="btn btn-primary">3</button>
+                            <button type="button" class="btn btn-primary">4</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row pt-5">
+                <div class="col-6">
+                    <h2>Tamaño de los Botones en un Grupo</h2>
+                    <hr>
+                    <!-- Agregar al div del grupo class="btn-group-lg" -->
+                    <div class="btn-group btn-group-lg">
+                        <button type="button" class="btn btn-primary">1</button>
+                        <button type="button" class="btn btn-primary">2</button>
+                        <button type="button" class="btn btn-primary">3</button>
+                        <button type="button" class="btn btn-primary">4</button>
+                    </div>
+                    <br><br>
+                    <div class="btn-group btn-group-sm">
+                        <button type="button" class="btn btn-primary">1</button>
+                        <button type="button" class="btn btn-primary">2</button>
+                        <button type="button" class="btn btn-primary">3</button>
+                        <button type="button" class="btn btn-primary">4</button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row pt-5">
+                <div class="col-6">
+                    <h2>Poner de forma vertical el button group</h2>
+                    <hr>
+                    <!-- div class="btn-group-vertical" -->
+                    <div class="btn-group-vertical">
+                        <button type="button" class="btn btn-primary">1</button>
+                        <button type="button" class="btn btn-primary">2</button>
+                        <button type="button" class="btn btn-primary">3</button>
+                        <button type="button" class="btn btn-primary">4</button>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+
+        <script src="../js/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="../js/bootstrap.min.js"></script>
+
+    </body>
+</html>

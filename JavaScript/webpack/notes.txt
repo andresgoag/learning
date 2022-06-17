@@ -1,0 +1,199 @@
+$ git init
+$ npm init -y
+$ code .
+
+- Crear carpeta src
+- Crear el punto de entrada src/index.js
+
+# Webpack optimiza el codigo por ejemplo:
+    const hello = "Hello";
+    console.log(hello);
+
+    se convierte en:
+    console.log("Hello");
+
+$ npm install webpack webpack-cli -D
+
+preparar proyecto con webpack
+$ npx webpack
+
+ejecutar webpack en modo desarrollo
+$ npx webpack --mode development
+    El archivo de dist contiene instrucciones
+
+$ npx webpack --mode production
+    El archivo de dist es minificado
+
+
+Crear archivo de configuracion de webpack
+    1. En la raiz del proyecto crear el archivo webpack.config.js
+    2. Compilar el proyecto utilizando el archivo de configuracion
+        $ npx webpack --mode production --config webpack.config.js
+        NOTA: no es necesario especificar el archivo config si se llama de esta manera,
+        Este es el nombre que identifica por defecto.
+    3. Para ahorrar especificar todo este comando se puede crear un script en package.json
+        "build": "webpack --mode production",
+        "dev": "webpack --mode development"
+
+
+Instalar babel para que el codigo javascript sea entendido por todos los navegadores. Es una dependencia de desarrollo
+    $ npm install babel-loader @babel/core @babel/preset-env @babel/plugin-transform-runtime -D
+
+    Crear el archivo de configuracion de babel. Es un archivo oculto: .babelrc
+    Anadir babel loader en configuracion de webpack.config.js
+
+
+
+HTML en webpack
+Instalar plugin
+    $ npm install html-webpack-plugin -D
+Anadirlo en webpack.config.js
+no es necesario que el template.html tenga el link al script ya que webpack lo inserta al compilar
+
+
+
+CSS y preprocesadores en webpack
+instalar dependencias
+    $ npm install mini-css-extract-plugin css-loader -D
+
+    Tambien se debe eliminar el link de css del template. igual que el script
+
+    anadir configuracion a webpack.config.js
+
+
+    usar stylus preprocessor
+    $ npm install stylus stylus-loader -D
+    anadir configuracion webpack.config.js
+
+
+    Para sass
+    npm install node-sass sass-loader -D
+    {
+        test: /\.s?css$/,
+        use: [
+            MiniCssExtractPlugin.loader,
+            "css-loader",
+            "sass-loader"
+        ]
+    },
+
+
+
+
+Mover recursos de src a dist
+    $ npm install copy-webpack-plugin -D
+    al momento de este curso la version 10 tiene un error
+    usar: "copy-webpack-plugin": "^9.1.0",
+
+
+
+
+Anadir las imagenes como variables:
+    anadir en webpack.config.js la configuracion en rules de assets loader
+
+    luego en javascript se puede importar una imagen:
+        import github from "../assets/images/github.png"
+
+        y se puede usar como variable github.
+
+
+
+Anadir fonts como woff
+    1. Importar en main.css
+        @font-face {
+            font-family: "Ubuntu";
+            src: url("../assets/fonts/ubuntu-regular.woff2") format("woff2"),
+                url("../assets/fonts/ubuntu-regular.woff") format("woff");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+    2. webpack.config.js
+        anadir en rules configurar fonts
+
+
+
+
+minimizar css y javascript
+
+    $ npm install css-minimizer-webpack-plugin terser-webpack-plugin -D
+
+    anadir en webpack config js la parte de optimization
+
+
+
+Crear alias para rutas largas
+    en la configuracion de resolve, se crea un apartado alias.
+
+
+
+Variables de entorno
+    $ npm install dotenv-webpack -D
+
+    crear el archivo .env y .env-example en la raiz. recordar el gitignore
+
+    anadir en webpack.config.js configuracion dotenv
+
+
+
+Crear webpack config para desarrollo
+    crear un nuevo archivo llamado webpack.config.dev.js
+    poner en el las configuraciones necesarias solo para desarrollo. por ejemplo
+    quitar el minificado.
+
+    anadir un apartado en el objeto general:
+        mode: "development",
+
+    modificar el script en package.json para usar el archivo de configuracion nuevo
+        "dev": "webpack --config webpack.config.dev.js"
+
+
+
+Configurar el modo de produccion
+    Limpiar el proyecto para que se limpien los archivos y solo quede lo necesario.
+    instalar
+        $ npm install clean-webpack-plugin -D
+
+    anadir en el webpack.config.js configuracion clean-webpack plugin
+
+    modificar el script en package.json para garantizar el archivo config produccion
+        "build": "webpack --mode production --config webpack.config.js",
+
+
+
+Activar modo watch
+    En configuracion desarrollo agregar al objeto general
+        watch: true,
+
+    Tambien en el script de package.json se puede poner el flag --watch
+
+
+
+
+Deploy a netlify
+    1. Crear un repositiorio de github
+    2. crear el archivo netlify.toml
+    3. Crear cuenta en netlify
+    4. Create new site from github follow instruction
+    5. asegurarse que todas las dependencias necesarias esten instaladas en el proyecto
+    6. Enviar el archivo .env
+        a. Crear carpeta que contenga script para automatizar
+        b. Crear un script que cree el archivo .env con las variables.
+            const fs = require("fs");
+            fs.writeFileSync("./.env", `API=${process.env.API}\n`);
+        c. Ir a netlify y crear las variables de ambiente
+        d. En package.json agregar al comando de build el comando para ejecutar el script
+            "build": "node ./scripts/create-env.js && webpack --mode production --config webpack.config.js",
+
+
+
+
+
+
+Hacer un Development server para ver cambios en tiempo real
+    1. npm install webpack-dev-server -D
+    2. Ir a la configuracion de desarrollo
+    3. Anadir un nuevo apartado en la configuracion objeto general
+        devServer:
+    4. crear nuevo script para correr el ambiente con devServer
+        "start": "webpack serve --config  webpack.config.dev.js"

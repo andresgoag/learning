@@ -1,0 +1,169 @@
+1. Instalar node js, nodejs.org -> Esto es para usar el npm (node package manager)
+
+2. Crear la carpeta del proyecto con "create-react-app" (https://github.com/facebook/create-react-app):
+    1. ejecutar el comando > npx create-react-app my-app            # Esto creara la carpeta "my-app" con la estructura del proyecto
+
+3. Entrar a la carpeta creada > cd my-app
+4. inicializar la aplicacion. > npm start
+
+
+
+
+
+Crear un componente
+----------------------------------
+
+1. Crear la carpeta que contendra el componente dentro de la carpeta src. por convencion el nombre debe iniciar con mayuscula
+2. dentro de la nueva carpeta crear el archivo principal .js, siguiendo la misma convencion de la mayuscula. Se recomienda que el codigo sea escrito en ES6
+3. Crear la funcion que retorne el componente que se esta creando y agregar la ultima linea de export default.
+4. Importar en el archivo App.js, con relative import, darle nombre con mayuscula para usar dentro del codigo.
+5. dentro del componente principal agregar el nuevo componente como <Person></Person>.
+6. en caso que se quiera ejecutar codigo dentro del texto en HTML se usa {}: <p> I 'm a person and I am {Math.floor(Math.random()*30)} years old</p>
+
+
+
+
+Configurar un componente:
+----------------------------------
+
+1. En la funcion del componente se pasa como argumentos el objeto props.
+    const person = (props) => {
+2. Para usar estos atributos en el componente:
+    {props.name}
+    NOTA: si es un class-based components:
+        {this.props}
+3. Se pueden pasar atributos a un componente en el llamado en el componente principal (App)
+    <Person name="Andres" age="25" />
+4. props.children, se utiliza dentro de la declaracion del componente para utilizar lo que se envie en la mitad del componente cuando se llama en la app principal
+    ej:
+
+    const person = (props) => {
+        return (
+            <div>
+                <p> I'm {props.name} and I am {props.age} years old</p>
+                <p>{props.children}</p>
+            </div>
+        )
+    };
+
+
+
+    se llama en app.js de la siguiente manera:
+
+    <Person name="Juan" age="12">My Hobbies: Racing</Person>
+
+
+5. State property: Solo aplica para class extended components:
+
+    class App extends Component {
+
+        state = {
+            persons:[
+            {name: 'Max', age: 28},
+            {name: 'Manu', age: 29},
+            {name: 'Stephanie', age: 26}
+            ]
+        }
+
+        render(){
+            return (
+            <div className='App'>
+                <h1>Hi, I'm a React App</h1>
+                <p>This is really working</p>
+                <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+                <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My Hobbies: Racing</Person>
+                <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+            </div>
+            );
+        }
+    }
+
+6. Listening for events:
+
+    add 'onClick={nombre de la funcion}' to the component call in app.js
+
+    ej:
+        <button onClick={this.switchNameHandler}>Switch Name</button>
+
+
+    lista de eventos soportados por react: https://reactjs.org/docs/events.html#supported-events
+
+
+7. Modificando el state de un componente:
+
+    crear una funcion dentro del componente que sea llamada con un evento:
+
+    switchNameHandler = () => {
+        this.setState({ //importante, this se refiere a la clase, solo se logra usando la notacion de arrow function
+        persons: [
+            {name: 'Maximillian', age: 28},
+            {name: 'Manu', age: 29},
+            {name: 'Stephanie', age: 27}
+        ]
+        })  // el metodo setState, actualiza la propiedad del objeto state que se pasa como argunmento de la funcion
+    }
+
+
+8. State en functional components: Hooks
+
+    // Functional Component
+    const App = props => {
+
+
+    const [state, setstate] =  useState({
+        persons:[
+        {name: 'Max', age: 28},
+        {name: 'Manu', age: 29},
+        {name: 'Stephanie', age: 26}
+        ]
+    }); // useState devualve el state actual y una funcion para modificarlo, se utiliza la forma nueva de javascript para recibir estos dos parametros
+
+    const switchNameHandler = () => {
+        setstate({ //Esta funcion setstate, retornada por useState, no actualiza sino que sobreescribe toda el state del functional component
+        persons: [
+            {name: 'Maximillian', age: 28},
+            {name: 'Manu', age: 29},
+            {name: 'Stephanie', age: 27}
+        ]
+        })
+    }
+
+    return (
+        <div className='App'>
+            <h1>Hi, I'm a React App</h1>
+            <p>This is really working</p>
+            <button onClick={switchNameHandler}>Switch Name</button>
+            <Person name={state.persons[0].name} age={state.persons[0].age} />
+            <Person name={state.persons[1].name} age={state.persons[1].age}>My Hobbies: Racing</Person>
+            <Person name={state.persons[2].name} age={state.persons[2].age} />
+        </div>
+    );
+    }
+
+
+
+9. Usar una funcion declarada en la clase principal, dentro de un componente
+
+    Pasar como atributo al componente una referencia a la funcion:
+
+        click={this.switchNameHandler}
+
+    y luego utilizarla en un componente que no tiene acceso directo al stateful component:
+
+        <p onClick={props.click}> I'm {props.name} and I am {props.age} years old</p>
+
+
+
+10. Estilos css
+
+    crear un archivo css en la carpeta del componente, este css sera de alcance global en la aplicacion, por eso se debe tener cuidado en la especificidad
+    este archivo se debe importar en el componente al que le aplica:
+
+        import './Person.css';
+
+
+    El otro metodo es inline styles, creando un javascript object en el componente y pasarlo como argumento al atributo style de una etiqueta
+
+
+
+

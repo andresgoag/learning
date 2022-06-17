@@ -1,0 +1,146 @@
+**********************************************
+*****          Adquirir Dominio          *****
+**********************************************
+
+
+1. Identify the server IP address
+2. Ir a una pagina que permita registrar dominios, por ejemplo namecheap.com o dynadot.com
+3. buscar el dominio disponible y comprar o reservar si es gratis
+4. Establecer si va a tener autorenew
+5. WhoisGuard es importante tenerlo en los dominio, previene que los datos de registro del dominio sean publicos
+
+
+
+
+
+
+****************************************
+*****          CLOUDFLARE          *****
+****************************************
+
+
+
+Cloudflare es un CDN (Content Delivery Network) se sienta encima de nuestro servidor y ayuda para la seguridad del sitio, Sirve para configurar DNS
+
+Es gratis si se tiene poco trafico en la pagina y se debe escalar a medida de la demanda.
+
+
+1. Crear cuenta e iniciar sesion
+2. click en add site, y agregar el nombre del dominio adquirido
+3. Seleccionar el plan deseado para adquirir con Cloudflare
+4. Revisar la configuracion actual de DNS del dominio y click en continuar
+5. Cambiar los servidores DNS del dominio:
+    a. Entrar a la pagina donde se compro el dominio y cambiar los servidores DNS por los indicados por cloudflare (Buscar como se cambia los servidores DNS en la pagina donde se adquirio el dominio)
+6. Configurar parametros del DNS
+    b. borrar cualquier configuracion dns existente para empezar de cero
+    b. agregar las siguientes configuraciones:
+
+
+Tipo        Nombre          Direccion IP        TTL             CloudFlare DNS
+------------------------------------------------------------------------------------------
+A           skoods.co       165.227.94.132      Automatico      Activado
+CNAME       www             skoods.co           Automatico      Activado                    # CNAME es usado para crear un alias a un dominio
+MX                                                                                          # Usados para email exchange, el mail provider dice como configurar este DNS setting
+TXT                                                                                         # Es una cadena de texto que sirve para verificacion
+
+
+    7. Pobrar la aplicacion en postman con el nuevo dominio en el lugar de la IPs
+
+
+
+
+
+
+
+Certificado SSL
+
+Para este procedimiento se recomienda usar google chrome
+
+1. Entrar a cloudflare e ingresar a la configuracion del dominio de interes
+2. Seleccionar modo de encriptacion "Full (Estrict)"
+3. Ir a la pestana Servidor de origen
+    a) en certificados de origen, click en crear certificado:
+        a1) Escoger: Let cloudflare generate a private key and a CSR
+        a2) Private key type: RSA
+        a3) List the hostnames: dejar los default, verificar que esten 2 entradas: *dominio y dominio
+        a4) Escoger la duracion del certificado, por defecto 15 anos
+4. En formato de clave se recomienda trabajar con: PEM (Default)
+5. Copiar en un archivo de texto el certificado de origen y el private key generados, estos se necesitaran para configurarlos en el servidor
+
+
+
+
+
+Instalar certificados SSL en NGINX
+
+Para este ejemplo se usa el certificado emitido para skoods.co
+
+1. Entrar al terminal del servidor
+2. crear una carpeta para alojar los certificados: sudo mkdir /var/www/ssl
+3. crear un archivo .pem para alojar el certificado: sudo touch /var/www/ssl/skoods.co.pem
+    a) editar el archivo: sudo nano /var/www/ssl/skoods.co.pem
+    b) agregar el contenido del certificado, incluyendo el begin certificate and end certificate
+4. crear un archivo key para alojar la clave: sudo touch /var/www/ssl/skoods.co.key
+    a) editar el archivo: sudo nano /var/www/ssl/skoods.co.key
+    b) agregar el contenido de la clave, incluyendo el begin key and end key
+
+5. Modificar el archivo .conf de nginx de la pagina a la que aplica el certificado para servir a HTTPS
+
+    1. sudo nano /etc/nginx/sites-enabled/my_application.conf
+    2. reemplazar la linea "listen 80;" (El puerto 80 es para los HTTP request) por "listen 443 default_server;" 443 (para HTTPS request)
+    3. En caso de tener "server_name localhost;" se debe cambiar por "server_name skoods.co" por el nombre del dominio adquirido
+    4. anadir el certificado y la clave en la seccion server:
+
+            ssl on;
+            ssl_certificate /var/www/ssl/skoods.co.pem;
+            ssl_certificate_key /var/www/ssl/skoods.co.key;
+
+
+6. agregar otro servidor para escuchar el puerto 80 para servir los http request
+
+            server {
+                listen 80;
+                server_name skoods.co www.skoods.co;
+                rewrite ^/(.*) https://skoods.co/$1 permanent;
+            }
+
+
+
+
+
+
+7. muestra final del archivo .conf de nginx
+
+            server {
+                    listen 443 default_server;
+                    server_name skoods.co;
+                    ssl on;
+                    ssl_certificate /var/www/ssl/skoods.co.pem;
+                    ssl_certificate_key /var/www/ssl/skoods.co.key;
+                    real_ip_header X-Forwarded-For;
+                    set_real_ip_from 127.0.0.1;
+
+
+                    location / {
+                            include uwsgi_params;
+                            uwsgi_pass unix:/var/www/html/simple_api/socket.sock;
+                            uwsgi_modifier1 30;
+                    }
+
+                    error_page 404 /404.html;
+                    location = /404.html {
+                            root /usr/share/nginx/html;
+                    }
+
+                    error_page 500 502 503 504 /50x.html;
+                    location = /50x.html {
+                            root /usr/share/nginx/html;
+                    }
+
+            }
+
+            server {
+                    listen 80;
+                    server_name skoods.co;
+                    rewrite ^/(.*) https://skoods.co/$1 permanent;
+            }

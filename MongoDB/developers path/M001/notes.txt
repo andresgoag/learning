@@ -1,0 +1,465 @@
+Mongo DB Atlas
+==============
+
+
+    Mongo DB Atlas
+    ==============
+
+        Crear cluster
+        -------------
+
+            1. Create an organization
+            2. Create a project
+            3. Crear cluster
+            4. Crear usuario para acceder a la base de datos // username: m001-student  password: T1ZE5oRECnWKXDex
+            5. Añadir la IP a la lista de IP permitidas
+
+            Opcional para pruebas
+            6. Cargar datos de ejemplo. ... -> load sample data set
+
+
+        Data Explorer
+        -------------
+
+            1. Click en collections en el cluster que se desea explorar. Se abrira una interfaz que mostrara las DB y colecciones.
+            2. Namespace -> es la concatenacion de database.collection, sirve para buscar
+            3. En la pestaña Find, se mostraran los datos del namespace seleccionado
+            4. Para hacer un query a la base de datos se utiliza el campo filter. Recibe key:value pairs in JSON format.
+                ej: mostrar todos los documentos que tengan state New York y city Albany
+                    {"state": "NY", "city": "ALBANY"}
+
+
+        Insert new document
+        -------------------
+
+            1. Ir al namespace al cual se le quiere adicionar un documento
+            2. click en insert document
+            3. se abrira un pop up para insertar el documento
+            4. cada documento en mongo db debe tener su unico _id. El ObjectId() es el default value a menos que se especifique otro valor.
+            5. click en insert document
+
+        
+        Update document
+        ---------------
+
+            1. Ir al namespace
+            2. Hacer el query para obtener el documento que se desea modificar
+            3. Seleccionar la herramienta lapiz en la esquina superior derecha
+            4. Editar la informacion deseada
+            5. click en update
+
+
+
+
+
+
+
+    Mongo shell
+    ===========
+
+        Conectarse al cluster
+        ---------------------
+        1. Seleccionar el boton "connect" en el cluster al cual se desea conectar
+        2. Seleccionar "I have the mongo shell installed"
+        3. Copiar el connection string en mongo shell -> enter
+        4. Ingresar credenciales
+
+
+
+
+
+
+        Export/Import data
+        ------------------
+
+            Se puede exportar/importar datos desde mongo db shell en formato JSON o BSON.
+
+            JSON
+            ----
+
+            import: mongoimport
+                ej -> mongoimport --uri="mongodb+srv://m001-student:T1ZE5oRECnWKXDex@sandbox.eu7vw.mongodb.net/sample_supplies" --drop sales.json
+                explicacion -> Se envia la uri con la base de datos y se especifica el archivo json que se va a importar a la base de datos, opcional
+                se puede especificar la coleccion que contendra estos datos del archivo (--collection), si no se especifica la coleccion tomara el
+                nombre del archivo. El comando drop sirve para que se eliminen los documentos con el mismo _id.
+
+            export: mongoexport
+                ej -> mongoexport --uri="mongodb+srv://m001-student:T1ZE5oRECnWKXDex@sandbox.eu7vw.mongodb.net/sample_supplies" --collection=sales --out=sales.json
+                explicacion -> Se envia uri con la base de datos, se especifica la coleccion y el archivo donde se dara el output
+
+            BSON
+            ----
+            (Puede ser utilizado como un backup manual, ya que el archivo creado con mongodump puede ser subido con mongorestore)
+
+            import: mongorestore
+                ej -> mongorestore --uri "mongodb+srv://m001-student:T1ZE5oRECnWKXDex@sandbox.eu7vw.mongodb.net/sample_supplies" --drop dump
+                explicacion -> este comando reestaura una base de datos desde una carpeta dump creada por el comando mongodump.
+
+            export: mongodump
+                ej -> mongodump --uri "mongodb+srv://m001-student:T1ZE5oRECnWKXDex@sandbox.eu7vw.mongodb.net/sample_supplies"
+                explicacion -> Se especifica la base de datos al final del uri, esto creara una carpeta llamada dump que contiene carpetas
+                con el nombre de la base de datos que se envio en el uri, y esta carpeta contiene los archivos .BSON de cada coleccion de
+                la base de datos
+
+
+
+
+
+        Query Data
+        ----------
+
+            1. Connect to cluster
+            2. mostrar bases de datos del cluster
+                $ show dbs
+            3. select database, el siguiente comando selecciona la DB llamada sample_training
+                $ use sample_training 
+            4. mostrar las colecciones de la base de datos
+                $ show collections
+            5. Filtrar un resultado de la base de datos. NOTA: el objeto db apunta a la db seleccionada en el punto 3
+               syntaxis del comando find: db.collection.find( {"filter":"example"} )
+                $ db.zips.find( {"state": "NY"} )
+
+                NOTA: la terminal solo mostrara los primeros 20 resultados, para ver los siguientes 20 resultados se utiliza el comando $ it
+            
+            El comando it (stands for iterate), permite iterar en el "cursor" que es el objeto que el comando find devuelve. El cursor es un "pointer"
+            al result set de un query. a pointer is an address to a memory location.
+
+            6. Contar los resultados de una operacion find, se le añade el comando .count()
+                $ db.zips.find( {"state": "NY"} ).count()
+            
+            7. Para mejor visualizacion en la terminal se puede usar el comando pretty
+                $ db.zips.find( {"state": "NY"} ).pretty()
+
+
+            Projection
+            ----------
+
+            Segundo argumento de la funcion find(), sirve para especificar que fields quiero que la consulta devuelva
+            se usa 0 para no mostrar y 1 para mostrar. No se deben meclar, es decir:
+                - si uso 1, devolvera unicamente los fields que se especifican con 1.
+                - si uso 0, devolvera todos los fields excepto los especificados con 0.
+                - El unico caso en el cual se puede mezclar es para especificar que no devuelva el "_id" ya que por default siempre se incluye
+
+            sintaxis: .find( {query}, {projection} )
+                {projection} = {"_id": 0, <field1>: 1, <field2>: 1}
+
+
+
+        Insert Data
+        -----------
+
+            1. Connect to cluster
+            2. select database
+            3. Insertar el nuevo documento
+               syntaxis del comando insert: db.collection.insert( {document} )
+               ej -> db.inspections.insert( {
+                   "name": "Andres",
+                   "last": "Gomez"
+               } )
+            4. El comando retornara una respuesta indicando si el resultado fue positivo o negativo.
+            5. Es posible insertar varios documentos al mismo tiempo, pasando un array de documentos al comando
+                ej -> db.collection.insert( [ {document}, {document1}, {document2} ] )
+
+                cuando se insertan varios documentos es posible utilizar la opcion "ordered": false, para evitar que si al insertar un documento
+                se genera un error, se detenga el proceso.
+                ej -> db.collection.insert( [ {document}, {document1}, {document2} ], {"ordered": false} )
+
+
+        Update document
+        ---------------
+
+            updateOne()
+            -----------
+            Actualiza el primer documento que haga match con el query
+            sintaxis db.collection.updateOne( { query }, { update operator } )
+                ej -> db.zips.updateOne( {"zip": "12534"}, { "$set": {"pop": 17630} } )
+
+                ej -> db.grades.updateOne( {"student_id": 250, "class_id": 339}, {"$push": {"scores": {"type": "extra credit", "score": 100} } } )
+
+
+
+            updateMany()
+            ------------
+            Actualiza todos los documentos que hacen match con el query
+            sintaxis db.collection.updateMany( { query }, { update operator } )
+                ej -> db.zips.updateMany( {"city": "HUDSON"}, {"$inc": {"pop": 10}} )
+
+
+        Delete document
+        ---------------
+
+            deleteOne()
+            -----------
+            Borra el primer documento que haga match con el query
+            sintaxis db.collection.deleteOne( {query} )
+                ej -> db.inspections.deleteOne( {"test":1} )
+
+
+
+            deleteMany()
+            ------------
+            Borra todos los documentos que hagan match con el query
+            sintaxis db.collection.deleteMany( {query} )
+                ej -> db.inspections.deleteMany( {"test":1} )
+
+
+            drop()
+            ------
+            Borra toda una coleccion
+            sintaxis db.collection.drop()
+                ej -> db.inspections.drop()
+
+
+        $
+        -
+            - denota el suo de un operador
+            - apunta al value de un field
+
+
+
+
+        MQL Operator
+        ------------
+
+            Update Operators
+            ----------------
+            https://docs.mongodb.com/manual/reference/operator/update/
+
+                Set
+                ---
+                    Actualiza el value de un key al valor especificado
+                    sintaxis { "$set": {key1:value1, ...} }
+
+                Increment
+                ---------
+                    Incrementa el value de un key en el valor especificado
+                    sintaxis { "$inc": {key1:value1, ...} }
+
+                Push
+                ----
+                    Adicionar elemento a un array
+                    sintaxis { "$push": {field1: value1, ...} }
+
+
+
+            Query Operators
+            ---------------
+
+                Comparison
+                ----------
+                    =   |  $eq
+                    !=  |  $ne
+                    >   |  $gt
+                    <   |  $lt
+                    >=  |  $gte
+                    <=  |  $lte
+
+                    syntax { <field>: { <operator>: <value> } }
+
+                        ej -> Buscar los viajes que duraron menos de 70 segundos y que NO esten suscritos
+                        db.trips.find( { "tripduration": {"$lte": 70}, "usertype": {"$ne": "Subscriber"} } )
+
+
+
+                Logic
+                -----
+                - $and 
+                - $or
+                - $nor
+
+                syntax { <operator>: [{satatement1}, {satatement2}, {satatement3}] }
+                    ej -> Buscar las inspecciones cuyo resultado no sea "No Violation Issued" o "Violation Issued"
+                    db.inspections.find( { "$nor": [ {"result":"No Violation Issued"}, {"result":"Violation Issued"} ] } )
+
+                    -> "$and" es el operador por defecto.
+                        { "$and": [{"sector": "Sector 3"}, {"result": "Warning"}] }             ==     { "sector": "Sector 3", "result": "Warning" }
+                        { "$and": [{"student_id": {"gt":25}}, {"student_id": {"lt":100}}] }     ==     { "student_id": {"$gt": 25, "$lt":100} }
+
+                    NOTA: Se debe usar explicitamente el operador and cuando se necesita incluir el mismo operador mas de una vez en un query
+                        ej -> {"$and": [ {"$or": [ {"dst_airport": "KZN"}, {"src_airpot": "KZN"}] }, {"$or": [ {"airplane": "CR2"}, {"airplane": "A81"} ]} ]}
+
+                - $not
+                syntax { "$not": {statement} }
+
+
+
+                Expressive Operator
+                -------------------
+                    - $expr
+                    
+                    syntax { "$expr": {<expression>} }
+                        NOTA: la expresion usa la sintaxis del aggregation
+
+                    allows the use of aggregation expressions within the query language
+
+                    allows to use variables and conditional statements
+                        ej -> Buscar los documentos en los cuales el valor de start station id sea igual a end station id.
+                                { "$expr": { "$eq": ["$start station id", "$end station id"] } }
+
+                                Buscar todas las compañias que tengasn mas numeros de empleados que el año en que fueron fundadas
+                                { "$expr": { "$lt": [ "$founded_year", "$number_of_employees" ] } }
+                                { "$expr": { "$gt": [ "$number_of_employees", "$founded_year" ] } }
+
+
+                Array Operators
+                ---------------
+                https://docs.mongodb.com/manual/tutorial/query-arrays/
+
+                    - $all
+                    Sirve para buscar un array que contenga ciertos items sin importar el orden
+                    sintaxis: { "<field>": {"$all": [item1, item2, ...] } }
+                        ej -> { "amenities": { "$all": ["Wifi", "Internet", "Kitchen", "Heating", "Family/Kid friendly"] } }
+
+                    - $size
+                    Sirve para limitar los array por length
+                    sintaxis: { "<field>": {"$size": <int> } }
+                        ej -> { "amenities": { "$size": 20 } }
+
+                    - $regex
+                    Para utilizar regular expressions, buscar un contenido en una cadena
+                    sintaxis { <field1>: { "$regex": "string a buscar" } }    
+                        ej -> db.companies.find( "relationships.0.title": { "$regex": "CEO" } } )
+
+                    - $elemMatch
+                    Se utiliza para verificar que un elemento de un array cumpla con una condicion, se puede usar en la parte del query y en la proyeccion.
+                    sintaxis { "$elemMatch":{statement} }
+                    
+                        - Query: Retorna todo el documento que un array cumpla una condicion.
+                            ej -> Buscar documentos que tengan un tipo de score "extra credit"
+                                db.grades.find( { "scores": { "$elemMatch": {"type":"extra credit"} } } )
+                    
+                    
+                        - Proyeccion: retorna el array con solo los elementos que cumplan con la condicion dada.
+                            ej -> Buscar db.grades.find( {"class_id": 431}, { "scores": { "$elemMatch": {"score": {"$gt": 85}} } } )
+
+                
+
+
+            Dot notation
+            ------------
+            Query fields where its value is a subdocument or array
+
+            example document:
+
+                {
+                    "_id" : ObjectId("572bb8222b288919b68abf5a"),
+                    "tripduration" : 379,
+                    "start station id" : 476,
+                    "start station name" : "E 31 St & 3 Ave",
+                    "end station id" : 498,
+                    "end station name" : "Broadway & W 32 St",
+                    "bikeid" : 17827,
+                    "usertype" : "Subscriber",
+                    "birth year" : 1969,
+                    "gender" : 1,
+                    "start station location" : {
+                            "type" : "Point",
+                            "coordinates" : [
+                                    -73.97966069,
+                                    40.74394314
+                            ]
+                    },
+                    "end station location" : {
+                            "type" : "Point",
+                            "coordinates" : [
+                                    -73.98808416,
+                                    40.74854862
+                            ]
+                    },
+                    "start time" : ISODate("2016-01-01T00:00:45Z"),
+                    "stop time" : ISODate("2016-01-01T00:07:04Z")
+                }
+
+
+            - Query a document in which th type of the start station location is "Point"
+                db.trips.findOne( { "start station location.type": "Point" } )
+
+                NOTA: Para un array, se usa el index de su posicion empezando en 0, 1, 2, ...
+
+
+
+
+        Aggregation Framework
+        ---------------------
+        Es otra forma para realizar queries a mongo DB. permite filter, update, compute and reshape
+        Se utiliza la funcion aggregate([]), los parametros los recibe en un array, ya que el aggregation framework trabaja como un pipeline, las acciones se aplican en el orden que se pasan.
+        cada accion se denomina aggregation stage.
+        
+
+        - Todo lo que se hace con MQL puede ser hecho con aggregation
+            ej -> Buscar los documentos que tengan "Wifi" en amenities, y projectar unicamente "price" y "address"
+
+                MQL:
+                db.listingsAndReviews.find( { "amenities": "Wifi" }, { "price": 1, "address": 1, "_id": 0 } )
+
+                Aggregation: utilizando el $match stage y $project stage
+                db.listingsAndReviews.aggregate([
+                    { "$match": { "amenities": "Wifi" } },
+                    { "$project": { "price": 1, "address": 1, "_id": 0 }}
+                ])
+
+
+            Stages
+            ------
+
+                - $match stage
+                --------------
+
+                - $project stage
+                ----------------
+
+                - $group stage
+                --------------
+                Toma una entrada de datos y la clasifica en diferentes reservorios
+                sintaxis: 
+                { "$group": {
+                    "_id": <expresion>,       // group by expression 
+                    <field1>: { <accumulator1>: <expression1> },
+                    ...
+                }}
+
+                    ej -> Mirar que paises tiene la colleccion listingsAndReviews
+                        db.listingsAndReviews.aggregate([
+                            {"$project": {"address": 1, "_id": 0}},
+                            {"$group": {"_id": "$address.country"}}
+                        ])
+
+                    ej -> Listar cuantas veces aparece un pais en la coleccion
+                        db.listingsAndReviews.aggregate([
+                            {"$project": {"address": 1, "_id": 0}},
+                            {"$group": {
+                                "_id": "$address.country",
+                                "count": {"$sum": 1}     // se podria usar el value de un field con la notacion $
+                            }}
+                        ])
+
+
+        $sort and $limit
+        ----------------
+            Son cursor methods como pretty and count
+
+            buscar los zips codes en orden incremental por "pop" y limitando un resultado
+            db.zips.find().sort( {"pop":1} ).limit(1)
+
+            buscar los zips codes en orden decremental de mayor a menor por "pop" y limitando 10 resultados
+            db.zips.find().sort( {"pop": -1} ).limit(10)
+
+        
+
+
+        Indexes
+        -------
+            Para mejorar la eficiencia de los queries, se agregan indexes
+            Por ejemplo, si encuentro que usando la base de datos trips, se usa mucho el query por birth year, seria bueno crear un index a ese campo.
+
+            - Crear index a un campo en orden incremental:
+                db.trips.createIndex( {"birth year":1} )
+                NOTA: para decremental -1
+
+            de esta manera cuando se haga un query con birth year, mongo no tendra que ir  buscar en todos los documentos ya que creo un index por birth year.
+            si se consulta con otro campo, debera recorrer todos los documento en busca de match.
+            Cuando existe un index, el cursor estara ordenado de acuerdo a estos indexes, entonces no hay necesidad de hacer sort
+
+
+
+mongo "mongodb+srv://m001-student:T1ZE5oRECnWKXDex@sandbox.eu7vw.mongodb.net/"

@@ -1,0 +1,191 @@
+pip install flask-login
+
+
+
+
+Usabilidad
+==========
+
+    1. Crear el login manager
+        a. from flask_login import LoginManager
+        b. login_manager = LoginManager()
+
+
+
+
+
+    2. despues de crear el objeto app, inicializarlo para usar el login
+        a. login_manager.init_app(app)
+        b. login_manager.session_protection = "strong" # para setear la proteccion de las cookies a strong
+
+
+
+
+
+    3. Asegurarse que la aplicacion cuenta con un secret key
+        a. app.secret_key = "appLogin"
+        NOTA: se recomienda utilizar el objeto configuracion par configurar flask app
+
+        class Config:
+            SECRET_KEY = 'SUPER SECRETO'
+
+        app.config.from_object(Config)
+
+
+
+
+    4. Crea una clase de "user objet" con atributos id y password, este debe contener las siguientes funciones:
+
+        - is_authenticated: Retorna True si el usuario esta autenticado. Solo los usuarios autenticados cumplen el criterio de login_required.
+        - is_active: Retorna True si el usuario es un usuario activo. (ej: suspender la cuenta)
+        - is_anonymous: Retorna True si es un usuario anonimo. (Actual users should return False instead.)
+        - get_id(): Retorna un unicode que identifica el usuario y puede ser usado para el user_loader callback.
+
+        flask_login provee una Parent Class llamada UserMixin que provee las implementaciones para los metodos que Flask-Login necesita que los user objects tengan.
+
+        ejemplo: 
+
+            from flask_login import UserMixin
+
+            class Usuario(UserMixin):
+
+                def __init__(self, user, password):
+                    self.id = user
+                    self.password = password
+
+                @classmethod
+                def get_user(cls, user):
+                    # Codigo que retorne un objeto usuario por el user_id
+                    return get_user(user)
+
+
+
+
+
+
+
+    5. Definir user loader: Es una funcion que debe retornar el objeto usuario a partir del ID guardado en la session.
+       si el ID no es valido, la funcion debe retornar None, nunca generar una exception
+
+        @login_manager.user_loader
+        def load_user(user_id):
+            return Usuario.get_user(user_id)
+
+
+
+
+
+
+
+    6. Definir la vista de login:
+        a. login_manager.login_view = "login"
+        donde "login" es el nombre de la funcion asociada al endpoint de login
+
+    
+
+
+
+
+
+    7. Customizar el mensaje flash para indicar por favor inicie sesion:
+        a. login_manager.login_message = "Mensaje customizado"
+        b. login_manager.login_message_category = "info"
+
+
+
+
+
+
+
+    8. Logear al usuario cuando se reciba el POST de los datos
+
+        from flask_login import login_user
+
+
+
+        @app.route('/login', methods=['GET', 'POST'])
+        def login():
+
+        # comparar la contrasena que envia el usuario con la de la base de datos
+
+        if password:
+            
+            login_user(user)
+
+            flask.flash('Logged in successfully.')
+
+
+
+
+
+
+
+    9. Para hacer remember me: 
+
+        login_user(user, remember=True, duration = datetime.timedelta )
+
+        donde duration es el tiempo que la cookie recordara el usuario
+
+
+
+
+
+
+
+
+    10. Se puede acceder al usuario loggeado con current_user, que esta disponile en todos los templates:
+
+        from flask_login import current_user
+
+        {% if current_user.is_authenticated %}
+        Hi {{ current_user.name }}!
+        {% endif %}
+
+
+
+
+
+
+
+
+    11. Los endpoints que requieran el usuario estar loggeado se deben decorar con login_required:
+
+        from flask_login import login_required
+
+        @app.route("/settings")
+        @login_required
+        def settings():
+            pass
+
+
+
+
+
+
+    12. Logout:
+
+        from flask_login import login_required, logout_user
+
+        @app.route("/logout")
+        @login_required
+        def logout():
+            logout_user()
+            return redirect(somewhere)
+
+
+
+    
+
+
+
+    13. Fresh logins
+
+        a. Se marca con el decorador los endpoints que requieran estar recien loggeados
+            @fresh_login_required
+        
+        b. Se debe configurar el lugar al que se redirige el usuario para que se loggee nuevamente
+            login_manager.refresh_view = "reauthenticate"
+
+        c. login_manager.needs_refresh_message = ("To protect your account, please reauthenticate to access this page.")
+
+        d. login_manager.needs_refresh_message_category = "info"

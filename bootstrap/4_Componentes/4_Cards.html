@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- Esta linea simpre debe de ir, es para el correcto comportamiento de responsive -->
+        <link rel="stylesheet" href="../css/bootstrap.min.css"> <!-- Archivo css de bootstrap -->
+        <title>Cards</title>
+    </head>
+    <body>
+
+        <div class="container">
+
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="mb-3">Encabezado</h1>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clases que podemos utilizar
+    		.card 					Establecemos que trabajaremos con una tarjeta (card)
+    			.card-body 		    Establecemos cual sera el contenedor del contenido
+    				.card-title 	Establecemos el un texto como titulo de la card
+    				.card-subtitle 	Establecemos un subtitulo para la card
+    				.card-text 		Establecemos el texto de la card.
+    				.card-link  	Establecemos un enlace como boton en la card
+    			.card-img-top 		Establecemos una imagen para la card en la parte superior
+    			.card-img-bottom 	Establecemos una imagen para la card en la parte inferior
+    		-->
+
+            <div class="row mt-3">
+                <div class="col-6">
+                    <div class="card">
+                        <img src="http://lorempixel.com/400/200/" class="card-img-top img-fluid" alt="">
+                        <div class="card-body">
+                            <h3 class="card-title">Titulo</h3>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea </p>
+                            <a href="#" class="btn btn-primary btn-lg btn-block">Boton</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="card">
+                        <img src="http://lorempixel.com/400/200/" class="card-img-top img-fluid" alt="">
+                        <div class="card-body">
+                            <h3 class="card-title">Titulo</h3>
+                            <p class="card-subtitle text-muted mb-2">Subtitulo</p>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea </p>
+                            <a href="#" class="card-link">Enlace 1</a>
+                            <a href="#" class="card-link">Enlace 2</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-header">
+                            Encabezado del Card
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Lorem ipsum dolor.</h3>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
+                            <a href="#" class="btn btn-primary">Ir al Post</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="card">
+                        <!-- Centrar el texto -->
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Lorem ipsum dolor.</h3>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
+                            <a href="#" class="btn btn-primary">Ir al Post</a>
+                        </div>
+                        <div class="card-footer">
+                            footer del Card
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col">
+                    <!-- Agregar color de fondo -->
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h3 class="card-title">Lorem ipsum dolor.</h3>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
+                            <a href="#" class="btn btn-primary">Ir al Post</a>
+                            <a href="#" class="btn btn-light">Ir al Post</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <!-- Agregar color de borde -->
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h3 class="card-title">Lorem ipsum dolor.</h3>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
+                            <a href="#" class="btn btn-primary">Ir al Post</a>
+                            <a href="#" class="btn btn-light">Ir al Post</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row my-3">
+                <div class="col">
+                    <!-- Crear un grupo de cards     -->
+                    <div class="card-group">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h1 class="card-title">Encabezado</h1>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
+                                <a href="#" class="btn btn-primary btn-block">Ir al Post</a>
+                            </div>
+                            <img src="http://lorempixel.com/400/200/" class="card-img-bottom img-fluid" alt="">
+                            <div class="card-footer">
+                                <small class="text-muted">Footer</small>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <img src="http://lorempixel.com/400/200/" class="card-img-top img-fluid" alt="">
+                            <div class="card-body">
+                                <h1 class="card-title">Encabezado</h1>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
+                                <a href="#" class="btn btn-primary btn-block">Ir al Post</a>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Footer</small>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h1 class="card-title">Encabezado</h1>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
+                                <a href="#" class="btn btn-primary btn-block">Ir al Post</a>
+                            </div>
+                            <img src="http://lorempixel.com/400/200/" class="card-img-bottom img-fluid" alt="">
+                            <div class="card-footer">
+                                <small class="text-muted">Footer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+
+        <script src="../js/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="../js/bootstrap.min.js"></script>
+
+    </body>
+</html>

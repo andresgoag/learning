@@ -1,0 +1,21 @@
+body {
+  background-color: gray;
+  background: url(https://s29081.pcdn.co/wp-content/uploads/2020/05/things-to-do-in-lauterbrunnen-switzerland-3-1024x768.jpg.optimal.jpg);
+  background-repeat: no-repeat;
+}
+
+div{
+  background: blue;
+  border-color: orange;
+  border-width: 5px;
+  border-style: dotted;
+}
+
+p{
+  color: yellow;
+}
+
+span{
+  background: red;
+  color: black;
+}

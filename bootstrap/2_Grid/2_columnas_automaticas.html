@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- Esta linea simpre debe de ir, es para el correcto comportamiento de responsive -->
+        <link rel="stylesheet" href="../css/bootstrap.min.css"> <!-- Archivo css de bootstrap -->
+        <title>Columnas automaticas</title>
+
+        <style>
+            .row > div {
+                text-align: center;
+                margin: 10px 0;
+            }
+
+            .uno{background: #f2f2f2;}
+            .dos{background: #dbdbdb;}
+            .tres{background: #f2f2f2;}
+
+        </style>
+
+    </head>
+    <body>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col uno">
+                    <h3>Columna #1</h3>
+
+                </div>
+
+                <!-- Si se quiere que la columna tenga el ancho que requiere el contenido se especifica "-auto", se puede combinar con el tamano de pantalla -->
+                <div class="col col-md-auto dos">
+                    <h3>Columna #2</h3>
+
+                </div>
+
+                <div class="col tres">
+                    <h3>Columna #3</h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <h4>Columna 1</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                </div>
+
+                <div class="col">
+                    <h4>Columna 2</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                </div>
+
+                <!-- Clase utilitaria para indicar que este div tiene un ancho del 100% -->
+                <!-- Se usa para hacer que elementos de una fila queden debajo -->
+                <div class="w-100"></div>
+
+                <div class="col">
+                    <h4>Columna 3</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                </div>
+
+                <div class="col">
+                    <h4>Columna 4</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+        <!-- Anadir archivos Javascript, primero JQuery, luego popper y por ultimo bootstrap -->
+
+        <script src="../js/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="../js/bootstrap.min.js"></script>
+
+    </body>
+</html>

@@ -1,0 +1,18 @@
+/*https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity*/
+/*https://designshack.net/articles/css/what-the-heck-is-css-specificity/*/
+
+
+
+li {
+  color: red;
+}
+
+
+.topitems{
+  color: blue;
+}
+
+
+#two{
+  border: 3px solid black;
+}

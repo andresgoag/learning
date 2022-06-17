@@ -1,0 +1,84 @@
+Video 1
+
+1. Crear cuenta de github
+2. Crear nuevo repositorio en git hub
+    a. Nombre del repositorio: git_coursera
+    b. Descripcion del proyecto
+
+
+
+
+Video 2
+
+1. Identificarse con git
+    a. Abrir el terminal:
+        1. git config --global user.name 'Andres Gomez'
+        2. git config --global user.email 'andresgomezagudelo@hotmail.com'
+
+2. Clonar el repositorio creado en github
+    a. Ir a github.com
+    b. entrar al repositorio creado
+    c. Click en el boton code y copiar la direccion para clonar con HTTPS
+    d. Abrir el terminal
+        1. cd a la carpeta que contendra el codigo
+        2. git clone <La direccion copiada de github>
+        Estos comandos crearan una carpeta con el nombre del repositorio que contiene todos los archivos del repositorio
+
+
+3. Comandos de git
+    a. Abrir la terminal en la carpeta donde se clono el repositorio
+        1. git status: Retorna el estatus del proyecto, se puede verificar si esta up to date
+        2. crear un archivo nuevo llamado new_file.txt
+        3. Si se ejecuta nuevamente el comando git status, se obtiene un mensaje que informa de los untracked files, para adicionar archivos se utiliza el comando git add <nombre del archivo>
+        4. git add new_file.txt
+        5. git add * -> Este comando adicionara todos los archivos
+        6. si se ejecuta de nuevo el comando git status, se obtiene el mensaje informando que archivos "To be commited", un commit es cuando se inicia el version track a un archivo, por lo tanto se crea un "point in time"
+        7. git commit -m 'mensaje informando los cambios en este commit'-> para hacer un nuevo commit
+        8. si se ejecuta de nuevo git status, se obtiene el mensaje "your branch is ahead of 'origin/master' by 1 commit"
+        9. git push -> Enviara los cambios locales al repositorio remoto (origen)
+
+
+
+
+
+Video 3
+
+    a. git pull -> Para sincronizar la carpeta local con el repositorio remoto para verificar cambios
+    b. git log -> Para ver los mensajes de los commits
+    c. git checkout <ID del commit al que se quiere ir>-> Para ir a algun punto de la historia de los commits
+    d. git checkout <branch name> -> para ir a un punto presente de una rama
+
+
+
+
+
+Video 5
+
+    a. git branch -a -> lista todas las branches que hay en el repositorio
+    b. git branch -> muestra la branch actual
+    c. git checkout <branch name> -> para ir a una rama en especifico
+    d. git checkout -b <nombre de la nueva branch> -> Crea una nueva branch, espejo de la rama en la que se encontraba antes de ejecutar el comando (solo existe en el repositorio local)
+        1. Por ejemplo:
+            1a. git checkout master -> Estoy en la rama master
+            1b. git checkout -b new_branch -> creara una nueva rama llamada new_branch, que contiene todos los archivos de master
+    e. git merge <nombre de la rama a unir con la rama actual> -> Combina los archivos de la rama en la que se esta trabajando con la rama que se pasa en el comando.
+
+
+
+Video 6 Fork: Es copiar todo un repositorio para poderlo modificar
+    a. ir al repositorio de github, darle click a fork, esto creara un repositorio de mismo nombre en la cuenta personal
+    b. git remote add upstream <direccion del origen original> -> relaciona el repositorio creado en la cuenta personal con el repositorio original del cual se Fork
+    c. git remote -v -> muestra cual es el origen y cual es el upstream
+    d. git pull upstream master -> traera el contenido del repositorio original (upstream) de la rama master
+
+
+
+Video 7 Pull Request:
+    a. git pull. Primero asegurarse que todo esta sincronizado
+    b. agregar o editar los archivos que sean necesasrios
+    c. git add *.
+    d. git commit -m 'changes'
+    e. git push
+    f. ir a git hub al repositorio "fork" en nuestra cuenta, buscar el boton "new pull request"
+    g. verificar el repositorio y el branch a actualizar
+    h. click creat new pull request

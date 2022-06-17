@@ -1,0 +1,15 @@
+#jumbo{
+  margin-top: 5%;
+}
+
+table{
+  margin: auto;
+}
+
+td{
+  border: 2px solid black;
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  font-size: 80px;
+}

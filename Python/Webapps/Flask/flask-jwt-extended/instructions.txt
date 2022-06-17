@@ -1,0 +1,121 @@
+JWT (JSON Web Token): a long string with information encoded in it. When our API receives it, we know which user it refers to,
+and we know the user is logged in (since that's the only way of getting a JWT)
+
+
+Instalacion
+===========
+
+1. pip install flask-jwt-extended
+
+
+API Doc
+=======
+
+create_access_token()
+---------------------
+Create a new access token.
+
+flask_jwt_extended.create_access_token(identity, fresh=False, expires_delta=None, additional_claims=None, additional_headers=None)
+
+
+Parameters
+identity: The identity of this token. It can be any data that is json serializable.
+fresh: can access endpoints protected with @jwt_required(fresh=True). This value can also be a datetime.timedelta, which indicate how long this token will be considered fresh.
+expires_delta: A datetime.timedelta for how long this token should last before it expires. Set to False to disable expiration. If this is None, it will use the JWT_ACCESS_TOKEN_EXPIRES config value
+
+
+jwt_required()
+--------------
+A decorator to protect a Flask endpoint with JSON Web Tokens.
+
+flask_jwt_extended.jwt_required(optional=False, fresh=False, refresh=False, locations=None)
+
+Parameters
+optional: If True, allow the decorated endpoint to be if no JWT is present in the request.
+If no JWT is present, get_jwt() and get_jwt_header(), will return an empty dictionary. get_jwt_identity(), current_user, and get_current_user() will return None.
+    current_identity = get_jwt_identity()
+    if current_identity:
+        return jsonify(logged_in_as=current_identity)
+    else:
+        return jsonify(logged_in_as="anonymous user")
+
+fresh – If True, require a JWT marked with fresh to be able to access this endpoint.
+refresh – If True, requires a refresh JWT to access this endpoint. If False, requires an access JWT to access this endpoint.
+
+
+
+
+
+
+Instrucciones:
+==============
+
+
+1. Configurar "app secret key"
+    app.config["JWT_SECRET_KEY"] = "super-secret"
+
+2. Importar dependencias, las utilizadas en este ejemplo son:
+    from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required, JWTManager
+
+2. Pasarle el objeto app al JWTManager
+    jwt = JWTManager(app)
+
+3. Crear una ruta donde el usuario se autentique. Esta ruta deber crear y "return" el JWT
+    @app.route("/login", methods=["POST"])
+    def login():
+        username = request.json.get("username")
+        password = request.json.get("password")
+        if username != "test" or password != "test":
+            return jsonify({"msg": "Bad username or password"}), 401
+
+        access_token = create_access_token(identity=username)
+        return {access_token: access_token}
+
+4. Proteger un endpoint con jwt_required()
+    @app.route("/protected", methods=["GET"])
+    @jwt_required()
+    def protected():
+        # Access the identity of the current user with get_jwt_identity
+        current_user = get_jwt_identity()
+        return {"logged_in_as": current_user}, 200
+
+
+5. Para acceder a un endpoint protegido:
+    a. Logearse y recibir el JWT
+    b. Cuando se acceda al endpoint, se debe enviar en los headers el JWT:
+        Bearer <access_token>>
+
+
+6. Los JWT expiran segun el tiempo indicado en la configuracion JWT_ACCESS_TOKEN_EXPIRES, para solucionar esto se crea un refresh token,
+cuando se haga un request a la API, y se obtenga como resultado que el token expiro, se debe crear un nuevo token para esto se crea un nuevo endpoint.
+
+    a. Configurar el tiempo de expirar un token
+        app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+        app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+
+    b. En el endpoint de login, se debe retornar adicionalmente un refresh token, este se crea de la siguiente manera:
+        refresh_token = create_refresh_token(identity=username)
+
+    c. Crear un endpoint el cual requiere un refresh_token y retorna un nuevo access_token
+        @app.route("/refresh", methods=["POST"])
+        @jwt_required(refresh=True)
+        def refresh():
+            identity = get_jwt_identity()
+            access_token = create_access_token(identity=identity)
+            return {"access_token": access_token}
+
+
+7. Token Freshness Pattern: Cuando un endpoint es sensible (ej: cambio de contraseña) no es conveniente que este se pueda realizar con una sesion guardada, estos endpoints deben ser accesibles
+unicamente cuando el usuario haga login. Para esto se utiliza fresh=True.
+
+    a. Agregar el parametro fresh=True al access_token que retornamos cuando el usuario hace login.
+        access_token = create_access_token(identity=username, fresh=True)
+
+    b. Agregar el parametro fresh=False al access_token que retornamos cuando se refresca con el endpoint /refresh_token
+        access_token = create_access_token(identity=identity, fresh=False)
+
+    c. Proteger las rutas sensibles con jwt_required(fresh=True)
+
+
+8. Para hacer log out, los JWT se deben poner en un blocklist, guardarlos en una base de datos para saber que estos no se pueden utilizar, sin embargo estos tokens se les puede poner 
+tiempo de validez, por lo tanto hay que guardarlos por el tiempo que sean validos

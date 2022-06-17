@@ -1,0 +1,27 @@
+1. Crear el requirements.txt
+    pip freeze >> requirements.txt
+
+    y añadir a la lista gunicorn
+
+2. Crear runtime.txt => Es el archivo que dice que lenguaje usa la aplicacion y que version
+    python-3.9.0
+
+3. Crear el archivo Procfile
+    web: gunicorn "app:create_app()"
+
+    NOTA: app es el archivo, y create_app la funcion constructora de la aplicacion (flask app factory pattern)
+
+4. Subir el codigo a un repositorio de github
+
+5. Crear una nueva app en heroku
+
+6. En deployment method, escoger github, acceder a la cuenta y linkear el repositorio de la aplicacion
+
+7. Se recomineda no usar el automatic deploy, si no el manual deploy, escoger el branch requerido.
+
+8. Crear variables de entorno:
+
+    a. Ir a:
+        Heroku app -> settings -> reveal config vars
+    
+    b. dar el key value y add

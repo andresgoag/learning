@@ -1,0 +1,32 @@
+1. Ingresar al panel de control de VESTA, por el puerto :8083
+2. Ir a WEB -> en el dominio en el que necesitamos el FTP -> EDIT
+3. Marcar la casilla Cuenta adicional FTP
+4. Llenar la informacion requerida por VESTA
+5. Se recomiendoa en path agregar la ruta "public_html" -> para aparecer en la ruta donde se guardan los archivos de la pagina web: /home/admin/web/pythonweb.tk/public_html
+6. Ir a la pestana SERVER
+7. buscar el servicio vsftpd y configurar
+8. debajo de la linea pasv_max_port=12100, agregar la linea "pasv_address=IP de AWS" ej: pasv_address=54.207.151.68
+9. Marcar la casilla Restart y guardar los cambios.
+10. Ir al firewall de VESTA y verificar que tenga habilitado los puertos 12000-12100 para FTP
+11. Ir a AWS -> EC2 -> Network & Security -> Security Groups
+12. Darle un nombre al security group creado cuando se hizo la instancia de AWS
+13. Seleccionar el grupo y editar las reglas de entrada
+14. Agregar Regla -> Custom TCP / TCP / 12000-12100 / Anywhere / 0.0.0.0/0 / FTP PASIVO
+15. Guardar reglas de entrada
+
+
+
+
+Para abrir FTP en ATOM:
+
+1. Instalar el paquete "remote-ftp"
+2. Ir a los settings de remote-ftp
+3. Buscar la seccion de FTP & FTPS Configuration Options
+4. Copiar el contenido de la seccion desde { hasta }
+5. Crear una carpeta nueva, en esta carpeta se sincronizaran los archivos del servidor para ser subidos
+6. Abrir esta carpeta como el project folder de ATOM y darle click derecho -> toggle tree
+7. Ir a la pestana Remote -> Edit Configuration -> Se abrira un archivo llamado .ftpconfig
+8. Pegar en FTP Config el texto copiado en el paso 4
+9. Reemplazar en host: "dominio creado", user: "nombre escogido al crear la cuenta FTP", pass:"contrasena escogida al crear la cuenta FTP"
+10. Guardar y cerrar el archivo .ftpconfig
+11. Click Connect

@@ -1,0 +1,15 @@
+Libreria para hacer unit testing
+
+unit es dividir el codigo en pequenas funciones para que sea modular y mantenible.
+
+Con jest se puede hacer software para probar estas unidades, conociendo el input y el output esperado, se crean funciones para probar la funcion.
+
+simple syntax simple
+
+test('adds 14 + 9 to equal 23', () => {
+    //inside the test we call our sum function with 2 numbers
+    let total = sum(14, 9);
+
+    // we expect the sum of those 2 numbers to be 23
+    expect(total).toBe(23);
+});

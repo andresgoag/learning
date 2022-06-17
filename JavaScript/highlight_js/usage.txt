@@ -1,0 +1,22 @@
+CDN
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+
+
+
+
+
+
+1. The bare minimum for using highlight.js on a web page is linking to the library along with one of the themes and calling highlightAll:
+
+<link rel="stylesheet" href="/path/to/styles/default.css">
+<script src="/path/to/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+
+
+2. This will find and highlight code inside of <pre><code> tags; it tries to detect the language automatically. 
+If automatic detection doesn’t work for you, or you simply prefer to be explicit, you can specify the language manually in the using the class attribute:
+
+<pre><code class="language-html">...</code></pre>
+

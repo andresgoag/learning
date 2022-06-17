@@ -1,0 +1,35 @@
+h1{
+  font-family: 'Pacifico', cursive;
+  text-align: center;
+}
+
+.art{
+  margin: auto;
+}
+
+td{
+  height: 300px;
+  width: 150px;
+  border: 6px solid white;
+}
+
+
+#a {
+  background-color: #05668D;
+}
+
+#b {
+  background-color: #028090;
+}
+
+#c {
+  background-color: #00A896;
+}
+
+#d {
+  background-color: #02C39A;
+}
+
+#e {
+  background-color: #F0F3BD;
+}

@@ -1,0 +1,10 @@
+NODEMON
+-------
+Instalar nodemon, para que reejecute cuando detecte un cambio en el codigo. Ejecutar en lugar de node, nodemon
+$ sudo npm install -g nodemon
+
+
+PM2
+---
+Un nodemon pero mucho mas avanzado. Es para produccion.
+$ sudo npm install -g pm2

@@ -1,0 +1,2 @@
+Instalar libreria
+    $ pip install bcrpyt

@@ -1,0 +1,10 @@
+pip install pandas
+
+
+Se recomienda instalar ipython: es una consola para "better printing for data analysis"
+
+pip install ipython
+
+
+Para leer archivos de excel 
+pip install openpyxl

@@ -1,0 +1,5 @@
+1. https://www.smashingmagazine.com/2011/12/an-introduction-to-object-oriented-css-oocss/
+2. http://getbem.com/introduction/
+3. http://smacss.com/
+4. https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture/
+5. https://bradfrost.com/blog/post/atomic-web-design/

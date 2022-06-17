@@ -1,0 +1,6 @@
+Crear base de datos en PostgreSQL:
+
+1. Ir a pgAdmin
+2. Seleccionar el servidor
+3. Click derecho en Databases y crear nueva
+4. Dar nombre a la base de datos y determinar el owner

@@ -1,0 +1,468 @@
+Traer el codigo fuente desde CDN
+================================
+    Forma no recomendada!
+    1. Crear un HTML con un elemento raiz
+        <div id="root"></div>
+    2. Importar los scripts de react desde CDN
+    3. Crear los componentes.
+
+
+Creando entorno completo de desarrollo
+======================================
+    Forma recomendada!
+    1. Crear y entrar en la carpeta del proyecto, ver ejemplo en intro_react_todo
+    2. Instalar create react app. npx permite instalar de manera temporal
+        $ npx create-react-app ./
+        Esto creara toda la estructura del proyecto e instalara todas las dependencias
+        necesarias para iniciar un proyecto de react.
+    3. Correr la primera app
+        $ npm start
+    4. Borrar y organizar los archivos para hacer la propia estructura del proyecto
+
+
+    Flujo de desarrollo
+    -------------------
+        - Punto de entrada index.js
+        ---------------------------
+            Aqui se importa el componente raiz generalemente llamado App
+                import React from "react";
+                import ReactDOM from "react-dom";
+                import "./index.css";
+                import App from "./App";
+
+                ReactDOM.render(<App />, document.getElementById("root"));
+
+
+        - Crear componentes
+        -------------------
+            1. Se usan componentes funcionales.
+            Deben ser nombrados en PascalCase.
+            Con la sintaxis {} podemos insertar expresiones de javascript en jsx
+            Se pueden importar achivos css y de imagenes
+            -Un componente puede recibir atributos y ser usados como el objeto props.
+            los archivos de componentes ponerles la extension jsx. Pueden ser valores de cualquier tipo hasta funciones
+
+            TIP: un componente de react solo puede retorna una etiqueta, es decir 
+            todo debe estar envuelto en una etiqueta madre.
+            Para evitar usar divs, existe una etiqueta invisible:
+            <React.Fragment></React.Fragment>
+            ej:
+                import React from "react";
+                import logo from "./logo.svg";
+                import "./App.css";
+
+                export const App = (props) => {
+                    return (
+                        <div className="App">
+                            <header className="App-header">
+                                <img src={logo} className="App-logo" alt="logo" />
+                                <p>
+                                    Edit <code>src/App.js</code> and save to reload.
+                                </p>
+                                {props.children}
+                                <a
+                                    className="App-link"
+                                    href="https://reactjs.org"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Hola {props.usuario}
+                                </a>
+                            </header>
+                        </div>
+                    );
+                }
+
+            2. Para renderizar un componente:
+                import App from "./App";
+                <App usuario="Andres" />
+
+            3. Un componente puede recibir un prop especial llamado children
+                <App usuario="Andres">
+                    <h1>Titulo enviado con props.children</h1>
+                </App>
+
+            4. Tip de props: Se puede usar la sintaxis de deestructuracion para especificar el nombre de las props y no estar usando siempre props.nombre
+                <TodoCounter
+                    total={todos.length}
+                    completed={completedTodos.length}
+                />
+
+                export const TodoCounter = ({ total, completed }) => {
+                    return (
+                        <h2 className="TodoCounter">
+                            Has completado {completed} de {total} ToDo's
+                        </h2>
+                    );
+                };
+
+
+        Iteraciones en jsx
+        ------------------
+        Se debe enviar a cada elemento creado por iteracion una propiedad key, que debe ser unica.
+        Esto se usa para identificar cada componente y evitar render innecesarios cuando alguno cambia.
+            const todos = [
+                { text: "Cortar cebolla", completed: false },
+                { text: "Tomar el curso de react", completed: false },
+                { text: "Llorar con la llorona", completed: false },
+            ];
+
+            function App() {
+                return (
+                    <div>
+                       <TodoList>
+                            {todos.map((todo) => (
+                                <TodoItem key={todo.text} text={todo.text} />
+                            ))}
+                        </TodoList>
+                    </div>
+                );
+            }
+
+        CSS en React
+        ------------
+            1. Inline css. Objeto javascript en camelCase
+                const estilos = {
+                    color: "red",
+                    backgroundColor: "yellow",
+                };
+
+                export const TodoCounter = () => {
+                    return <h2 style={estilos}>Has completado 2 de 3 ToDo's</h2>;
+                };
+
+            2. Importando desde un archivo normal de css. Create react app deja instalada el plugin para entender.
+                import "./TodoCounter.css";
+
+
+        Conditional ClassName
+        ---------------------
+            1. Si en un prop vamos a enviar un indicador de estado, por ejemplo isActive=true.
+            Podemos hacer que existan clases condicionales de la siguiente forma:
+                <span className={`Icon Icon-check ${props.completed && "Icon-check--active"}`}>√</span>
+            Explicacion: Si y solo si props.completed es true, entonces se pone la clase "Icon-check--active"
+
+
+        
+        Manejo de Eventos
+        -----------------
+
+            1. Se especifica como un atributo al elemento que va a reaccionar al evento
+            2. Debe llevar una funcion que es la que se ejecuta con el evento.
+            3. Recibir un parametro que contendra el evento disparado
+                
+                export const CreateTodoButton = () => {
+
+                    const onClickButton = (msg) => {
+                        alert(msg)
+                    }
+
+                    return (
+                        <button 
+                            className="CreateTodoButton"
+                            onClick={(ev) => onClickButton("Hola mensaje")}
+                        >
+                            +
+                        </button>
+                    );
+                };
+
+        
+        Estado
+        ------
+            1. Definir el estado nombre, una funcion que cambia el valor del estado y un estado por defecto.
+                const [name, setName] = React.useState("Juan");
+            2. Cuando el estado cambie con su respectiva funcion, el componente se va a re-renderizar.
+            3. La funcion modificadora de un estado tambien puede recibir como parametro una funcion, que recibira como parametro
+            el estado anterior a la modificacion del estado
+                setOpenModal(prevState => !prevState);
+
+            Extra: El estado es util para los inputs y tomar su valor. El value es igual al estado y onChange se modifica el estado:
+                export const TodoSearch = () => {
+                    const [searchValue, setSearchValue] = React.useState("");
+
+                    const onSearchValueChange = (ev) => {
+                        console.log(ev.target.value);
+                        setSearchValue(ev.target.value);
+                    };
+
+                    return (
+                        <input
+                            className="TodoSearch"
+                            type="text"
+                            placeholder="Cebolla"
+                            value={searchValue}
+                            onChange={onSearchValueChange}
+                        />
+                    );
+                };
+
+
+        Local Storage
+        -------------
+            Guardar informacion en el navegador del usuario
+            1. Se guarda en un objeto llamado localStorage
+            2. Guardar informacion. Solo guarda texto. Se hace uso de JSON.stringify() y JSON.parse()
+                localStorage.setItem('ejemplotodos', JSON.stringify(todos))
+            3. Tomar informacion
+                JSON.parse(localStorage.getItem('ejemplotodos'))
+
+
+        Custom Hooks
+        ------------
+            - Un Hook personalizado es una función de JavaScript cuyo nombre comienza con ”use” 
+            y que puede llamar a otros Hooks.
+            - Por convencion, cuando un hook retorna mas de 2 effectos, se retorna no en array si no en objeto.
+            - Hacerlos en un archivo separado y exportarlas
+
+
+
+        Effect
+        ------
+            Realizar una accion justo antes de que el componente sea renderizado
+            Por ejemplo traer informacion de un backend.
+            Recibe 2 argumentos:
+                1. funcion a ejecutar
+                2. Array que dice cuando ejecutar el use effect.
+                    - El array vacio indica que solo se ejecute la primera vez que se renderiza el componente
+                    - En el array se especifican las variables a las que debe escuchar cambios para ejecutar useEffect
+
+
+        Context
+        -------
+            1. Crear carpeta para albergar el context provider
+                ej: todoContext/index.js
+            2. Crear el context con:
+                export const todoContext = React.createContext();
+            3. Este devuelve un objeto con las propiedades provider y consumer
+            Esto sirve para envolver los componentes que tendran acceso al estado compartido
+            4. Crear funcion para compartir datos entre provider y consumer.
+                Se envuelve props.children en el provider para que tengan acceso al estado compartido. y exportar 
+                Context, Provider
+
+                    export const TodoProvider = (props) => {
+                        // Logica para traer los valores y modificadores que seran compartidos
+                        return (
+                            <TodoContext.Provider value={{
+                                ...valoresACompartirConContexto
+                            }}>
+                                {props.children}
+                            </TodoContext.Provider>
+                        )
+                    }
+
+            5. Importar el Provider en el componente principal que va a escuchar este contexto.
+
+                import React from "react";
+                import { AppUi } from "./AppUi";
+                import { TodoProvider } from "../TodoContext";
+
+                export const App = () => {
+                    return (
+                        <TodoProvider>
+                            <AppUi />;
+                        </TodoProvider>
+                    );
+                };
+
+            6. Consumir el contexto de forma manual dentro de cada componente que esta suscrito.
+                import React from "react";
+                import { TodoCounter } from "../TodoCounter/index.jsx";
+                import { TodoSearch } from "../TodoSearch/index.jsx";
+                import { TodoList } from "../TodoList/index.jsx";
+                import { TodoItem } from "../TodoItem/index.jsx";
+                import { CreateTodoButton } from "../CreateTodoButton/index.jsx";
+                import { TodoContext } from "../TodoContext/index.jsx";
+
+                export const AppUi = () => {
+                    return (
+                        <React.Fragment>
+                            <TodoCounter />
+                            <TodoSearch />
+                            <TodoContext.Consumer>
+                            {/* Usar el patron render props que es una
+                            funcion que recibe como parametros los values 
+                            del provider y retorna jsx */}
+                                {({
+                                    error,
+                                    loading,
+                                    searchedTodos,
+                                    toggleCompleteTodo,
+                                    deleteTodo,
+                                }) => (
+                                    <TodoList>
+                                        {error && <p>Desesperate, hubo un error ...</p>}
+                                        {loading && <p>Estamos cargando, no desesperes ...</p>}
+                                        {!loading && !searchedTodos.length && (
+                                            <p>Crea tu primer ToDo</p>
+                                        )}
+
+                                        {searchedTodos.map((todo) => (
+                                            <TodoItem
+                                                key={todo.text}
+                                                text={todo.text}
+                                                completed={todo.completed}
+                                                onComplete={() => {
+                                                    toggleCompleteTodo(todo.text);
+                                                }}
+                                                onDelete={() => {
+                                                    deleteTodo(todo.text);
+                                                }}
+                                            />
+                                        ))}
+                                    </TodoList>
+                                )}
+                            </TodoContext.Consumer>
+                            <CreateTodoButton />
+                        </React.Fragment>
+                    );
+                };
+
+
+            7. Alternativa a consumir el contexto manualmente es usar el hook React.useContext
+                import React from "react";
+                import { TodoCounter } from "../TodoCounter/index.jsx";
+                import { TodoSearch } from "../TodoSearch/index.jsx";
+                import { TodoList } from "../TodoList/index.jsx";
+                import { TodoItem } from "../TodoItem/index.jsx";
+                import { CreateTodoButton } from "../CreateTodoButton/index.jsx";
+                import { TodoContext } from "../TodoContext/index.jsx";
+
+                export const AppUi = () => {
+                    const {
+                        error,
+                        loading,
+                        searchedTodos,
+                        toggleCompleteTodo,
+                        deleteTodo,
+                    } = React.useContext(TodoContext)
+
+                    return (
+                        <React.Fragment>
+                            <TodoCounter />
+                            <TodoSearch />
+                            <TodoList>
+                                {error && <p>Desesperate, hubo un error ...</p>}
+                                {loading && <p>Estamos cargando, no desesperes ...</p>}
+                                {!loading && !searchedTodos.length && (
+                                    <p>Crea tu primer ToDo</p>
+                                )}
+
+                                {searchedTodos.map((todo) => (
+                                    <TodoItem
+                                        key={todo.text}
+                                        text={todo.text}
+                                        completed={todo.completed}
+                                        onComplete={() => {
+                                            toggleCompleteTodo(todo.text);
+                                        }}
+                                        onDelete={() => {
+                                            deleteTodo(todo.text);
+                                        }}
+                                    />
+                                ))}
+                            </TodoList>
+                            <CreateTodoButton />
+                        </React.Fragment>
+                    );
+                };
+
+
+            8. Portales
+                Renderizar componentes en otro nodo HTML diferente al principal de la aplicacion
+                Por ejemplo este componente se va a renderizar en el nodo id=modal
+                    export const Modal = ({ children }) => {
+                        return ReactDOM.createPortal(
+                            <div className="ModalBackground">{children}</div>,
+                            document.getElementById("modal")
+                        );
+                    };
+
+            9. Router
+                1. Instalar
+                    npm install react-router-dom
+
+                2.Importar en el archivo principal
+                    import { BrowserRouter } from "react-router-dom";
+                
+                3. Envolver la aplicacion
+                    ReactDOM.render(
+                        <BrowserRouter>
+                            <App />
+                        </BrowserRouter>,
+                        document.getElementById("root")
+                    );
+                
+                4. Create links using react-router
+                    import { Link } from "react-router-dom";
+                    <Link to="/invoices">Invoices</Link>
+
+                5. Crear los componentes que se renderizaran con cada cambio de url
+                
+                6. Crear el enlace entre ruta y componente a renderizar en archivo principal
+                    import { BrowserRouter, Routes, Route } from "react-router-dom";
+                    ReactDOM.render(
+                        <BrowserRouter>
+                            <Routes>
+                                <Route path="/" element={<App />} />
+                                <Route path="expenses" element={<Expenses />} />
+                                <Route path="invoices" element={<Invoices />} />
+                            </Routes>
+                        </BrowserRouter>,
+                        document.getElementById("root")
+                    );
+
+                7. Para url params crear la ruta asi:
+                    <Route path="/invoices/:invoiceId" element={<Invoices />} />
+
+                8. Dentro del componente consumir asi:
+                    import React from "react";
+                    import { useParams } from "react-router-dom";
+
+                    export function Invoices() {
+                        let params = useParams();
+                        return (
+                            <main style={{ padding: "1rem 0" }}>
+                                <h2>Invoices {params.invoiceId}</h2>
+                            </main>
+                        );
+                    }
+
+                9. Redirect:
+                    import { useParams, useNavigate } from "react-router-dom";
+                    let navigate = useNavigate();
+                    <button
+                        onClick={() => {
+                            deleteInvoice(invoice.number);
+                            navigate("/invoices");
+                        }}
+                        >
+                        Delete
+                    </button>
+
+
+
+
+
+
+
+
+
+Deployment Options
+------------------
+
+    Github Pages
+    ------------
+        Github pages solo recibe archivos estaticos, por lo cual el proyecto se debe compilar
+        1. Instalar dependencia de github pages
+            $ npm install --save-dev gh-pages
+        2. Crear un repositorio y subir los archivos
+        3. Anadir en package.json la configuracion:
+            "homepage": "https://andresgoag.github.io/platzi-react-todo"
+        4. Crear un script
+            "predeploy": "npm run build"
+            "deploy": "gh-pages -d build"
+        5. $ npm run deploy
+        6. git push
+        7. settings del repositorio:
+            > pages > verificar:  Your site is published at https://andresgoag.github.io/platzi-react-todo/

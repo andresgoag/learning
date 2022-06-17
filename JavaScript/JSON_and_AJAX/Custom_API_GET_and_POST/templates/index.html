@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Calling Stores API</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/master.css')}}">
+  </head>
+  <body>
+    <h1>AJAX Calls - Stores REST API</h1>
+    <p>Esta es una pagina para aprender a implementar REST API basada en Flask-Python llamada desde HTML/JavaScript</p>
+
+    <div class="container">
+
+        <h1>Crear Nueva Tienda</h1>
+        <label for="tienda">Nombre de la Tienda:</label>
+        <input type="text" id="tienda" name="" value="" placeholder="Escriba el nombre de la tienda">
+        <input type="submit" value="Enviar" onclick="ajax_post();">
+
+    </div>
+
+    <div class="container">
+      <div class="get_api">
+          <button type="button" name="button" id="btn_get_api">Pedir lista de stores a la API</button>
+          <p id="p_api"></p>
+      </div>
+    </div>
+
+
+    <div class="container">
+
+        <h1>Ver Items de una Tienda</h1>
+        <label for="tienda">Nombre de la Tienda:</label>
+        <input type="text" id="tienda_item" name="" value="" placeholder="Escriba el nombre de la tienda">
+        <input type="submit" value="Enviar" onclick="ajax_post_items();">
+
+    </div>
+
+    <div class="container">
+      <div class="get_api">
+          <p id="stores_item"></p>
+      </div>
+    </div>
+
+
+    <script src="{{url_for('static', filename='script/script.js')}}"></script>
+  </body>
+</html>

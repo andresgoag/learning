@@ -1,0 +1,32 @@
+/*  
+
+Sintaxis CSS
+----------------
+
+selector {
+    propiedad: valor;
+} 
+
+*/
+
+
+
+
+
+        
+p {
+    color: blue;
+    font-size: 40px;
+}
+
+/* class */
+.parrafo {
+    color: red;
+}
+
+
+/* ID */
+#texto {
+    color: royalblue;
+    font-size: 24px;
+} 

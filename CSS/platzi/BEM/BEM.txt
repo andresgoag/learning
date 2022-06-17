@@ -1,0 +1,28 @@
+BEM
++++
+
+Mostly uses classes
+
+================================================
+Blocks:
+Meaningful, standalone entities
+generaly single word. if multiple word, separate with "-"
+
+ej:
+.header, .menu, .form
+
+
+================================================
+Elements:
+Son parte de un block, se nombran con la clase del block y separated by double underscore "__"
+
+ej:
+.header__logo, .menu__item, .form__field
+
+
+================================================
+Modifiers:
+Variante de un estilo basico de un bloque o un elemento, se nombra con la clase original y separado por "--"
+
+ej:
+.menu__item--selected

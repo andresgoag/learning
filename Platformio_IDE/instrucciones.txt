@@ -1,0 +1,14 @@
+1. instalar la extension de platformio para vscode
+2. crear la carpeta que contendra el proyecto
+3. Abrir el PIO Home
+4. clieck en Nuevo proyecto
+    a. Dar nombre al proyecto
+    b. Seleccionar la tarjeta de prototipo
+    c. Seleccionar el framework de desarrollo
+    d. Uncheck "Use default location"
+    e. Seleccionar carpeta para el proyecto
+    NOTA: Esto creara una nueva carpeta con el nombre del proyecto dentro de la ubicacion
+
+5. Se creara toda la estructura del proyecto
+    El codigo se escribe en la carpeta src/main.cpp
+    Se puede compilar con los botones de la barra inferior

@@ -1,0 +1,29 @@
+MQTT es un protocolo de comunicacion, que utiliza un broker como centro, es el encargado de registrar que dispositivos estan
+suscritos a que temas.
+
+Un mensaje se publica a un topico, y lo reciben todos los dispositivos que esten suscritos a este topico.
+
+Acciones basicas:
+    1. Conectarse
+    2. Publicar
+    3. Suscribirse
+    4. Desuscribirse
+
+Caracteres especiales para topicos:
+    1. # -> sirve para recibir todos los mensajes que sean del topico anterior (multinivel)
+    2. + -> sirve para suscribirse a todos los mensajes de un nivel, y especificar que tipo de mensaje (mononivel)
+
+
+Calidad del servicio:
+    1. QOS0
+    2. QOS1
+    3. QOS2
+
+Retencion (Retain):
+    1. true -> mantiene el ultimo valor reportado de un topico y asi si un dispositivo nuevo se conecta a ese topico, podra tener la ultima
+    informacion.
+    2. false -> el nuevo suscriptor tendra que esperar hasta una nueva actualizacion para conocer el estado.
+
+Sesion persistente:
+    Si se activa, el broker mantendra los mensajes, en caso de que un suscriptor con sesion persistente se desconecte por un
+    fallo, cuando se reconecte, tendra acceso a todos los mensajes que se perdio.
