@@ -1,87 +1,49 @@
-# Referencias: Zenva - Learn python from making a game
-
-# Parameter naming
-
 class GameCharacter:
 
     # Fields
-    # Declarar el valor de este parametro default, no requiere ser pasado en el constructor.
+    # Default params
     speed = 5
 
     # Constructor
-    # self se refiere a la clase, es requerida para todos los metodos de una clase
+    # self refers to the instance of the class. It is automatically passed as an
+    # argument when the method is called with dot notation. i.e: instance.method 
     def __init__(self, name, width, height, x_pos, y_pos):
-        """Aqui se pondria el texto para mostrar en la ayuda"""
-        self.name = name  # estamos asignando el valor name (argumento de la funcion __init__) a la variable name de la clase (self.name) la nomenclatura de estas variables es independiente
-        self.width = width  # This is also a field
+        """help text"""
+        # self.name refers to the field name of the object.
+        # name is the argument passed to the constructor.
+        self.name = name
+        self.width = width
         self.height = height
         self.x_pos = x_pos
         self.y_pos = y_pos
 
     # Method
     def move(self, by_x_amount, by_y_amount):
-        """Aqui se pondria el texto para mostrar en la ayuda"""
+        """help text"""
         self.x_pos += by_x_amount
         self.y_pos += by_y_amount
 
 
-# Nueva instancia de clase GameCharacter
-# Se crea el objeto de la clase GameCharacter, se deben pasar los valores requeridos por el constructor.
+# New instance of the class, must pass the values required by constructor
 character_0 = GameCharacter("char_0", 50, 100, 100, 100)
 
-print(character_0.name)
+# Reassign values to object fields
 character_0.name = "Andres"
-print(character_0.name)
 
-
-print(character_0.x_pos, character_0.y_pos)
+# Call a method of the object
 character_0.move(50, 100)
-print(character_0.x_pos, character_0.y_pos)
-
 
 # Check the class of an object
 character_0.__class__
 
-
-###############################
-####     Magic Methods     ####
-
-# Son funciones acompanadas por __ a cada lado, seran llamadas por python en alguna circunstancia que se requiera
-
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-        self.cars = []
-
-    # Len of a class it is used len(instance of Person)
-    def __len__(self):
-        return len(self.cars)
-
-    # PAra devolver un item usando la notacion instance_Person[i]
-    def __getitem__(self, i):
-        return self.cars[i]
-
-    # Si se definen el metodo getitem se puede usar for con la instancia
-    # for car in instance_Person:
-
-    # Se utiliza para dar informacion del objeto
-    # User oriented description
-    # se usa print(instance_Person)
-    def __str__(self):
-        return f"Person {self.name}, {self.age} years old"
-
-    #  Code oriented description
-    def __repr__(self):
-        # Esta funcion se utiliza en el python debugger,
-        # sirve para dar una pista de como reconstruir el objeto facilmente
-        # Retorna un string que representa el objeto
-        return f"<Person('{self.name}',{self.age})>"
+# Class name as a string
+character_0.__class__.__name__
 
 
-# Cuando se crea un objeto, instancia de la clase, pyton llama automaticamente al constructor del objeto, la funcion __init__
-bob = Person("Bob", 35)
-print(bob)  # Cuando se intenta imprimir un objeto, python llamara la funcion __str__ e imprimir la informacion que esta devuelva. Se usa para imprimir un objeto de forma amigable con el usuario
+
+
+
+
 
 
 ################################################

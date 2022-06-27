@@ -1,4 +1,12 @@
-# First Class Functions
+# First class objects in a language are handled uniformly throughout. 
+# May be stored in data structures, passed as arguments, or used in control 
+# structures. 
+
+# A programming language is said to support first-class functions if it 
+# treats functions as first-class objects. 
+# Python supports the concept of First Class functions.
+
+
 
 def divide(dividend, divisor):
     if divisor == 0:
@@ -10,17 +18,10 @@ def divide(dividend, divisor):
 def calculate(*values, operator):
     return operator(*values)
 
-
-result = calculate(20, 4, operator=divide) # Se pasa como keyword argument la funcion que se desea ejecutar al ejecutar la funcion calculate
-print(result)
-
+# Function as an argument
+result = calculate(20, 4, operator=divide)
 
 
-
-
-
-
-#Ejemplo 2 First Class Functions
 
 def search(sequence, expected, finder):
     for elem in sequence:
@@ -44,4 +45,5 @@ friends = [
 
 print(search(friends, "Rolf Smith", get_friend_name))
 
-print(search(friends, "Rolf Smith", lambda friend: friend["name"])) #Se puede escribir como un lambda function y no se tendria que declarar la funcion get_friend_name
+# as lambda
+print(search(friends, "Rolf Smith", lambda friend: friend["name"]))

@@ -1,22 +1,17 @@
-# Referencias: Build 10 Real World Applications(Udemy)
+# Create a new list applying a code with out the need of a for loop
 
-#Ejecutar una linea de codigo para toda la lista sin necesidad de hacer un for completo
-
-temps = [221, 234, 340, 230] #Temperatures without decimal point
-new_temps = [temp/10 for temp in temps] # [linea de codigo, condicion del for]
+temps = [221, 234, 340, 230]
+new_temps = [temp/10 for temp in temps] # [code, for loop]
 print(new_temps)
 
-# list comprehension con condicional if
+# with if statement
 temps = [221, 234, 340, -9999, 230]
 new_temps = [temp/10 for temp in temps if temp != -9999]
 print(new_temps)
 
-# list comprehension con condicional if and else
+# if and else
 new_temps = [temp/10 if temp != -9999 else 0 for temp in temps]
 print(new_temps)
-
-
-
 
 
 
@@ -30,10 +25,9 @@ users = [
     (3, "username", "1234")
 ]
 
-
 username_mapping = {user[1]: user for user in users}
 
-#ejenplo log in
+
 log = True
 
 while log:

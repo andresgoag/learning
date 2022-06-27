@@ -18,3 +18,7 @@ sudo certbot certonly --nginx # Correr este para solo emitir el certificado, deb
 
 
 Los certificados generados quedaran en la carpeta: /etc/letsencrypt/live/$domain, donde $domain corresponde al nombre del dominio al cual se le generaron.
+
+
+
+sudo certbot renew
