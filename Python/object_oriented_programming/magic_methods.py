@@ -15,17 +15,15 @@ class Person:
     def __getitem__(self, i):
         return self.cars[i]
 
-    # Useful representation of the object.
+    # is used to show a string representation of your object to be 
+    # read easily by others.
     def __str__(self):
         return f"Person {self.name}, {self.age} years old"
 
-    #  Code oriented description
+    #  Code oriented description: is used to show a string representation 
+    # of the object. It is used by the debugger.
     def __repr__(self):
-        # Esta funcion se utiliza en el python debugger,
-        # sirve para dar una pista de como reconstruir el objeto facilmente
-        # Retorna un string que representa el objeto
         return f"<Person('{self.name}',{self.age})>"
-
 
 
 bob = Person("Bob", 35) #when a class is istanciated, __init__ is called
