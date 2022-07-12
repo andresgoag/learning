@@ -7,9 +7,9 @@ methods insert, remove and find.
 Saveable: Is an abstract class that defines that the subclasses of it must have 
 a method called to_dict, that is used to save in DB with the function save.
 
-User: Is a subclass of Saveable. so it has to override the to_dict function.
+User: Inherits from Saveable. so it has to override the to_dict function.
 
-Admin: Is a subclass of User. Has an additional field than user, access. It 
+Admin: Inherits from User. Has an additional field than user, access. It 
 modifies the to_dict function so it includes the access to be saved.
 
 '''
