@@ -1,6 +1,14 @@
 Windows subsystem for linux
 ===========================
 
+
+Windows 11
+
+Instalacion wsl
+abrir powershell como administrador
+> wsl --install
+docs: https://docs.microsoft.com/es-es/windows/wsl/install
+
 Guia de microsoft: 
 https://docs.microsoft.com/en-us/windows/wsl/install-win10
 

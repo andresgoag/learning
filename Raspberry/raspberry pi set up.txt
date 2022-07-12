@@ -1,0 +1,2 @@
+1. Download raspberry pi imager
+2. Install OS with advanced options to allow ssh and password connection

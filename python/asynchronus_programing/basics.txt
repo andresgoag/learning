@@ -1,0 +1,28 @@
+Processes: At least one thread, plus some resources set aside by the operating system. 
+eg: cores, network, hard drive, file pointers. The resources continuosly change as the 
+process needs change. -> A process reserves a core to run a thread and then releases.
+
+Threads: line of code execution, one tread can run in one core at a time.
+
+Thread: A line of code execution that can run in one of your computer's cores.
+Process: One of more threads and the resources they need (e.g. network 
+connection, mouse pointer, hard drive access, or even the core(s) in which the thread(s) run).
+
+A thread runs in each core, if you have waiting threads you have to start doing time slicing.
+Time slicing: Stop a running thread to run another. This is not free, requires resources of 
+the computer because the computer has to save the state of the current thread so it can restart again.
+
+Python GIL: Global Interpreter Lock
+GIL: A key, critical, important resource in any Python program. Only one is created per Python process, 
+so it's unique in each.
+1. When a python app is launched, you get a new Python process.
+2. You get a starting thread, but you can make more. If your computer is multicore, you can make
+python to run a thread in each core at the same time.
+Due to how python is implemented, you cannot run 2 threads in one process at the same time.
+Each thread requires the GIL, so a thread must release the GIL for other thread to start.
+
+
+
+thread1.join tells the main thread to wait for the thread1 to finish
+try the complex calculation two times in two threads to see that it will take double the tima to do it.
+is bacause the systems gives some time to one thread, removes it and gives some time to the other. 

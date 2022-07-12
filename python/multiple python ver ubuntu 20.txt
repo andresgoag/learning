@@ -1,0 +1,106 @@
+PATH variable
+A user's PATH consists of a series of colon-separated absolute paths that are stored in plain text files. 
+to show:
+$ echo $PATH
+
+to modify for the current session:
+$ PATH="$PATH:directory"
+
+Alternative:
+$ export PATH=$PATH:/usr/sbin
+
+An addition to a user's PATH variable can be made permanent by adding it to that user's .profile file
+.profile is a hidden file in each user's home directory that defines any specific environmental variables and startup programs for that user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Managing Multiple Versions of Python on Ubuntu 20.04
+
+Solution: Use Ubuntus alternative install.
+
+
+Steps:
+1. update
+	$ sudo apt update && sudo apt upgrade -y
+
+2. Install Python dependencies
+	$ sudo apt-get install build-essential checkinstall
+	$ sudo apt-get install libssl-dev libffi-dev libpq-dev libpcre3 libpcre3-dev libsqlite3-dev
+	$ sudo apt-get install tk-dev libncursesw5-dev libgdbm-dev libc6-dev libbz2-dev zlib1g-dev
+
+3. Download python. https://www.python.org/downloads/source/
+copy the URL of the Gzipped source tarball
+	$ cd /opt
+	$ sudo wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz
+	$ sudo tar xzf Python-3.8.0.tgz
+
+4. Installing Alternative Python from Source
+	$ cd Python-3.8.0.tgz
+	$ sudo ./configure --enable-optimizations
+	$ sudo make altinstall
+
+
+
+
+
+cd /opt
+sudo mkdir python
+sudo mkdir python/3.10.5
+sudo mkdir tmp
+cd tmp
+sudo wget https://www.python.org/ftp/python/3.10.5/Python-3.10.5.tgz
+sudo tar xzf Python-3.10.5.tgz
+cd Python-3.10.5.tgz
+sudo ./configure --enable-optimizations --prefix=/opt/python/3.10.5
+sudo make
+sudo make install
+
+
+
+virtualenv --python=/opt/python/2.7.9/bin/python2.7 venv
+source venv/bin/activate
+
+
+
+sudo apt install python3-virtualenv
+
+
+
+
+
+
+
+
+
+
+
+
+
+import RPi.GPIO as GPIO
+
+class DigitalDevice:
+    def __init__(self, _input, _output):
+        GPIO.setup(_output, GPIO.OUT)
+        GPIO.setup(_input, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        self._output = _output
+        self._input = _input
+
+    @property
+    def state(self):
+        return GPIO.input(_input)
+
+
+    def toggle_state():
+
+
