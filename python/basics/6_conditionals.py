@@ -1,3 +1,29 @@
+# Truty and falsy values
+
+bool(1) # True
+bool(0) # False
+
+# Conditional assigment
+# and gives the first value if it is false, otherwise it gives you the second.
+x = True and False
+x is False
+x = 35 and 0
+x is 0
+x = 0 and 35
+x is 0
+
+# or gives the first value if it is true, otherwise it gives you the second.
+x = 0 or 35
+x is 35
+x = 35 or 0
+x is 35
+
+# not: denies the value
+not True is False 
+
+
+
+
 # Conditionals
 # if: check a condition and execute a block if true
 # elif: check another condition if the first one is false
