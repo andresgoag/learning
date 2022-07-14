@@ -8,11 +8,20 @@
 # Integer
 x = 10
 
+
+
+
 # Float
 z = 10.0  
 
+
+
+
 # Get the data type
 type(x)
+
+
+
 
 # Math operators
 math_ops = 1 + 3 * 4 / 2 - 7 ** 8
@@ -29,6 +38,9 @@ x += 1
 
 # Substraction assigment
 x -= 1
+
+
+
 
 # Strings: use single and double quotes
 y = "Hola"
@@ -71,13 +83,22 @@ complete = greeting + name
 # List
 # can contain any type inside.
 student_grades = [9.1, 8.8, 10]
+student_grades.append(9)
+student_grades.remove(10)
 mysum = sum(student_grades)
 length = len(student_grades)
 mean = mysum/length
 
 
+
+
 # Tuples, inmutable and ordered.
-monday_temperatures = (1, 4, 5)
+short_tuple = 1, 3
+# optional brackets, only when syntax requires it
+monday_temperatures = [(1, 4, 5), 'andres']
+single_value_tuple = 'hola',
+
+
 
 
 # Sets, unordered, unchangeable, and do not allow duplicate values.
@@ -85,8 +106,13 @@ friends = {"anne", "bob", "Rolf"}
 abroad = {"anne", "Rolf"}
 others = {"Andres", "David", "Rolf"}
 
+# elements in friends and not in abroad
 difference = friends.difference(abroad)
+# elements not in both
+not_in_both = friends.symmetric_difference(abroad)
+# join two sets without duplicates
 union = friends.union(others)
+# elements in both sets
 intersection = friends.intersection(others)
 
 a = {1,2,3}
@@ -95,6 +121,10 @@ c = {1,2,3,4}
 a.issubset(c) is True
 c.issuperset(a) is True
 
+others.add("Carlos")
+
+
+
 
 #Dictionary, {Key:Value}
 student_grades = {
@@ -102,9 +132,14 @@ student_grades = {
     "sim": 8.8, 
     "John": 10
 }
+student_grades["Rolf"] = 10
 mysum = sum(student_grades.values())
 length = len(student_grades)
 mean = mysum/length
+
+# dict from list
+friends = [("rolf", 24), ("adam", 21)]
+friend_ages = dict(friends)
 
 
 # dictionary from string

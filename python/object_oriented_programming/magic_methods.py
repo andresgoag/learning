@@ -15,6 +15,9 @@ class Person:
     def __getitem__(self, i):
         return self.cars[i]
 
+    # Assign value to a field with [key]=value notation
+    def __setitem__(self, key,value):...
+
     # is used to show a string representation of your object to be 
     # read easily by others.
     def __str__(self):

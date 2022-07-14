@@ -33,7 +33,7 @@ not True is False
 
 
 
-# Comparisons: ==, !=, >, <, >=, <=
+# Comparisons: ==, !=, >, <, >=, <=, in
 
 
 def mean (value):
